@@ -43,3 +43,6 @@ Parte opzionale:
 ## Progetto
 Corsi online (sequenze di slide, video, test finale opzionale) gratuiti e a pagamento
 Esempi: udemy, docety
+
+# Documentazione
+Trello: https://trello.com/b/Ogr4AYGL
