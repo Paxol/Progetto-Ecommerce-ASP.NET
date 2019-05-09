@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>@ViewBag.Title</title>
+
+    @Styles.Render("~/Content/css")
+    @RenderSection("head", false)
+
+    @*<%--TODO: Context.User.Identity.Name--%>*@
+
+</head>
+<body>
+    @if (ViewBag.HideNavBar == null || !ViewBag.HideNavBar)
+    {
+        <div class="nav-wrapper bg-light">
+            <div class="container">
+                <div class="navbar navbar-light row">
+                    <div id="nav-brand-container" class="col-auto">
+                        @Html.ActionLink("OnlineEdu", "Index", "Home", null, new { @class = "navbar-brand mb-0 h1" })
+                    </div>
+                    @if (ViewBag.ShowNavBarSearch != null && ViewBag.ShowNavBarSearch)
+                    {
+                        <div class="col d-md-block d-none">
+                            <div class="form-inline my-2 my-lg-0 row">
+                                <input id="search-input" class="form-control col" type="search" placeholder="Cosa stai cercando?" aria-label="Cosa stai cercando?">
+                            </div>
+                        </div>
+                    }
+                    <div class="col-auto">
+                        @if (ViewBag.ShowNavBarSearch != null && ViewBag.ShowNavBarSearch)
+                        {
+                            <button id="search-button" class="btn btn-outline-dark my-2 col-auto nav-search" type="submit"><i class="material-icons">search</i></button>
+                        }
+
+                        @if (ViewBag.ShowNavBarLogin != null && ViewBag.ShowNavBarLogin)
+                        {
+                            if (ViewContext.RouteData.Values["Action"].ToString() != "Index" || ViewContext.RouteData.Values["Controller"].ToString() != "Login")
+                            {
+                                @Html.ActionLink("Login", "Index", "Login", null, new { @class = "nav-link d-inline-block h6" })
+                            }
+                        }
+
+                        @if (ViewBag.ShowNavBarCustom != null && ViewBag.ShowNavBarCustom)
+                        {
+                            @Html.Raw(ViewBag.ShowNavBarCustom)
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="container page">
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    @RenderSection("scripts", false)
+
+    @if (ViewBag.ShowNavBarSearch != null && ViewBag.ShowNavBarSearch)
+    {
+        <script>
+            $(document).ready(() => {
+
+                $('#search-button').click(searchClick)
+
+                function searchClick() {
+                    let win = $(window);
+                    let input = $('#search-input');
+                    if (win.width() < 768 && input.val().length == 0) {
+                        $('#nav-brand-container').removeClass('col-auto').addClass('col-12');
+                    }
+                    if (input.val().length > 0) location = '@Url.Action("Search", "Home")/' + encodeURIComponent(input.val());
+                }
+            });
+        </script>
+    }
+</body>
+</html>

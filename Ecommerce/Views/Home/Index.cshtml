@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    ViewBag.ShowNavBarSearch = true;
+    ViewBag.ShowNavBarLogin = true;
+}
+
+<h3>I migliori corsi</h3>
+
+<div class="scrolling-wrapper-container" id="scrolling-migliori-container">
+    <span class="arrow-container arrow-container-left" data-toggle="#scrolling-migliori-container" data-elements="#scrolling-migliori"><i class="material-icons">chevron_left</i></span>
+    <div class="scrolling-wrapper" id="scrolling-migliori">
+
+        @{
+            if (ViewData["migliori_corsi"] is List<Ecommerce.Models.Corso> migliori_corsi)
+            {
+                foreach (var corso in migliori_corsi)
+                {
+                    <a href="/Corsi/@corso.ID" class="corso">
+                        <div class="card inline-card">
+                            <img class="card-img-top" src="@corso.Immagine">
+                            <div class="card-body">
+                                <p class="card-title">@corso.Titolo</p>
+                                <small class="text-muted">@corso.NomeAutore</small>
+                                <p class="valutazione">
+                                    <span class="stars">
+                                        @Html.Raw(GetStars(corso.Valutazione))
+                                    </span>@corso.Valutazione
+                                </p>
+                                <p class="prezzo text-right">@corso.Prezzo €</p>
+                            </div>
+                        </div>
+                    </a>
+                }
+            }
+
+            string GetStars(float d)
+            {
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                int starscount = 5;
+
+                int intd = (int)d;
+
+                for (int i = 0; i < intd; i++, starscount--)
+                    sb.Append("<i class=\"material-icons\">star</i>");
+
+                if (d - intd >= .5)
+                {
+                    starscount--;
+                    sb.Append("<i class=\"material-icons\">star_half</i>");
+                }
+
+                for (; starscount > 0; starscount--)
+                    sb.Append("<i class=\"material-icons\">star_border</i>");
+
+                return sb.ToString();
+            }
+        }
+
+    </div>
+    <span class="arrow-container arrow-container-right" data-toggle="#scrolling-migliori-container" data-elements="#scrolling-migliori"><i class="material-icons">chevron_right</i></span>
+</div>
+
+@section scripts
+{
+    <script>
+        $('.arrow-container-left').click(function () {
+            scroll($(this), 0)
+        });
+        $('.arrow-container-right').click(function () {
+            scroll($(this), 1)
+        });
+
+        /**
+         * @@param sender
+         * @@param orientation 0 left, otherwise right
+         */
+        function scroll(sender, orientation) {
+            let width = $(sender.attr("data-toggle")).width();
+            let el = $(sender.attr("data-elements"));
+
+            if (el) {
+                el.animate({ scrollLeft: el[0].scrollLeft + (orientation == 0 ? -width : width) }, 500);
+            }
+        }
+    </script>
+}  

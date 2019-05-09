@@ -1,0 +1,105 @@
+﻿.nav-search {
+    padding: 6px 12px 0 12px;
+}
+
+.container.page {
+    margin-top: 16px;
+}
+
+a.corso {
+    color: unset;
+}
+
+    a.corso:hover {
+        text-decoration: none;
+    }
+
+.stars .material-icons {
+    font-size: 16px;
+    color: rgb(244, 193, 80);
+}
+
+.valutazione, .prezzo {
+    margin-bottom: 0;
+}
+
+.scrolling-wrapper-container {
+    position: relative;
+}
+
+.scrolling-wrapper {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+    .scrolling-wrapper .inline-card {
+        display: inline-block;
+    }
+
+.scrolling-wrapper, .scrolling-wrapper-flexbox {
+    margin-bottom: 20px;
+    -webkit-overflow-scrolling: touch;
+}
+
+    .scrolling-wrapper::-webkit-scrollbar {
+        display: none;
+    }
+
+.arrow-container {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-color: #eee;
+    border-radius: 24px;
+    position: absolute;
+    top: 50%;
+    z-index: 1;
+    cursor: pointer;
+}
+
+    .arrow-container.arrow-container-left {
+        left: 0;
+        transform: translate(-50%, -50%);
+    }
+
+    .arrow-container.arrow-container-right {
+        right: 0;
+        transform: translate(50%, -50%);
+    }
+
+.scrolling-wrapper .card-img-top {
+    height: 122px;
+    object-fit: cover;
+}
+
+.scrolling-wrapper .inline-card {
+    max-width: 215px;
+}
+
+.inline-card .card-title {
+    display: -webkit-box;
+    -moz-box-orient: vertical;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    height: 42px;
+    font-size: 15px;
+    text-overflow: ellipsis;
+    font-weight: 600;
+    white-space: normal;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 350px;
+    margin: auto;
+}
+
+.login-card .btn {
+    width: 100%;
+}
+
+.form-group.error {
+    color: #f00;
+}
