@@ -1,5 +1,8 @@
-﻿using Ecommerce.Models;
+﻿using Ecommerce.Interfaces;
+using Ecommerce.Models;
+using Ecommerce.Utils;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Ecommerce.Controllers
 {
@@ -13,15 +16,33 @@ namespace Ecommerce.Controllers
         [HttpPost]
         public ActionResult Index(Login login)
         {
-            if (login.UserName == "mirko" && login.Password == "pass") // Verifica login
+            IDataLayer dataLayer = Components.DataLayer;
+
+            var authUser = dataLayer.GetUserByEmailAndPassword(login.UserName, login.Password);
+            if (authUser != null)
             {
-                return Redirect(Url.Action("Index", "Utente"));
+                SessionContext.SetAuthenticationToken(login.Ricorda, authUser);
+                var returnUrl = Request.Params["ReturnUrl"];
+                if (!string.IsNullOrEmpty(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Utente");
+                }
             }
             else
             {
-                ViewBag.NotValidUser = "Nome utente o password errati";
+                ViewBag.NotValidUser = "Email o password errati";
                 return View();
             }
+        }
+
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult ResetPassword()

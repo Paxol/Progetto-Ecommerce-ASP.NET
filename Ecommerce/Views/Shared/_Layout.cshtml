@@ -8,9 +8,6 @@
 
     @Styles.Render("~/Content/css")
     @RenderSection("head", false)
-
-    @*<%--TODO: Context.User.Identity.Name--%>*@
-
 </head>
 <body>
     @if (ViewBag.HideNavBar == null || !ViewBag.HideNavBar)
@@ -37,9 +34,14 @@
 
                         @if (ViewBag.ShowNavBarLogin != null && ViewBag.ShowNavBarLogin)
                         {
-                            if (ViewContext.RouteData.Values["Action"].ToString() != "Index" || ViewContext.RouteData.Values["Controller"].ToString() != "Login")
+                            var user = Ecommerce.Utils.SessionContext.GetUserData();
+                            if ((ViewContext.RouteData.Values["Action"].ToString() != "Index" || ViewContext.RouteData.Values["Controller"].ToString() != "Login") && user == null)
                             {
-                                @Html.ActionLink("Login", "Index", "Login", null, new { @class = "nav-link d-inline-block h6" })
+                                <a class="nav-link d-inline-block h6" href="@Url.Action("Index", "Login")">Login</a>
+                            }
+                            else if (user != null)
+                            {
+                                <a class="nav-link d-inline-block h6" href="@Url.Action("Index", "Utente")">Benvenuto @user.Name</a>
                             }
                         }
 

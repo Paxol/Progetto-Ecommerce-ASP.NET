@@ -4,13 +4,11 @@ using System.Web.Mvc;
 
 namespace Ecommerce.Controllers
 {
-    public class UtenteController : Controller
+    public class AdminController : Controller
     {
-        [SetPermissions(Permissions = "Admin,Utente")]
+        [SetPermissions(Permissions = "Admin")]
         public ActionResult Index()
         {
-            ViewBag.User = SessionContext.GetUserData().Name;
-
             return View();
         }
     }
