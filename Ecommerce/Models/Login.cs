@@ -4,7 +4,7 @@ namespace Ecommerce.Models
 {
     public class Login
     {
-        [Required(ErrorMessage = "Indirizzo email o nome utente richiesto")]
+        [Required(ErrorMessage = "Indirizzo email richiesto")]
         public string UserName { get; set; }
         [Required(ErrorMessage = "Password richiesta")]
         [DataType(DataType.Password)]

@@ -53,6 +53,7 @@ namespace Ecommerce.Utils
                     FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
 
                     userData = new JavaScriptSerializer().Deserialize(ticket.UserData, typeof(User)) as User;
+                    userData = Components.DataLayer.GetUserByID(userData.UserID);
                 }
             }
             catch (Exception)

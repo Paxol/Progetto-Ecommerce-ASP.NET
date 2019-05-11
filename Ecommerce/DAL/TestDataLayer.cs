@@ -55,6 +55,11 @@ namespace Ecommerce.DAL
             return users.FirstOrDefault((u) => u.Email == mail && u.Password == password);
         }
 
+        public User GetUserByID(int id)
+        {
+            return users.FirstOrDefault((u) => u.UserID == id);
+        }
+
         public bool RegisterUser(User user)
         {
             users.Add(user);

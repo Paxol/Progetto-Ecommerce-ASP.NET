@@ -32,8 +32,26 @@ namespace Ecommerce.Attributes
 
             foreach (var item in permissions)
                 if (roles.Count((s) => s.ToLower() == item.ToLower()) > 0) return true;
-            
+
             return false;
+        }
+
+        protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
+        {
+            var user = SessionContext.GetUserData();
+
+            if (user == null)
+                base.HandleUnauthorizedRequest(filterContext);
+            else
+            {
+                var Result = new ViewResult
+                {
+                    ViewName = "~/Views/Login/Index.cshtml",
+                };
+                Result.ViewBag.NotValidUser = "Non sei autorizzato a visualizzare la pagina richiesta. Effettua il login con un account autorizzato";
+
+                filterContext.Result = Result;
+            }
         }
     }
 }

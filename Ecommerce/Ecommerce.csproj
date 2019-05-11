@@ -126,6 +126,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\UtenteController.cs" />
+    <Compile Include="DAL\SQLServerDataLayer.cs" />
     <Compile Include="DAL\TestDataLayer.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
