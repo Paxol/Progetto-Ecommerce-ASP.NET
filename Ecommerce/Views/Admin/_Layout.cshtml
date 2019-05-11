@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title>@ViewBag.Title - Amministrazione</title>
+
+    @Styles.Render("~/Content/css")
+    @RenderSection("head", false)
+</head>
+<body>
+    <div class="nav-wrapper bg-light">
+        <div class="container">
+            <div class="navbar navbar-light row">
+                <div id="nav-brand-container" class="col-auto">
+                    <a class="navbar-brand mb-0 h1" href="@Url.Action("Index", "Admin")">Amministrazione Edunet</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container page">
+        <h2>@ViewBag.Title</h2>
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    @RenderSection("scripts", false)
+</body>
+</html>

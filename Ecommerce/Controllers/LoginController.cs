@@ -44,10 +44,5 @@ namespace Ecommerce.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
-
-        public ActionResult ResetPassword()
-        {
-            return View();
-        }
     }
 }

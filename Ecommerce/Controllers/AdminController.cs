@@ -11,5 +11,11 @@ namespace Ecommerce.Controllers
         {
             return View();
         }
+
+        [SetPermissions(Permissions = "Admin")]
+        public ActionResult AggCorso()
+        {
+            return View();
+        }
     }
 }
