@@ -44,5 +44,41 @@ namespace Ecommerce.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
+
+        public ActionResult SignIn()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SignIn(Register register)
+        {
+            IDataLayer dataLayer = Components.DataLayer;
+
+            if (register.IsPasswordValid)
+            {
+                //registra l'utente
+                var result = dataLayer.RegisterUser(new User
+                {
+                    Email = register.Email,
+                    Name = register.Nome,
+                    Password = register.Password
+                });
+
+                if (result != 2)
+                {
+                    ViewBag.NotValid = "Si è verificato un'errore, riprova più tardi";
+                } else
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                ViewBag.NotValid = "Le password non corrispondono";
+            }
+
+            return View();
+        }
     }
 }

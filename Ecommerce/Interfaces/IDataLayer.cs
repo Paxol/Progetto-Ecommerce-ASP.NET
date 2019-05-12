@@ -10,6 +10,6 @@ namespace Ecommerce.Interfaces
 
         bool ChangePassword(int userid, string newpassword);
 
-        bool RegisterUser(User user);
+        int RegisterUser(User user);
     }
 }

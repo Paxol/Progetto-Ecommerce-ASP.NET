@@ -7,6 +7,7 @@ using System.Data;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using Ecommerce.Utils;
 
 namespace Ecommerce.DAL
 {
@@ -122,9 +123,31 @@ namespace Ecommerce.DAL
             return true;
         }
 
-        public bool RegisterUser(User user)
+        public int RegisterUser(User user)
         {
-            throw new NotImplementedException();
+            Random rnd = Components.Random;
+            byte[] salt = new byte[] {
+                (byte)rnd.Next(byte.MaxValue),
+                (byte)rnd.Next(byte.MaxValue),
+                (byte)rnd.Next(byte.MaxValue),
+            };
+
+            byte[] passwordHash = GenerateSaltedHash(Encoding.UTF8.GetBytes(user.Password), salt); // Genero l'hash della password inserita dall'utente
+
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("RegisterUser", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@mail", user.Email);
+            cmd.Parameters.AddWithValue("@password", Convert.ToBase64String(salt) + Convert.ToBase64String(passwordHash));
+            cmd.Parameters.AddWithValue("@name", user.Name);
+
+            int ret = cmd.ExecuteNonQuery();
+            conn.Close();
+
+            return ret;
         }
 
         public User GetUserByID(int id)

@@ -60,10 +60,10 @@ namespace Ecommerce.DAL
             return users.FirstOrDefault((u) => u.UserID == id);
         }
 
-        public bool RegisterUser(User user)
+        public int RegisterUser(User user)
         {
             users.Add(user);
-            return true;
+            return 2;
         }
     }
 }
