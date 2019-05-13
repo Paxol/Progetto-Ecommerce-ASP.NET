@@ -1,19 +1,19 @@
 ﻿using Ecommerce.Interfaces;
 using Ecommerce.Models;
+using Ecommerce.Utils;
 using System;
-using System.Data.SqlClient;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
-using Ecommerce.Utils;
 
 namespace Ecommerce.DAL
 {
     public class SQLServerDataLayer : IDataLayer
     {
-        string conn_string;
+        private readonly string conn_string;
         public SQLServerDataLayer()
         {
             conn_string = ConfigurationManager.ConnectionStrings["Edunet"].ConnectionString;
@@ -123,6 +123,15 @@ namespace Ecommerce.DAL
             return true;
         }
 
+        /// <summary>
+        /// Registra un utente
+        /// </summary>
+        /// <param name="user">Utente da registrare</param>
+        /// <returns>Intero che rappresenta lo stato dell'operazione
+        /// 0:      Successo
+        /// -1:     Errore sconosciuto
+        /// -10:    Email già registrata
+        /// </returns>
         public int RegisterUser(User user)
         {
             Random rnd = Components.Random;
@@ -144,10 +153,21 @@ namespace Ecommerce.DAL
             cmd.Parameters.AddWithValue("@password", Convert.ToBase64String(salt) + Convert.ToBase64String(passwordHash));
             cmd.Parameters.AddWithValue("@name", user.Name);
 
-            int ret = cmd.ExecuteNonQuery();
+            var returnParam = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            returnParam.Direction = ParameterDirection.ReturnValue;
+
+            cmd.ExecuteNonQuery();
             conn.Close();
 
-            return ret;
+            switch (returnParam.Value)
+            {
+                case 2627:
+                    return -10;
+                case 0:
+                    return 0;
+                default:
+                    return -1;
+            }
         }
 
         public User GetUserByID(int id)

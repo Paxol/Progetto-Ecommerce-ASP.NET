@@ -65,12 +65,16 @@ namespace Ecommerce.Controllers
                     Password = register.Password
                 });
 
-                if (result != 2)
+                switch (result)
                 {
-                    ViewBag.NotValid = "Si è verificato un'errore, riprova più tardi";
-                } else
-                {
-                    return RedirectToAction("Index");
+                    case -10:   // Email già registrata
+                        ViewBag.NotValid = "Email già registrata";
+                        break;
+                    case 0:     // Inserimento corretto
+                        return RedirectToAction("Index");
+                    default:
+                        ViewBag.NotValid = "Si è verificato un'errore, riprova più tardi";
+                        break;
                 }
             }
             else

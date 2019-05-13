@@ -62,8 +62,9 @@ namespace Ecommerce.DAL
 
         public int RegisterUser(User user)
         {
+            user.Roles = new List<string>() { "Utente" };
             users.Add(user);
-            return 2;
+            return 0;
         }
     }
 }

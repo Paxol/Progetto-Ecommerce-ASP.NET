@@ -30,8 +30,9 @@ namespace Ecommerce.Attributes
 
             List<string> roles = user.Roles;
 
-            foreach (var item in permissions)
-                if (roles.Count((s) => s.ToLower() == item.ToLower()) > 0) return true;
+            if (roles != null)
+                foreach (var item in permissions)
+                    if (roles.Count((s) => s.ToLower() == item.ToLower()) > 0) return true;
 
             return false;
         }
