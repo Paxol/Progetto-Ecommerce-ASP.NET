@@ -1,4 +1,5 @@
-﻿using Ecommerce.Models;
+﻿using Ecommerce.Models.DB;
+using System.Collections.Generic;
 
 namespace Ecommerce.Interfaces
 {
@@ -7,9 +8,11 @@ namespace Ecommerce.Interfaces
         User GetUserByID(int id);
         User GetUserByEmail(string mail);
         User GetUserByEmailAndPassword(string mail, string password);
-
-        bool ChangePassword(int userid, string newpassword);
-
+        
         int RegisterUser(User user);
+
+        List<Categoria> GetCategories();
+
+        int InsertCorso(Corso corso);
     }
 }

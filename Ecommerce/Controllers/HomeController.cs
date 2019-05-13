@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using Ecommerce.Models;
+using Ecommerce.Models.DB;
 
 namespace Ecommerce.Controllers
 {
@@ -14,55 +14,55 @@ namespace Ecommerce.Controllers
                 {
                     ID = 1,
                     Titolo = "Diventare Web Designer",
-                    NomeAutore = "Simona Tocci",
+                    Autore = "Simona Tocci",
                     Immagine = "https://i.udemycdn.com/course/240x135/1237748_f821.jpg",
                     Valutazione = 4.3f,
-                    Prezzo = 149.99m
+                    Prezzo = 149.99m.ToString()
                 },
                 new Corso
                 {
                     ID = 2,
                     Titolo = "BootCamp Python",
-                    NomeAutore = "Jose Portilla",
+                    Autore = "Jose Portilla",
                     Immagine = "https://i.udemycdn.com/course/240x135/567828_67d0.jpg",
                     Valutazione = 4.5f,
-                    Prezzo = 149.99m
+                    Prezzo = 149.99m.ToString().ToString()
                 },
                 new Corso
                 {
                     ID = 3,
                     Titolo = "Bootcamp sviluppatori web",
-                    NomeAutore = "Colt Steele",
+                    Autore = "Colt Steele",
                     Immagine = "https://i.udemycdn.com/course/240x135/625204_436a_2.jpg",
                     Valutazione = 3.3f,
-                    Prezzo = 199.99m
+                    Prezzo = 199.99m.ToString()
                 },
                 new Corso
                 {
                     ID = 4,
                     Titolo = "Diventare Web Designer",
-                    NomeAutore = "Simona Tocci",
+                    Autore = "Simona Tocci",
                     Immagine = "https://i.udemycdn.com/course/240x135/1237748_f821.jpg",
                     Valutazione = 4.3f,
-                    Prezzo = 149.99m
+                    Prezzo = 149.99m.ToString()
                 },
                 new Corso
                 {
                     ID = 5,
                     Titolo = "BootCamp Python",
-                    NomeAutore = "Jose Portilla",
+                    Autore = "Jose Portilla",
                     Immagine = "https://i.udemycdn.com/course/240x135/567828_67d0.jpg",
                     Valutazione = 4.5f,
-                    Prezzo = 149.99m
+                    Prezzo = 149.99m.ToString()
                 },
                 new Corso
                 {
                     ID = 6,
                     Titolo = "Bootcamp sviluppatori web",
-                    NomeAutore = "Colt Steele",
+                    Autore = "Colt Steele",
                     Immagine = "https://i.udemycdn.com/course/240x135/625204_436a_2.jpg",
                     Valutazione = 3.3f,
-                    Prezzo = 199.99m
+                    Prezzo = 199.99m.ToString()
                 },
             });
             return View();

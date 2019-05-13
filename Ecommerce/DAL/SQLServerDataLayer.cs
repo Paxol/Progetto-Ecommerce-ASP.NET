@@ -1,5 +1,5 @@
 ﻿using Ecommerce.Interfaces;
-using Ecommerce.Models;
+using Ecommerce.Models.DB;
 using Ecommerce.Utils;
 using System;
 using System.Collections.Generic;
@@ -19,14 +19,33 @@ namespace Ecommerce.DAL
             conn_string = ConfigurationManager.ConnectionStrings["Edunet"].ConnectionString;
         }
 
-        public bool ChangePassword(int userid, string newpassword)
-        {
-            throw new NotImplementedException();
-        }
-
         public User GetUserByEmail(string mail)
         {
-            throw new NotImplementedException();
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("GetUserAndRolesByMail", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@mail", mail);
+
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+
+            User user = null;
+            if (dt.Rows.Count > 0)
+            {
+                DataRow dr = dt.Rows[0];
+                user = new User();
+                user.UserID = (int)dr["IDUtente"];
+                user.Email = (string)dr["Email"];
+                user.Name = (string)dr["Nome"];
+                user.Roles = new List<string>(((string)dr["Ruoli"]).Split(','));
+            }
+
+            conn.Close();
+            return user;
         }
 
         public User GetUserByEmailAndPassword(string mail, string password)
@@ -59,25 +78,7 @@ namespace Ecommerce.DAL
                 if (passwordok)
                 {
                     // Gli hash corrispondono, utente loggato, recupero i dati dell'utente
-
-                    SqlCommand cmd = new SqlCommand("GetUserAndRolesByMail", conn);
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@mail", mail);
-
-                    DataTable dt = new DataTable();
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    da.Fill(dt);
-
-                    if (dt.Rows.Count > 0)
-                    {
-                        DataRow dr = dt.Rows[0];
-                        user = new User();
-                        user.UserID = (int)dr["IDUtente"];
-                        user.Email = (string)dr["Email"];
-                        user.Name = (string)dr["Nome"];
-                        user.Roles = new List<string>(((string)dr["Ruoli"]).Split(','));
-                    }
+                    user = GetUserByEmail(mail);
                 }
             }
 
@@ -199,6 +200,61 @@ namespace Ecommerce.DAL
             conn.Close();
 
             return user;
+        }
+
+        public List<Categoria> GetCategories()
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            // Recupero la password dal DB
+            SqlCommand cmd1 = new SqlCommand("GetCategories", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+
+            DataTable dt1 = new DataTable();
+            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+            da1.Fill(dt1);
+
+            List<Categoria> categorie = new List<Categoria>();
+
+            foreach (DataRow row in dt1.Rows)
+            {
+                categorie.Add(new Categoria
+                {
+                    ID = (int)row["IDCategoria"],
+                    Nome = (string)row["Nome"]
+                });
+            }
+
+            conn.Close();
+            return categorie;
+        }
+
+        public int InsertCorso(Corso corso)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("InsertCorso", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@titolo", corso.Titolo);
+            cmd.Parameters.AddWithValue("@autore", corso.Autore);
+            cmd.Parameters.AddWithValue("@prezzo", corso.Prezzo);
+            cmd.Parameters.AddWithValue("@descrizione", corso.Descrizione);
+            cmd.Parameters.AddWithValue("@categoria", corso.Categoria.ID);
+            cmd.Parameters.AddWithValue("@immagine", corso.Immagine);
+
+            var returnParam = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            returnParam.Direction = ParameterDirection.ReturnValue;
+
+            int a = cmd.ExecuteNonQuery();
+            conn.Close();
+
+            if (a > 0)
+                return 0;
+            else
+                return a;
         }
     }
 }

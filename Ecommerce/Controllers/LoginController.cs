@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Interfaces;
 using Ecommerce.Models;
+using Ecommerce.Models.DB;
 using Ecommerce.Utils;
 using System.Web.Mvc;
 using System.Web.Security;

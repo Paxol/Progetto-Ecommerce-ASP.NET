@@ -11,7 +11,7 @@
     <div class="scrolling-wrapper" id="scrolling-migliori">
 
         @{
-            if (ViewData["migliori_corsi"] is List<Ecommerce.Models.Corso> migliori_corsi)
+            if (ViewData["migliori_corsi"] is List<Ecommerce.Models.DB.Corso> migliori_corsi)
             {
                 foreach (var corso in migliori_corsi)
                 {
@@ -20,7 +20,7 @@
                             <img class="card-img-top" src="@corso.Immagine">
                             <div class="card-body">
                                 <p class="card-title">@corso.Titolo</p>
-                                <small class="text-muted">@corso.NomeAutore</small>
+                                <small class="text-muted">@corso.Autore</small>
                                 <p class="valutazione">
                                     <span class="stars">
                                         @Html.Raw(GetStars(corso.Valutazione))

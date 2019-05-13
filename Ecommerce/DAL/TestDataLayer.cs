@@ -1,5 +1,5 @@
 ﻿using Ecommerce.Interfaces;
-using Ecommerce.Models;
+using Ecommerce.Models.DB;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -30,19 +30,10 @@ namespace Ecommerce.DAL
                 }
             };
         }
-
-        public bool ChangePassword(int userid, string newpassword)
+        
+        public List<Categoria> GetCategories()
         {
-            User user = users.FirstOrDefault((u) => u.UserID == userid);
-            if (user != null)
-            {
-                user.Password = newpassword;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            throw new System.NotImplementedException();
         }
 
         public User GetUserByEmail(string mail)
@@ -58,6 +49,11 @@ namespace Ecommerce.DAL
         public User GetUserByID(int id)
         {
             return users.FirstOrDefault((u) => u.UserID == id);
+        }
+
+        public int InsertCorso(Corso corso)
+        {
+            throw new System.NotImplementedException();
         }
 
         public int RegisterUser(User user)
