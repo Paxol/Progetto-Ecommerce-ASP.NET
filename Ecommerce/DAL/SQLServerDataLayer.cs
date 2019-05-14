@@ -244,10 +244,7 @@ namespace Ecommerce.DAL
             cmd.Parameters.AddWithValue("@descrizione", corso.Descrizione);
             cmd.Parameters.AddWithValue("@categoria", corso.Categoria.ID);
             cmd.Parameters.AddWithValue("@immagine", corso.Immagine);
-
-            var returnParam = cmd.Parameters.Add("@ReturnVal", SqlDbType.Int);
-            returnParam.Direction = ParameterDirection.ReturnValue;
-
+            
             int a = cmd.ExecuteNonQuery();
             conn.Close();
 
@@ -284,10 +281,10 @@ namespace Ecommerce.DAL
                 corso.Titolo = (string)dr["Titolo"];
                 corso.Immagine = (string)dr["Immagine"];
                 corso.Descrizione = (string)dr["Descrizione"];
-                corso.Prezzo = dr["Prezzo"].ToString();
+                corso.Prezzo = Convert.ToDecimal(dr["Prezzo"].ToString());
                 corso.Categoria = new Categoria
                 {
-                    ID = (int)dr["FK_IDCategoria"],
+                    ID = (int)dr["IDCategoria"],
                     Nome = (string)dr["Categoria"]
                 };
             }
@@ -318,10 +315,10 @@ namespace Ecommerce.DAL
                 corso.Titolo = (string)dr["Titolo"];
                 corso.Immagine = (string)dr["Immagine"];
                 corso.Descrizione = (string)dr["Descrizione"];
-                corso.Prezzo = dr["Prezzo"].ToString();
+                corso.Prezzo = Convert.ToDecimal(dr["Prezzo"].ToString());
                 corso.Categoria = new Categoria
                 {
-                    ID = (int)dr["FK_IDCategoria"],
+                    ID = (int)dr["IDCategoria"],
                     Nome = (string)dr["Categoria"]
                 };
 

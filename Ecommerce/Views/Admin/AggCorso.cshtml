@@ -1,45 +1,5 @@
 ﻿@model Ecommerce.Models.ModCorso
 @{
     ViewBag.Title = "Aggiungi corso";
-    Layout = "~/Views/Admin/_Layout.cshtml";
-}
-
-@using (Html.BeginForm("UploadCorso", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <div class="form-group">
-        @Html.LabelFor(model => model.Titolo)
-        @Html.EditorFor(model => model.Titolo, new { htmlAttributes = new { @class = "form-control", required = "true" } })
-        @Html.ValidationMessageFor(model => model.Titolo)
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Autore)
-        @Html.EditorFor(model => model.Autore, new { htmlAttributes = new { @class = "form-control", required = "true" } })
-        @Html.ValidationMessageFor(model => model.Autore)
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Descrizione)
-        @Html.TextAreaFor(model => model.Descrizione, 3, 0, new { @class = "form-control", required = "true" })
-        @Html.ValidationMessageFor(model => model.Descrizione)
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Prezzo)
-        @Html.EditorFor(model => model.Prezzo, new { htmlAttributes = new { @class = "form-control", type = "number", step="0.01", required = "true" } })
-        @Html.ValidationMessageFor(model => model.Prezzo)
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.File)
-        <br /><input type="file" name="file" required />
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.IDCategoria)
-        @Html.DropDownListFor(model => model.IDCategoria, Model.Categorie, "Seleziona una categoria", new { @class = "form-control", required = "true" })
-        @Html.ValidationMessageFor(model => model.IDCategoria)
-    </div>
-
-    <input type="submit" value="Aggiungi corso" />
+    Layout = "~/Views/Admin/_FormCorso.cshtml";
 }

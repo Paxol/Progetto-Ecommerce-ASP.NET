@@ -1,0 +1,89 @@
+﻿@model Ecommerce.Models.ModCorso
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title>@ViewBag.Title - Amministrazione</title>
+
+    @Styles.Render("~/Content/css")
+    @RenderSection("head", false)
+</head>
+<body>
+    <div class="nav-wrapper bg-light">
+        <div class="container">
+            <div class="navbar navbar-light row">
+                <div id="nav-brand-container" class="col-auto">
+                    <a class="navbar-brand mb-0 h1" href="@Url.Action("Index", "Admin")">Amministrazione Edunet</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container page">
+        <h2>@ViewBag.Title</h2>
+        @using (Html.BeginForm("UploadCorso", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.HiddenFor(model => model.IsModifica)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Titolo)
+                @Html.EditorFor(model => model.Titolo, new { htmlAttributes = new { @class = "form-control", required = "true" } })
+                @Html.ValidationMessageFor(model => model.Titolo)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Autore)
+                @Html.EditorFor(model => model.Autore, new { htmlAttributes = new { @class = "form-control", required = "true" } })
+                @Html.ValidationMessageFor(model => model.Autore)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Descrizione)
+                @Html.TextAreaFor(model => model.Descrizione, 3, 0, new { @class = "form-control", required = "true" })
+                @Html.ValidationMessageFor(model => model.Descrizione)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Prezzo)
+                @Html.EditorFor(model => model.Prezzo, new { htmlAttributes = new { @class = "form-control", type = "number", step = "0.01", required = "true" } })
+                @Html.ValidationMessageFor(model => model.Prezzo)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.File)
+                @if (Model.IsModifica)
+                {
+                    <br />
+                    <img src="~/Content/img/@Model.Immagine" height="150" />
+                    <br />
+                }
+                <br /><input type="file" name="file" required />
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.IDCategoria)
+                @Html.DropDownListFor(model => model.IDCategoria, Model.Categorie, "Seleziona una categoria", new { @class = "form-control", required = "true" })
+                @Html.ValidationMessageFor(model => model.IDCategoria)
+            </div>
+
+            <input type="submit" value="@ViewBag.Title" />
+        }
+
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    @RenderSection("scripts", false)
+</body>
+</html>
+
+
+
+
+
+
+

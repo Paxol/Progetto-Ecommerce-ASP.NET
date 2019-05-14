@@ -17,7 +17,7 @@
                 {
                     <a href="/Corsi/@corso.ID" class="corso">
                         <div class="card inline-card">
-                            <img class="card-img-top" src="@corso.Immagine">
+                            <img class="card-img-top" src="~/Content/img/@corso.Immagine">
                             <div class="card-body">
                                 <p class="card-title">@corso.Titolo</p>
                                 <small class="text-muted">@corso.Autore</small>
@@ -26,7 +26,7 @@
                                         @Html.Raw(GetStars(corso.Valutazione))
                                     </span>@corso.Valutazione
                                 </p>
-                                <p class="prezzo text-right">@corso.Prezzo €</p>
+                                <p class="prezzo text-right">@corso.Prezzo.ToString("#.##") €</p>
                             </div>
                         </div>
                     </a>

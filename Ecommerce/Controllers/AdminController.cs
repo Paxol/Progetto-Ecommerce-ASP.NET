@@ -50,7 +50,7 @@ namespace Ecommerce.Controllers
                 Autore = corso.Autore,
                 Descrizione = corso.Descrizione,
                 IDCategoria = corso.Categoria.ID,
-                Prezzo = corso.Prezzo,
+                Prezzo = corso.Prezzo.ToString("#.##"),
                 Titolo = corso.Titolo,
                 Immagine = corso.Immagine
             };
@@ -85,7 +85,7 @@ namespace Ecommerce.Controllers
                     Categoria = new Categoria { ID = corso.IDCategoria },
                     Descrizione = corso.Descrizione,
                     Immagine = fileName,
-                    Prezzo = corso.Prezzo.Replace(',', '.'),
+                    Prezzo = Convert.ToDecimal(corso.Prezzo.Replace('.', ',')),
                     Titolo = corso.Titolo
                 });
 
