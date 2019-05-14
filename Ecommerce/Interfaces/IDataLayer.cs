@@ -14,5 +14,8 @@ namespace Ecommerce.Interfaces
         List<Categoria> GetCategories();
 
         int InsertCorso(Corso corso);
+
+        Corso GetCorsoByID(int id);
+        List<Corso> GetMiglioriCorsi();
     }
 }

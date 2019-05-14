@@ -256,5 +256,80 @@ namespace Ecommerce.DAL
             else
                 return a;
         }
+
+        public Corso GetCorsoByID(int id)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("GetCorsoByID", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@id", id);
+
+            DataTable dt = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+
+            conn.Close();
+
+            Corso corso = null;
+
+            if (dt.Rows.Count > 0)
+            {
+                corso = new Corso();
+                DataRow dr = dt.Rows[0];
+                corso.ID = (int)dr["IDCorso"];
+                corso.Autore = (string)dr["Autore"];
+                corso.Titolo = (string)dr["Titolo"];
+                corso.Immagine = (string)dr["Immagine"];
+                corso.Descrizione = (string)dr["Descrizione"];
+                corso.Prezzo = dr["Prezzo"].ToString();
+                corso.Categoria = new Categoria
+                {
+                    ID = (int)dr["FK_IDCategoria"],
+                    Nome = (string)dr["Categoria"]
+                };
+            }
+
+            return corso;
+        }
+
+        public List<Corso> GetMiglioriCorsi()
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            // Recupero la password dal DB
+            SqlCommand cmd1 = new SqlCommand("GetMiglioriCorsi", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+
+            DataTable dt1 = new DataTable();
+            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+            da1.Fill(dt1);
+
+            List<Corso> corsi = new List<Corso>();
+
+            foreach (DataRow dr in dt1.Rows)
+            {
+                Corso corso = new Corso();
+                corso.ID = (int)dr["IDCorso"];
+                corso.Autore = (string)dr["Autore"];
+                corso.Titolo = (string)dr["Titolo"];
+                corso.Immagine = (string)dr["Immagine"];
+                corso.Descrizione = (string)dr["Descrizione"];
+                corso.Prezzo = dr["Prezzo"].ToString();
+                corso.Categoria = new Categoria
+                {
+                    ID = (int)dr["FK_IDCategoria"],
+                    Nome = (string)dr["Categoria"]
+                };
+
+                corsi.Add(corso);
+            }
+
+            conn.Close();
+            return corsi;
+        }
     }
 }

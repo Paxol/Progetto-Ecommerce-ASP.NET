@@ -3,7 +3,6 @@ using Ecommerce.Models;
 using Ecommerce.Models.DB;
 using Ecommerce.Utils;
 using System.Web.Mvc;
-using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System;
@@ -21,15 +20,15 @@ namespace Ecommerce.Controllers
         [SetPermissions(Permissions = "Admin")]
         public ActionResult AggCorso()
         {
-            //var dal = Components.DataLayer;
-
-            //ViewData.Add("categorie", dal.GetCategories());
-
-            //return View();
-
-            var model = new ModCorso();
+            var model = new ModCorso() { IsModifica = false };
             model.Categorie = new List<SelectListItem>();
+            LoadCategories(model);
 
+            return View(model);
+        }
+
+        private void LoadCategories(ModCorso model)
+        {
             var cat = Components.DataLayer.GetCategories();
             foreach (var item in cat)
             {
@@ -39,10 +38,28 @@ namespace Ecommerce.Controllers
                     Text = item.Nome
                 });
             }
+        }
+
+        public ActionResult ModCorso(int id)
+        {
+            var dal = Components.DataLayer;
+
+            Corso corso = dal.GetCorsoByID(id);
+            var model = new ModCorso {
+                IsModifica = true,
+                Autore = corso.Autore,
+                Descrizione = corso.Descrizione,
+                IDCategoria = corso.Categoria.ID,
+                Prezzo = corso.Prezzo,
+                Titolo = corso.Titolo,
+                Immagine = corso.Immagine
+            };
+            LoadCategories(model);
 
             return View(model);
         }
 
+        [SetPermissions(Permissions = "Admin")]
         [HttpPost]
         public ActionResult UploadCorso(ModCorso corso)
         {
@@ -58,7 +75,7 @@ namespace Ecommerce.Controllers
                 a += DateTimeOffset.UtcNow.ToUnixTimeSeconds() + "." + s[s.Length - 1];
 
                 var fileName = Path.GetFileName(a);
-                var path = Path.Combine(Server.MapPath("~/App_Data/img"), fileName);
+                var path = Path.Combine(Server.MapPath("~/Content/img"), fileName);
                 corso.File.SaveAs(path);
 
                 var dal = Components.DataLayer;

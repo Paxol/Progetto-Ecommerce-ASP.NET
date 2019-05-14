@@ -143,6 +143,9 @@
     <Compile Include="Utils\SessionContext.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\img\1435744_2d331557817368.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\icon.css" />
@@ -189,6 +192,7 @@
     <Content Include="Views\Admin\AggCorso.cshtml" />
     <Content Include="Views\Login\SignIn.cshtml" />
     <Content Include="Views\Admin\UploadCorso.cshtml" />
+    <Content Include="Views\Admin\ModCorso.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

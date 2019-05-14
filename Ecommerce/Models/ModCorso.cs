@@ -12,14 +12,18 @@ namespace Ecommerce.Models
             Categorie = new List<SelectListItem>();
         }
 
+        public bool IsModifica { get; set; }
+
+        public List<SelectListItem> Categorie { get; set; }
+
+        public string Immagine { get; set; }
+
         [Display(Name = "Foto")]
         public HttpPostedFileBase File { get; set; }
 
         [Display(Name = "Categoria")]
         public int IDCategoria { get; set; }
-
-        public List<SelectListItem> Categorie { get; set; }
-
+        
         [Required]
         [Display(Name = "Titolo")]
         public string Titolo { get; set; }

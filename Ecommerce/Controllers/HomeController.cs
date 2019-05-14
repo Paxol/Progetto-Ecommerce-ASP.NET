@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Ecommerce.Models.DB;
+using Ecommerce.Utils;
 
 namespace Ecommerce.Controllers
 {
@@ -8,63 +9,7 @@ namespace Ecommerce.Controllers
     {
         public ActionResult Index()
         {
-            ViewData.Add("migliori_corsi", new List<Corso>()
-            {
-                new Corso
-                {
-                    ID = 1,
-                    Titolo = "Diventare Web Designer",
-                    Autore = "Simona Tocci",
-                    Immagine = "https://i.udemycdn.com/course/240x135/1237748_f821.jpg",
-                    Valutazione = 4.3f,
-                    Prezzo = 149.99m.ToString()
-                },
-                new Corso
-                {
-                    ID = 2,
-                    Titolo = "BootCamp Python",
-                    Autore = "Jose Portilla",
-                    Immagine = "https://i.udemycdn.com/course/240x135/567828_67d0.jpg",
-                    Valutazione = 4.5f,
-                    Prezzo = 149.99m.ToString().ToString()
-                },
-                new Corso
-                {
-                    ID = 3,
-                    Titolo = "Bootcamp sviluppatori web",
-                    Autore = "Colt Steele",
-                    Immagine = "https://i.udemycdn.com/course/240x135/625204_436a_2.jpg",
-                    Valutazione = 3.3f,
-                    Prezzo = 199.99m.ToString()
-                },
-                new Corso
-                {
-                    ID = 4,
-                    Titolo = "Diventare Web Designer",
-                    Autore = "Simona Tocci",
-                    Immagine = "https://i.udemycdn.com/course/240x135/1237748_f821.jpg",
-                    Valutazione = 4.3f,
-                    Prezzo = 149.99m.ToString()
-                },
-                new Corso
-                {
-                    ID = 5,
-                    Titolo = "BootCamp Python",
-                    Autore = "Jose Portilla",
-                    Immagine = "https://i.udemycdn.com/course/240x135/567828_67d0.jpg",
-                    Valutazione = 4.5f,
-                    Prezzo = 149.99m.ToString()
-                },
-                new Corso
-                {
-                    ID = 6,
-                    Titolo = "Bootcamp sviluppatori web",
-                    Autore = "Colt Steele",
-                    Immagine = "https://i.udemycdn.com/course/240x135/625204_436a_2.jpg",
-                    Valutazione = 3.3f,
-                    Prezzo = 199.99m.ToString()
-                },
-            });
+            ViewData.Add("migliori_corsi", Components.DataLayer.GetMiglioriCorsi());
             return View();
         }
 
