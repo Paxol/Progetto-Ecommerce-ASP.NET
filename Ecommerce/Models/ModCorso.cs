@@ -32,9 +32,16 @@ namespace Ecommerce.Models
         [Display(Name = "Autore")]
         public string Autore { get; set; }
 
+        private string _prezzo;
+
         [Required]
         [Display(Name = "Prezzo")]
-        public string Prezzo { get; set; }
+        public string Prezzo
+        {
+            get { return _prezzo?.Replace(',', '.'); }
+            set { _prezzo = value; }
+        }
+
 
         [Required]
         [Display(Name = "Descrizione")]
