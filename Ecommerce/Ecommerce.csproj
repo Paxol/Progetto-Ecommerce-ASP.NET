@@ -191,6 +191,7 @@
     <Content Include="Views\Admin\UploadCorso.cshtml" />
     <Content Include="Views\Admin\_FormCorso.cshtml" />
     <Content Include="Views\Admin\ModCorso.cshtml" />
+    <Content Include="Views\Admin\EditCorso.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

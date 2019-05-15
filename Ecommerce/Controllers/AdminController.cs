@@ -17,16 +17,6 @@ namespace Ecommerce.Controllers
             return View();
         }
 
-        [SetPermissions(Permissions = "Admin")]
-        public ActionResult AggCorso()
-        {
-            var model = new ModCorso() { IsModifica = false };
-            model.Categorie = new List<SelectListItem>();
-            LoadCategories(model);
-
-            return View(model);
-        }
-
         private void LoadCategories(ModCorso model)
         {
             var cat = Components.DataLayer.GetCategories();
@@ -40,20 +30,45 @@ namespace Ecommerce.Controllers
             }
         }
 
-        public ActionResult ModCorso(int id)
+        [SetPermissions(Permissions = "Admin")]
+        public ActionResult EditCorso(int id = 0)
         {
-            var dal = Components.DataLayer;
+            ViewBag.Title = "Aggiungi corso";
+            ModCorso model = null;
+            Corso corso = null;
 
-            Corso corso = dal.GetCorsoByID(id);
-            var model = new ModCorso {
-                IsModifica = true,
-                Autore = corso.Autore,
-                Descrizione = corso.Descrizione,
-                IDCategoria = corso.Categoria.ID,
-                Prezzo = corso.Prezzo.ToString("#.##"),
-                Titolo = corso.Titolo,
-                Immagine = corso.Immagine
-            };
+            if (id != 0)
+            {
+                var dal = Components.DataLayer;
+                corso = dal.GetCorsoByID(id);
+            }
+
+            if (corso != null)
+            {
+                ViewBag.Title = "Modifica corso";
+                model = new ModCorso
+                {
+                    IsModifica = true,
+                    Autore = corso.Autore,
+                    Descrizione = corso.Descrizione,
+                    IDCategoria = corso.Categoria.ID,
+                    Prezzo = corso.Prezzo.ToString("#.##"),
+                    Titolo = corso.Titolo,
+                    Immagine = corso.Immagine
+                };
+            }
+            else
+            {
+                if (id != 0)
+                {
+                    ViewBag.NotValid = true;
+                    ViewBag.Title = "Modifica corso";
+                }
+
+                model = new ModCorso() { IsModifica = false };
+            }
+
+            model.Categorie = new List<SelectListItem>();
             LoadCategories(model);
 
             return View(model);
