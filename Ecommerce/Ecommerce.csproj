@@ -186,11 +186,8 @@
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\Admin\_Layout.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Admin\AggCorso.cshtml" />
     <Content Include="Views\Login\SignIn.cshtml" />
     <Content Include="Views\Admin\UploadCorso.cshtml" />
-    <Content Include="Views\Admin\_FormCorso.cshtml" />
-    <Content Include="Views\Admin\ModCorso.cshtml" />
     <Content Include="Views\Admin\EditCorso.cshtml" />
   </ItemGroup>
   <ItemGroup>
