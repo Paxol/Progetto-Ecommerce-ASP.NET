@@ -15,6 +15,13 @@
                 <div id="nav-brand-container" class="col-auto">
                     <a class="navbar-brand mb-0 h1" href="@Url.Action("Index", "Admin")">Amministrazione Edunet</a>
                 </div>
+                <div class="col"></div>
+                <div class="col-auto">
+                    @Html.ActionLink("Torna alla parte pubblica", "Index", "Home")
+                </div>
+                <div class="col-auto">
+                    @Html.ActionLink("Logout", "Logout", "Login")
+                </div>
             </div>
         </div>
     </div>

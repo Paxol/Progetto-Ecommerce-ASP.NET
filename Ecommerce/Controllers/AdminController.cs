@@ -113,5 +113,11 @@ namespace Ecommerce.Controllers
 
             return View();
         }
+
+        [SetPermissions(Permissions ="Admin")]
+        public ActionResult Statistiche()
+        {
+            return View();
+        }
     }
 }
