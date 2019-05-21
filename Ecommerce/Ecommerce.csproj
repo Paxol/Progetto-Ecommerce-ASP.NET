@@ -134,10 +134,12 @@
     <Compile Include="Interfaces\IDataLayer.cs" />
     <Compile Include="Models\DB\Categoria.cs" />
     <Compile Include="Models\DB\Corso.cs" />
+    <Compile Include="Models\DB\StatCorso.cs" />
     <Compile Include="Models\ModCorso.cs" />
     <Compile Include="Models\Register.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\DB\User.cs" />
+    <Compile Include="Models\Statistiche.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Components.cs" />
     <Compile Include="Utils\SessionContext.cs" />

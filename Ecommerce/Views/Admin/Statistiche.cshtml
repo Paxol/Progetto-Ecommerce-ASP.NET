@@ -1,4 +1,4 @@
-﻿
+﻿@model Ecommerce.Models.Statistiche
 @{
     ViewBag.Title = "Statistiche";
     Layout = "~/Views/Admin/_Layout.cshtml";
@@ -7,19 +7,87 @@
 <div class="my-4">
     <h5>Corsi più venduti</h5>
 
+    <nav>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-auto">
+                @using (Html.BeginForm("Statistiche", "Admin", FormMethod.Post, new { id = "formCPV" }))
+                {
+                    @Html.HiddenFor((model) => model.CorsiPiuVenduti.Page, new { id = "pageCPV" })
+                    <span>
+                        Mostrando da @((Model.CorsiPiuVenduti.Page - 1) * Model.CorsiPiuVenduti.Limit + 1) a @Math.Min((Model.CorsiPiuVenduti.Page * Model.CorsiPiuVenduti.Limit), Model.CorsiPiuVenduti.Total) su @Model.CorsiPiuVenduti.Total
+                        | Prodotti per pagina @(Html.DropDownListFor((model) => model.CorsiPiuVenduti.Limit, new List<SelectListItem>() { new SelectListItem() { Text = "25" }, new SelectListItem() { Text = "50" } }, new { id = "selectCPV" }))>&nbsp;|&nbsp;
+                    </span>
+                    <ul class="pagination d-inline-flex">
+                        @if (Model.CorsiPiuVenduti.Page == 1)
+                        {
+                            <li class="page-item disabled"><a class="page-link" href="#" onclick="prev(); return false;">Indietro</a></li>
+                        }
+                        else
+                        {
+                            <li class="page-item"><a class="page-link" href="#" onclick="prev(); return false;">Indietro</a></li>
+                        }
+
+                        <li class="page-item disabled"><a class="page-link">@Model.CorsiPiuVenduti.Page</a></li>
+
+                        @if (Model.CorsiPiuVenduti.Page * Model.CorsiPiuVenduti.Limit >= Model.CorsiPiuVenduti.Total)
+                        {
+                            <li class="page-item disabled"><a class="page-link" href="#" onclick="next(); return false;">Avanti</a></li>
+                        }
+                        else
+                        {
+                            <li class="page-item"><a class="page-link" href="#" onclick="next(); return false;">Avanti</a></li>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
+    </nav>
+
     <table class="table">
         <thead>
             <tr>
                 <th scope="col">ID Corso</th>
                 <th scope="col">Nome</th>
-                <th scope="col">Prezzo</th>
+                <th scope="col">Prezzo di listino</th>
                 <th scope="col">Vendite</th>
                 <th scope="col">Visualizza</th>
                 <th scope="col">Modifica</th>
             </tr>
         </thead>
         <tbody>
-            
+            @if (ViewData["corsi_piu_venduti"] is List<Ecommerce.Models.DB.StatCorso> corsi_piu_venduti)
+            {
+                foreach (var item in corsi_piu_venduti)
+                {
+                    var routeval = new RouteValueDictionary();
+                    routeval.Add("ID", item.IDCorso);
+
+                    <tr>
+                        <td>@item.IDCorso</td>
+                        <td>@item.Titolo</td>
+                        <td>@item.Prezzo.ToString("#.##")</td>
+                        <td>@item.Vendite</td>
+                        <td>@Html.ActionLink("Visualizza", "View", "Corsi", routeval, null)</td>
+                        <td>@Html.ActionLink("Modifica", "EditCorso", "Admin", routeval, null)</td>
+                    </tr>
+                }
+            }
         </tbody>
     </table>
 </div>
+
+@section scripts{
+    <script>
+        $("#selectCPV").on('change', () => { $('#formCPV').submit() })
+
+    function prev() {
+        $('#pageCPV').val(Number($('#pageCPV').val()) - 1)
+        $('#formCPV').submit()
+    }
+    function next() {
+        $('#pageCPV').val(Number($('#pageCPV').val()) + 1)
+        $('#formCPV').submit()
+    }    
+    </script>
+}

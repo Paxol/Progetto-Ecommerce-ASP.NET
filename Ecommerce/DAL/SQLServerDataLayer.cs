@@ -328,5 +328,42 @@ namespace Ecommerce.DAL
             conn.Close();
             return corsi;
         }
+
+        public List<StatCorso> GetProdottiPiuVenduti(int limit, int page, out int tot)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            // Recupero la password dal DB
+            SqlCommand cmd1 = new SqlCommand("GetProdottiPiuVenduti", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+
+            cmd1.Parameters.AddWithValue("@limit", limit);
+            cmd1.Parameters.AddWithValue("@page", page);
+            var returnParam = cmd1.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            returnParam.Direction = ParameterDirection.ReturnValue;
+
+            DataTable dt1 = new DataTable();
+            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+            da1.Fill(dt1);
+
+            tot = (int)returnParam.Value;
+
+            List<StatCorso> corsi = new List<StatCorso>();
+
+            foreach (DataRow dr in dt1.Rows)
+            {
+                StatCorso corso = new StatCorso();
+                corso.IDCorso = (int)dr["IDCorso"];
+                corso.Titolo = (string)dr["Titolo"];
+                corso.Prezzo = (decimal)dr["Prezzo"];
+                corso.Vendite = (int)dr["Vendite"];
+
+                corsi.Add(corso);
+            }
+
+            conn.Close();
+            return corsi;
+        }
     }
 }

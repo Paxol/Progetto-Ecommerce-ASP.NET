@@ -46,6 +46,11 @@ namespace Ecommerce.DAL
             throw new System.NotImplementedException();
         }
 
+        public List<StatCorso> GetProdottiPiuVenduti(int limit, int page, out int tot)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public User GetUserByEmail(string mail)
         {
             return users.FirstOrDefault((u) => u.Email == mail);

@@ -115,9 +115,16 @@ namespace Ecommerce.Controllers
         }
 
         [SetPermissions(Permissions ="Admin")]
-        public ActionResult Statistiche()
+        public ActionResult Statistiche(Statistiche statistiche)
         {
-            return View();
+            if (statistiche.CorsiPiuVenduti.Limit == 0 || statistiche.CorsiPiuVenduti.Page == 0)
+                statistiche.CorsiPiuVenduti = new Statistiche.Pagination { Limit = Math.Max(1, statistiche.CorsiPiuVenduti.Limit), Page = Math.Max(1, statistiche.CorsiPiuVenduti.Page) };
+
+            ViewData["corsi_piu_venduti"] = Components.DataLayer.GetProdottiPiuVenduti(statistiche.CorsiPiuVenduti.Limit, statistiche.CorsiPiuVenduti.Page, out int tot);
+
+            statistiche.CorsiPiuVenduti = new Statistiche.Pagination { Limit = statistiche.CorsiPiuVenduti.Limit, Page = statistiche.CorsiPiuVenduti.Page, Total = tot };
+
+            return View(statistiche);
         }
     }
 }
