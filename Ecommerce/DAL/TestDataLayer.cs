@@ -66,6 +66,11 @@ namespace Ecommerce.DAL
             return users.FirstOrDefault((u) => u.UserID == id);
         }
 
+        public List<StatUtenti> GetUtentiPiuAttivi(int limit, int page, out int tot)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public int InsertCorso(Corso corso)
         {
             throw new System.NotImplementedException();

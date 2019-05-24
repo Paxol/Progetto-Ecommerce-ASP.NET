@@ -19,5 +19,6 @@ namespace Ecommerce.Interfaces
         List<Corso> GetMiglioriCorsi();
 
         List<StatCorso> GetProdottiPiuVenduti(int limit, int page, out int tot);
+        List<StatUtenti> GetUtentiPiuAttivi(int limit, int page, out int tot);
     }
 }

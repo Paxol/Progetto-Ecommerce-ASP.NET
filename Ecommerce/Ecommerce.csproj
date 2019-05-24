@@ -134,7 +134,9 @@
     <Compile Include="Interfaces\IDataLayer.cs" />
     <Compile Include="Models\DB\Categoria.cs" />
     <Compile Include="Models\DB\Corso.cs" />
+    <Compile Include="Models\DB\ItemCarrello.cs" />
     <Compile Include="Models\DB\StatCorso.cs" />
+    <Compile Include="Models\DB\StatUtenti.cs" />
     <Compile Include="Models\ModCorso.cs" />
     <Compile Include="Models\Register.cs" />
     <Compile Include="Models\Login.cs" />
@@ -162,6 +164,7 @@
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.form.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -192,6 +195,7 @@
     <Content Include="Views\Admin\UploadCorso.cshtml" />
     <Content Include="Views\Admin\EditCorso.cshtml" />
     <Content Include="Views\Admin\Statistiche.cshtml" />
+    <Content Include="Views\Utente\Carrello.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

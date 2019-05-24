@@ -7,7 +7,8 @@
 <div class="my-4">
     <h5>Corsi più venduti</h5>
 
-    <nav>
+    @if (ViewData["corsi_piu_venduti"] is List<Ecommerce.Models.DB.StatCorso> corsi_piu_venduti)
+    {
         <div class="row">
             <div class="col"></div>
             <div class="col-auto">
@@ -21,44 +22,42 @@
                     <ul class="pagination d-inline-flex">
                         @if (Model.CorsiPiuVenduti.Page == 1)
                         {
-                            <li class="page-item disabled"><a class="page-link" href="#" onclick="prev(); return false;">Indietro</a></li>
+                            <li class="page-item disabled"><a class="page-link" href="#" onclick="prevCPV(); return false;">Indietro</a></li>
                         }
                         else
                         {
-                            <li class="page-item"><a class="page-link" href="#" onclick="prev(); return false;">Indietro</a></li>
+                            <li class="page-item"><a class="page-link" href="#" onclick="prevCPV(); return false;">Indietro</a></li>
                         }
 
                         <li class="page-item disabled"><a class="page-link">@Model.CorsiPiuVenduti.Page</a></li>
 
                         @if (Model.CorsiPiuVenduti.Page * Model.CorsiPiuVenduti.Limit >= Model.CorsiPiuVenduti.Total)
                         {
-                            <li class="page-item disabled"><a class="page-link" href="#" onclick="next(); return false;">Avanti</a></li>
+                            <li class="page-item disabled"><a class="page-link" href="#" onclick="nextCPV(); return false;">Avanti</a></li>
                         }
                         else
                         {
-                            <li class="page-item"><a class="page-link" href="#" onclick="next(); return false;">Avanti</a></li>
+                            <li class="page-item"><a class="page-link" href="#" onclick="nextCPV(); return false;">Avanti</a></li>
                         }
                     </ul>
                 }
             </div>
         </div>
-    </nav>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">ID Corso</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Prezzo di listino</th>
-                <th scope="col">Vendite</th>
-                <th scope="col">Visualizza</th>
-                <th scope="col">Modifica</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (ViewData["corsi_piu_venduti"] is List<Ecommerce.Models.DB.StatCorso> corsi_piu_venduti)
-            {
-                foreach (var item in corsi_piu_venduti)
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID Corso</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Prezzo di listino</th>
+                    <th scope="col">Vendite</th>
+                    <th scope="col">Visualizza</th>
+                    <th scope="col">Modifica</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in corsi_piu_venduti)
                 {
                     var routeval = new RouteValueDictionary();
                     routeval.Add("ID", item.IDCorso);
@@ -66,28 +65,109 @@
                     <tr>
                         <td>@item.IDCorso</td>
                         <td>@item.Titolo</td>
-                        <td>@item.Prezzo.ToString("#.##")</td>
+                        <td>@string.Format("{0:0.00}", item.Prezzo)</td>
                         <td>@item.Vendite</td>
                         <td>@Html.ActionLink("Visualizza", "View", "Corsi", routeval, null)</td>
                         <td>@Html.ActionLink("Modifica", "EditCorso", "Admin", routeval, null)</td>
                     </tr>
                 }
-            }
-        </tbody>
-    </table>
+
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Nessun dato da visualizzare</p>
+    }
+
+    <h5>Utenti più attivi</h5>
+
+    @if (ViewData["utenti_piu_attivi"] is List<Ecommerce.Models.DB.StatUtenti> utenti_piu_attivi)
+    {
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-auto">
+                @using (Html.BeginForm("Statistiche", "Admin", FormMethod.Post, new { id = "formUPA" }))
+                {
+                    @Html.HiddenFor((model) => model.UtentiPiuAttivi.Page, new { id = "pageUPA" })
+                    <span>
+                        Mostrando da @((Model.UtentiPiuAttivi.Page - 1) * Model.UtentiPiuAttivi.Limit + 1) a @Math.Min((Model.UtentiPiuAttivi.Page * Model.UtentiPiuAttivi.Limit), Model.UtentiPiuAttivi.Total) su @Model.UtentiPiuAttivi.Total
+                        | Prodotti per pagina @(Html.DropDownListFor((model) => model.UtentiPiuAttivi.Limit, new List<SelectListItem>() { new SelectListItem() { Text = "25" }, new SelectListItem() { Text = "50" } }, new { id = "selectUPA" }))>&nbsp;|&nbsp;
+                    </span>
+                    <ul class="pagination d-inline-flex">
+                        @if (Model.UtentiPiuAttivi.Page == 1)
+                        {
+                            <li class="page-item disabled"><a class="page-link" href="#" onclick="prevUPA(); return false;">Indietro</a></li>
+                        }
+                        else
+                        {
+                            <li class="page-item"><a class="page-link" href="#" onclick="prevUPA(); return false;">Indietro</a></li>
+                        }
+
+                        <li class="page-item disabled"><a class="page-link">@Model.UtentiPiuAttivi.Page</a></li>
+
+                        @if (Model.UtentiPiuAttivi.Page * Model.UtentiPiuAttivi.Limit >= Model.UtentiPiuAttivi.Total)
+                        {
+                            <li class="page-item disabled"><a class="page-link" href="#" onclick="nextUPA(); return false;">Avanti</a></li>
+                        }
+                        else
+                        {
+                            <li class="page-item"><a class="page-link" href="#" onclick="nextUPA(); return false;">Avanti</a></li>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID Utente</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Prodotti comprati</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in utenti_piu_attivi)
+                {
+                    <tr>
+                        <td>@item.IDUtente</td>
+                        <td>@item.Email</td>
+                        <td>@item.ProdottiComprati</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Nessun dato da visualizzare</p>
+    }
+
 </div>
+
 
 @section scripts{
     <script>
         $("#selectCPV").on('change', () => { $('#formCPV').submit() })
+        $("#selectUPA").on('change', () => { $('#formUPA').submit() })
 
-    function prev() {
-        $('#pageCPV').val(Number($('#pageCPV').val()) - 1)
-        $('#formCPV').submit()
-    }
-    function next() {
-        $('#pageCPV').val(Number($('#pageCPV').val()) + 1)
-        $('#formCPV').submit()
-    }    
+        function prevCPV() {
+            $('#pageCPV').val(Number($('#pageCPV').val()) - 1)
+            $('#formCPV').submit()
+        }
+        function nextCPV() {
+            $('#pageCPV').val(Number($('#pageCPV').val()) + 1)
+            $('#formCPV').submit()
+        }
+
+        function prevUPA() {
+            $('#pageUPA').val(Number($('#pageUPA').val()) - 1)
+            $('#formUPA').submit()
+        }
+        function nextUPA() {
+            $('#pageUPA').val(Number($('#pageUPA').val()) + 1)
+            $('#formUPA').submit()
+        }
     </script>
 }

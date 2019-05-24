@@ -52,7 +52,7 @@ namespace Ecommerce.Controllers
                     Autore = corso.Autore,
                     Descrizione = corso.Descrizione,
                     IDCategoria = corso.Categoria.ID,
-                    Prezzo = corso.Prezzo.ToString("#.##"),
+                    Prezzo = string.Format("{0:0.00}", corso.Prezzo),
                     Titolo = corso.Titolo,
                     Immagine = corso.Immagine
                 };
@@ -118,11 +118,17 @@ namespace Ecommerce.Controllers
         public ActionResult Statistiche(Statistiche statistiche)
         {
             if (statistiche.CorsiPiuVenduti.Limit == 0 || statistiche.CorsiPiuVenduti.Page == 0)
-                statistiche.CorsiPiuVenduti = new Statistiche.Pagination { Limit = Math.Max(1, statistiche.CorsiPiuVenduti.Limit), Page = Math.Max(1, statistiche.CorsiPiuVenduti.Page) };
+                statistiche.CorsiPiuVenduti = new Statistiche.Pagination { Limit = Math.Max(25, statistiche.CorsiPiuVenduti.Limit), Page = Math.Max(1, statistiche.CorsiPiuVenduti.Page) };
 
-            ViewData["corsi_piu_venduti"] = Components.DataLayer.GetProdottiPiuVenduti(statistiche.CorsiPiuVenduti.Limit, statistiche.CorsiPiuVenduti.Page, out int tot);
+            if (statistiche.UtentiPiuAttivi.Limit == 0 || statistiche.UtentiPiuAttivi.Page == 0)
+                statistiche.UtentiPiuAttivi = new Statistiche.Pagination { Limit = Math.Max(25, statistiche.UtentiPiuAttivi.Limit), Page = Math.Max(1, statistiche.UtentiPiuAttivi.Page) };
 
-            statistiche.CorsiPiuVenduti = new Statistiche.Pagination { Limit = statistiche.CorsiPiuVenduti.Limit, Page = statistiche.CorsiPiuVenduti.Page, Total = tot };
+            ViewData["corsi_piu_venduti"] = Components.DataLayer.GetProdottiPiuVenduti(statistiche.CorsiPiuVenduti.Limit, statistiche.CorsiPiuVenduti.Page, out int totCPV);
+            statistiche.CorsiPiuVenduti = new Statistiche.Pagination { Limit = statistiche.CorsiPiuVenduti.Limit, Page = statistiche.CorsiPiuVenduti.Page, Total = totCPV };
+
+
+            ViewData["utenti_piu_attivi"] = Components.DataLayer.GetUtentiPiuAttivi(statistiche.UtentiPiuAttivi.Limit, statistiche.UtentiPiuAttivi.Page, out int totUPA);
+            statistiche.UtentiPiuAttivi = new Statistiche.Pagination { Limit = statistiche.UtentiPiuAttivi.Limit, Page = statistiche.UtentiPiuAttivi.Page, Total = totUPA };
 
             return View(statistiche);
         }

@@ -365,5 +365,42 @@ namespace Ecommerce.DAL
             conn.Close();
             return corsi;
         }
+
+        public List<StatUtenti> GetUtentiPiuAttivi(int limit, int page, out int tot)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            // Recupero la password dal DB
+            SqlCommand cmd1 = new SqlCommand("GetUtentiPiuAttivi", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+
+            cmd1.Parameters.AddWithValue("@limit", limit);
+            cmd1.Parameters.AddWithValue("@page", page);
+            var returnParam = cmd1.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            returnParam.Direction = ParameterDirection.ReturnValue;
+
+            DataTable dt1 = new DataTable();
+            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+            da1.Fill(dt1);
+
+            tot = (int)returnParam.Value;
+
+            List<StatUtenti> utenti = new List<StatUtenti>();
+
+            foreach (DataRow dr in dt1.Rows)
+            {
+                StatUtenti utente = new StatUtenti() {
+                    IDUtente = (int) dr["IDUtente"],
+                    Email = (string) dr["Email"],
+                    ProdottiComprati = (int) dr["ProdottiComprati"],
+                };
+
+                utenti.Add(utente);
+            }
+
+            conn.Close();
+            return utenti;
+        }
     }
 }

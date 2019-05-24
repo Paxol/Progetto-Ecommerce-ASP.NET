@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "Carrello";
+    ViewBag.ShowNavBarLogin = true;
+}
+
+<h2>Carrello</h2>
+
+@if (ViewData["carrello"] is List<Ecommerce.Models.DB.ItemCarrello> carrello)
+{
+    <div class="cart">
+
+        @for (int i = 0; i < carrello.Count; i++)
+        {
+            var item = carrello[i];
+            var ci = "ci" + i;
+            var cif = "cif" + i;
+
+            <div id="@ci" class="card item-carrello">
+                <div class="row">
+                    <div class="col-4 col-sm-3"><img class="img-fluid" src="~/Content/img/@item.Corso.Immagine" /></div>
+                    <div class="col-8 col-sm-9">
+                        <h3>@item.Corso.Titolo</h3>
+                        <p class="text-truncate">@item.Corso.Descrizione</p>
+                        <div class="row">
+
+                            <form id="@cif" data-cart-item="#@ci" action="@Url.Action("CartUpdate")" method="post" class="col">
+                                <input type="hidden" name="cartid" value="@item.ID" />
+                                <span class="mr-4">Quantità:</span><input class="auto_submit form-control d-inline-block" type="number" style="width: 72px" name="quantita" value="@item.Quantita" />
+                            </form>
+
+                            <div class="col-auto">@string.Format("{0:0.00}", item.Prezzo) €</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+
+    ViewBag.NEVis = "d-none";
+
+
+    @section scripts{
+        <script>
+            for (let i = 0; i < @carrello.Count; i++) {
+                $('#cif' + i).submit(function () {
+                    let el = $(this);
+
+                    let iszero = false;
+
+                    let arr = el.serializeArray();
+                    for (let j = 0; j < arr.length; j++) {
+                        if (arr[j].name == 'quantita' && arr[j].value == '0') {
+                            iszero = true;
+                            break;
+                        }
+                    }
+
+                    el.ajaxSubmit({
+                        success: function () {
+                            if (iszero) {
+                                $(el.attr('data-cart-item')).remove();
+                                if ($('.cart').children().length == 0)
+                                    $('.no_elements').removeClass('d-none').addClass('d-block')
+                                else
+                                    $('.no_elements').addClass('d-none').removeClass('d-block')
+                            }
+                        }
+                    });
+                    return false;
+                })
+            }
+
+            $(function () {
+                $(".auto_submit").change(function () {
+                    $(this).submit();
+                });
+            });
+        </script>
+    }
+}
+else
+{
+    ViewBag.NEVis = "d-block";
+}
+<p class="no_elements @ViewBag.NEVis">Ops, non c'è nulla nel carrello, visita il @Html.ActionLink("catalogo", "Catalogo", "Home")</p>

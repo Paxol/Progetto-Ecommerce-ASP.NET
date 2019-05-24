@@ -3,6 +3,46 @@
     ViewBag.Title = "Index";
 }
 
-<h2>@ViewBag.User</h2>
+<div class="row">
+    <div class="col">
+        <h2>Ciao @ViewBag.User</h2>
+    </div>
+    <div class="col-auto">
+        <a class="btn btn-primary" href="@Url.Action("Logout", "Login")" role="button">Log out</a>
+    </div>
+</div>
 
-@Html.ActionLink("Log out", "Logout", "Login")
+
+
+<div class="row">
+    <div class="col-12 col-lg">
+        <a href="@Url.Action("Carrello")" class="card card-utente shadow-sm">
+            <div class="card-body">
+
+                <p class="text-center"><i class="material-icons">shopping_cart</i></p>
+                <h5 class="card-title text-center">Carrello</h5>
+
+            </div>
+        </a>
+    </div>
+    <div class="col-12 col-lg">
+        <a href="@Url.Action("Ordini")" class="card card-utente shadow-sm">
+            <div class="card-body">
+                <p class="text-center"><i class="material-icons">reorder</i></p>
+                <h5 class="card-title text-center">Ordini</h5>
+
+            </div>
+        </a>
+    </div>
+    <div class="col-12 col-lg">
+        <a href="@Url.Action("InfoPagamento")" class="card card-utente shadow-sm">
+            <div class="card-body">
+                <p class="text-center"><i class="material-icons">payment</i></p>
+                <h5 class="card-title text-center">Informazioni pagamento</h5>
+
+            </div>
+        </a>
+    </div>
+</div>
+
+

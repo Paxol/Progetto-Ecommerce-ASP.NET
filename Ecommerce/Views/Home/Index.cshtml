@@ -26,7 +26,7 @@
                                         @Html.Raw(GetStars(corso.Valutazione))
                                     </span>@corso.Valutazione
                                 </p>
-                                <p class="prezzo text-right">@corso.Prezzo.ToString("#.##") €</p>
+                                <p class="prezzo text-right">@string.Format("{0:0.00}", corso.Prezzo) €</p>
                             </div>
                         </div>
                     </a>
