@@ -244,7 +244,7 @@ namespace Ecommerce.DAL
             cmd.Parameters.AddWithValue("@descrizione", corso.Descrizione);
             cmd.Parameters.AddWithValue("@categoria", corso.Categoria.ID);
             cmd.Parameters.AddWithValue("@immagine", corso.Immagine);
-            
+
             int a = cmd.ExecuteNonQuery();
             conn.Close();
 
@@ -329,116 +329,74 @@ namespace Ecommerce.DAL
             return corsi;
         }
 
-        public List<StatCorso> GetProdottiPiuVenduti(int limit, int page, out int tot)
+        public List<Corso> RicercaConFiltri(int idcategoria, decimal prezzomin, decimal prezzomax, string testo)
         {
             SqlConnection conn = new SqlConnection(conn_string);
             conn.Open();
 
             // Recupero la password dal DB
-            SqlCommand cmd1 = new SqlCommand("GetProdottiPiuVenduti", conn);
+            SqlCommand cmd1 = new SqlCommand("RicercaConFiltri", conn);
             cmd1.CommandType = CommandType.StoredProcedure;
-
-            cmd1.Parameters.AddWithValue("@limit", limit);
-            cmd1.Parameters.AddWithValue("@page", page);
-            var returnParam = cmd1.Parameters.Add("@ReturnVal", SqlDbType.Int);
-            returnParam.Direction = ParameterDirection.ReturnValue;
+            cmd1.Parameters.AddWithValue("@IDcategoria", idcategoria);
+            cmd1.Parameters.AddWithValue("@prezzomin", prezzomin);
+            cmd1.Parameters.AddWithValue("@prezzomax", prezzomax);
+            cmd1.Parameters.AddWithValue("@testo", testo == null ? "" : testo);  //se è nulla segnala cosi "" se no metti testo
 
             DataTable dt1 = new DataTable();
             SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
             da1.Fill(dt1);
 
-            tot = (int)returnParam.Value;
-
-            List<StatCorso> corsi = new List<StatCorso>();
+            List<Corso> corsi = new List<Corso>();
 
             foreach (DataRow dr in dt1.Rows)
             {
-                StatCorso corso = new StatCorso();
-                corso.IDCorso = (int)dr["IDCorso"];
+                Corso corso = new Corso();
+                corso.ID = (int)dr["IDCorso"];
+                corso.Autore = (string)dr["Autore"];
                 corso.Titolo = (string)dr["Titolo"];
-                corso.Prezzo = (decimal)dr["Prezzo"];
-                corso.Vendite = (int)dr["Vendite"];
+                corso.Immagine = (string)dr["Immagine"];
+                corso.Descrizione = (string)dr["Descrizione"];
+                corso.Prezzo = Convert.ToDecimal(dr["Prezzo"].ToString());
 
                 corsi.Add(corso);
             }
 
             conn.Close();
             return corsi;
-        }
 
-        public List<StatUtenti> GetUtentiPiuAttivi(int limit, int page, out int tot)
+        }
+        public List<Corso> Ricerca(string testo)
         {
             SqlConnection conn = new SqlConnection(conn_string);
             conn.Open();
 
             // Recupero la password dal DB
-            SqlCommand cmd1 = new SqlCommand("GetUtentiPiuAttivi", conn);
+            SqlCommand cmd1 = new SqlCommand("Ricerca", conn);
             cmd1.CommandType = CommandType.StoredProcedure;
-
-            cmd1.Parameters.AddWithValue("@limit", limit);
-            cmd1.Parameters.AddWithValue("@page", page);
-            var returnParam = cmd1.Parameters.Add("@ReturnVal", SqlDbType.Int);
-            returnParam.Direction = ParameterDirection.ReturnValue;
+            cmd1.Parameters.AddWithValue("@testo", testo);
 
             DataTable dt1 = new DataTable();
             SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
             da1.Fill(dt1);
 
-            tot = (int)returnParam.Value;
-
-            List<StatUtenti> utenti = new List<StatUtenti>();
+            List<Corso> corsi = new List<Corso>();
 
             foreach (DataRow dr in dt1.Rows)
             {
-                StatUtenti utente = new StatUtenti() {
-                    IDUtente = (int) dr["IDUtente"],
-                    Email = (string) dr["Email"],
-                    ProdottiComprati = (int) dr["ProdottiComprati"],
-                };
+                Corso corso = new Corso();
+                corso.ID = (int)dr["IDCorso"];
+                corso.Autore = (string)dr["Autore"];
+                corso.Titolo = (string)dr["Titolo"];
+                corso.Immagine = (string)dr["Immagine"];
+                corso.Descrizione = (string)dr["Descrizione"];
+                corso.Prezzo = Convert.ToDecimal(dr["Prezzo"].ToString());
 
-                utenti.Add(utente);
+                corsi.Add(corso);
             }
 
             conn.Close();
-            return utenti;
-        }
+            return corsi;
 
-        public List<ItemCarrello> GetCarrello(int uid)
-        {
-            SqlConnection conn = new SqlConnection(conn_string);
-            conn.Open();
-
-            // Recupero la password dal DB
-            SqlCommand cmd1 = new SqlCommand("GetCarrello", conn);
-            cmd1.CommandType = CommandType.StoredProcedure;
-
-            cmd1.Parameters.AddWithValue("@uid", uid);
-
-            DataTable dt1 = new DataTable();
-            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
-            da1.Fill(dt1);
-
-            List<ItemCarrello> carrello = new List<ItemCarrello>();
-
-            foreach (DataRow dr in dt1.Rows)
-            {
-                carrello.Add(new ItemCarrello
-                {
-                    ID = (int)dr["IDCarrello"],
-                    Quantita = (int)dr["Quantita"],
-                    Prezzo = (decimal)dr["Prezzo"],
-                    Corso = new Corso
-                    {
-                        ID = (int)dr["IDCorso"],
-                        Titolo = (string)dr["Titolo"],
-                        Descrizione = (string)dr["Descrizione"],
-                        Immagine = (string)dr["Immagine"],
-                    }
-                });
-            }
-
-            conn.Close();
-            return carrello;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using Ecommerce.Models;
 using Ecommerce.Models.DB;
 using Ecommerce.Utils;
 
@@ -11,25 +12,40 @@ namespace Ecommerce.Controllers
         {
             ViewData.Add("migliori_corsi", Components.DataLayer.GetMiglioriCorsi());
             return View();
+
         }
 
-        public ActionResult About()
+        public ActionResult Cerca(string testo = "", Filtri a = null)
         {
-            ViewBag.Message = "Your application description page.";
+            if (a.IDcategoria == 0)
+            {
+                a = new Filtri();
 
-            return View();
+                ViewData.Add("migliori_corsi", Components.DataLayer.Ricerca(testo));
+               
+
+
+            }
+            else
+                ViewData.Add("migliori_corsi", Components.DataLayer.RicercaConFiltri(a.IDcategoria, a.prezzoInizio, a.prezzoFine, testo));
+           
+            LoadCategoriesFiltri(a);
+            ViewData.Add("testo", testo);
+
+            return View(a);
         }
-
-        public ActionResult Contact()
+        
+        private void LoadCategoriesFiltri(Filtri model)
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-        public ActionResult Search(string id)
-        {
-            return View();
+            var cat = Components.DataLayer.GetCategories();
+            foreach (var item in cat)
+            {
+                model.Categorie.Add(new SelectListItem
+                {
+                    Value = item.ID.ToString(),
+                    Text = item.Nome
+                });
+            }
         }
     }
 }

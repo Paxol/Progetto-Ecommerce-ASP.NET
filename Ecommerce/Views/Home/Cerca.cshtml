@@ -1,0 +1,95 @@
+﻿@model Ecommerce.Models.Filtri
+@{
+    ViewBag.Title = "Catalogo";
+    ViewBag.ShowNavBarSearch = true;
+    ViewBag.ShowNavBarLogin = true; /// monstra bar e login
+    ViewBag.NavBarText = ViewData["testo"];
+}
+<div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
+    <div class="col-md-6 px-0">
+        <h1 class="display-4 font-italic">Edunet</h1>
+        <p class="lead my-3">Edunet ha sviluppato per te una ricerca avanzata per poterti offrire una maggiore perfomance durante la tua ricerca</p>
+    </div>
+</div>
+
+
+<div class="row">
+
+    <div class="col-3">
+
+        <h4 id="filtri">Filtri</h4>
+        @using (Html.BeginForm())
+        {
+            <div class="form-group">
+
+                <p>
+                    <label for="select">Categoria</label>
+                    @Html.DropDownListFor((model) => model.IDcategoria, Model.Categorie)
+                </p>
+            </div>
+            <div class="form-group">
+                <div class="container-fluid">
+                    <p>Prezzi</p>
+                    da:
+                    @Html.EditorFor(model => model.prezzoInizio, new { htmlAttributes = new { type = "number", step = "0.01" } })
+                    <br />
+                    <br />
+                    a:
+                    @Html.EditorFor(model => model.prezzoFine, new { htmlAttributes = new { type = "number", step = "0.01" } })
+
+                </div>
+            </div>
+            <button id="ricer" type="submit" class="rounded-pill">Invio</button>
+        }
+    </div>
+
+    <div class="col-9">
+
+
+
+        @if (ViewData["migliori_corsi"] is List<Ecommerce.Models.DB.Corso> migliori_corsi && migliori_corsi.Count > 0)
+        {
+            foreach (var corso in migliori_corsi)
+            {
+                <a href="/Corsi/@corso.ID" class="corso">
+                    <div class="card inline-card">
+                        <img class="card-img-top" src="~/Content/img/@corso.Immagine">
+                        <div class="card-body">
+                            <p class="card-title">@corso.Titolo</p>
+                            <small class="text-muted">@corso.Autore</small>
+                            <p class="valutazione">
+                                <span class="stars">
+                                    @Html.Raw(GetStars(corso.Valutazione))
+                                </span>@corso.Valutazione
+                            </p>
+                            <p class="prezzo text-right">@corso.Prezzo.ToString("#.##") €</p>
+                        </div>
+                    </div>
+                </a>
+            }
+
+            string GetStars(float d)
+            {
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                int starscount = 5;
+
+                int intd = (int)d;
+
+                for (int i = 0; i < intd; i++, starscount--)
+                    sb.Append("<i class=\"material-icons\">star</i>");
+
+                if (d - intd >= .5)
+                {
+                    starscount--;
+                    sb.Append("<i class=\"material-icons\">star_half</i>");
+                }
+
+                for (; starscount > 0; starscount--)
+                    sb.Append("<i class=\"material-icons\">star_border</i>");
+
+                return sb.ToString();
+            }
+
+        }
+    </div>
+</div>

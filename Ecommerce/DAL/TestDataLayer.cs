@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace Ecommerce.DAL
 {
+
     public class TestDataLayer : IDataLayer
     {
         private readonly List<User> users;
@@ -30,12 +31,7 @@ namespace Ecommerce.DAL
                 }
             };
         }
-
-        public List<ItemCarrello> GetCarrello(int uid)
-        {
-            throw new System.NotImplementedException();
-        }
-
+        
         public List<Categoria> GetCategories()
         {
             throw new System.NotImplementedException();
@@ -47,11 +43,6 @@ namespace Ecommerce.DAL
         }
 
         public List<Corso> GetMiglioriCorsi()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public List<StatCorso> GetProdottiPiuVenduti(int limit, int page, out int tot)
         {
             throw new System.NotImplementedException();
         }
@@ -71,11 +62,6 @@ namespace Ecommerce.DAL
             return users.FirstOrDefault((u) => u.UserID == id);
         }
 
-        public List<StatUtenti> GetUtentiPiuAttivi(int limit, int page, out int tot)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public int InsertCorso(Corso corso)
         {
             throw new System.NotImplementedException();
@@ -87,5 +73,16 @@ namespace Ecommerce.DAL
             users.Add(user);
             return 0;
         }
+
+        public List<Corso> Ricerca(string testo)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        List<Corso> IDataLayer.RicercaConFiltri(int idcategoria, decimal prezzomin, decimal prezzomax, string testo)
+        {
+            throw new System.NotImplementedException();
+        }
+
     }
 }

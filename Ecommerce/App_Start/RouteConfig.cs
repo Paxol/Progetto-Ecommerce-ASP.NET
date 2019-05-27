@@ -20,6 +20,12 @@ namespace Ecommerce
             );
 
             routes.MapRoute(
+                name: "Cerca",
+                url: "Cerca/{testo}",
+                defaults: new { controller = "Home", action = "Cerca", a = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
