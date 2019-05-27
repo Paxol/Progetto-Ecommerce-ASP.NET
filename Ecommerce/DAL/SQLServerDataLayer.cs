@@ -402,5 +402,43 @@ namespace Ecommerce.DAL
             conn.Close();
             return utenti;
         }
+
+        public List<ItemCarrello> GetCarrello(int uid)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            // Recupero la password dal DB
+            SqlCommand cmd1 = new SqlCommand("GetCarrello", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+
+            cmd1.Parameters.AddWithValue("@uid", uid);
+
+            DataTable dt1 = new DataTable();
+            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+            da1.Fill(dt1);
+
+            List<ItemCarrello> carrello = new List<ItemCarrello>();
+
+            foreach (DataRow dr in dt1.Rows)
+            {
+                carrello.Add(new ItemCarrello
+                {
+                    ID = (int)dr["IDCarrello"],
+                    Quantita = (int)dr["Quantita"],
+                    Prezzo = (decimal)dr["Prezzo"],
+                    Corso = new Corso
+                    {
+                        ID = (int)dr["IDCorso"],
+                        Titolo = (string)dr["Titolo"],
+                        Descrizione = (string)dr["Descrizione"],
+                        Immagine = (string)dr["Immagine"],
+                    }
+                });
+            }
+
+            conn.Close();
+            return carrello;
+        }
     }
 }

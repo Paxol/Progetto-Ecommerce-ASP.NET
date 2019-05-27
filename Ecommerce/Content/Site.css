@@ -122,5 +122,12 @@ a.corso {
     }
 
 .item-carrello {
-    padding: 16px
+    padding: 16px;
+    margin-bottom: 16px;
+    color: #212529;
 }
+
+    .item-carrello:hover {
+        text-decoration: none;
+        color: #212529;
+    }

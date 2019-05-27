@@ -30,7 +30,12 @@ namespace Ecommerce.DAL
                 }
             };
         }
-        
+
+        public List<ItemCarrello> GetCarrello(int uid)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public List<Categoria> GetCategories()
         {
             throw new System.NotImplementedException();

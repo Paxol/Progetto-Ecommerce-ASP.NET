@@ -17,38 +17,15 @@ namespace Ecommerce.Controllers
             return View();
         }
 
-        public ActionResult Carrello()
+        [SetPermissions(Permissions = "Admin,Utente")]
+        public ActionResult Carrello(int limit = 5, int page = 1)
         {
-            ViewData["carrello"] = new List<ItemCarrello>() {
-                new ItemCarrello
-                {
-                    ID = 1,
-                    Prezzo = 50,
-                    Quantita = 2,
-                    Corso = new Corso()
-                    {
-                        Titolo = "Corso 1",
-                        Descrizione = "Descrizione 1",
-                        Immagine = "culo.jpg"
-                    }
-                },
-                new ItemCarrello
-                {
-                    ID = 2,
-                    Prezzo = 80.99m,
-                    Quantita = 1,
-                    Corso = new Corso()
-                    {
-                        Titolo = "Corso 2",
-                        Descrizione = "Descrizione 2",
-                        Immagine = "culo.jpg"
-                    }
-                },
-            };
+            ViewData["carrello"] = Components.DataLayer.GetCarrello(SessionContext.GetUserData().UserID); 
 
             return View();
         }
 
+        [SetPermissions(Permissions = "Admin,Utente")]
         [HttpPost]
         public ActionResult CartUpdate(FormCollection form)
         {
@@ -66,11 +43,13 @@ namespace Ecommerce.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
+        [SetPermissions(Permissions = "Admin,Utente")]
         public ActionResult Ordini()
         {
             return View();
         }
 
+        [SetPermissions(Permissions = "Admin,Utente")]
         public ActionResult InfoPagamento()
         {
             return View();
