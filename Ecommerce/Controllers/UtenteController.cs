@@ -33,7 +33,7 @@ namespace Ecommerce.Controllers
             int quantita = int.Parse(form["quantita"]);
 
             int a = Components.DataLayer.AggiornaQuantitaCarrello(cartid, quantita);
-
+            
             return new HttpStatusCodeResult(a > 0 ? HttpStatusCode.OK : HttpStatusCode.InternalServerError);
         }
 
@@ -62,6 +62,14 @@ namespace Ecommerce.Controllers
             };
             
             return RedirectToAction("InfoPagamento");
+        }
+
+        [SetPermissions(Permissions = "Admin,Utente")]
+        public ActionResult AggiungiCarrello(int id)
+        {
+            Components.DataLayer.AggiungiCarrello(id, SessionContext.GetUserData().UserID);
+
+            return View(Components.DataLayer.GetCorsoByID(id));
         }
     }
 }

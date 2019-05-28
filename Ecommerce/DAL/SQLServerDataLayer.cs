@@ -441,7 +441,7 @@ namespace Ecommerce.DAL
             SqlConnection conn = new SqlConnection(conn_string);
             conn.Open();
 
-            SqlCommand cmd1 = new SqlCommand("GetCarrello", conn);
+            SqlCommand cmd1 = new SqlCommand("AggiornaQuantitaCarrello", conn);
             cmd1.CommandType = CommandType.StoredProcedure;
 
             cmd1.Parameters.AddWithValue("@id", idcarrello);
@@ -519,6 +519,23 @@ namespace Ecommerce.DAL
             conn.Close();
             return corsi;
 
+        }
+
+        public int AggiungiCarrello(int idcorso, int idutente)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd1 = new SqlCommand("AggiungiCarrello", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+
+            cmd1.Parameters.AddWithValue("@id", idcorso);
+            cmd1.Parameters.AddWithValue("@uid", idutente);
+
+            int a = cmd1.ExecuteNonQuery();
+
+            conn.Close();
+            return a;
         }
     }
 }

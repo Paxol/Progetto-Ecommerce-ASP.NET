@@ -21,6 +21,8 @@ namespace Ecommerce.Interfaces
         List<StatCorso> GetProdottiPiuVenduti(int limit, int page, out int tot);
         List<StatUtenti> GetUtentiPiuAttivi(int limit, int page, out int tot);
 
+        int AggiungiCarrello(int idcorso, int idutente);
+
         List<ItemCarrello> GetCarrello(int uid);
         int AggiornaQuantitaCarrello(int idcarrello, int q);
 

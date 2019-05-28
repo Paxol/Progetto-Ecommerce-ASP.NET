@@ -200,6 +200,7 @@
     <Content Include="Views\Utente\Carrello.cshtml" />
     <Content Include="Views\Utente\InfoPagamento.cshtml" />
     <Content Include="Views\Home\Cerca.cshtml" />
+    <Content Include="Views\Utente\AggiungiCarrello.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

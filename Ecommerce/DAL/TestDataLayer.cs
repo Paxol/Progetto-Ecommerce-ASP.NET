@@ -36,6 +36,11 @@ namespace Ecommerce.DAL
             throw new System.NotImplementedException();
         }
 
+        public int AggiungiCarrello(int idcorso, int idutente)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public List<ItemCarrello> GetCarrello(int uid)
         {
             throw new System.NotImplementedException();

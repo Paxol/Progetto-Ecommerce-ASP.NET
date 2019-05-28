@@ -51,18 +51,26 @@
         {
             foreach (var corso in migliori_corsi)
             {
-                <a href="/Corsi/@corso.ID" class="corso">
-                    <div class="card inline-card">
-                        <img class="card-img-top" src="~/Content/img/@corso.Immagine">
-                        <div class="card-body">
-                            <p class="card-title">@corso.Titolo</p>
-                            <small class="text-muted">@corso.Autore</small>
-                            <p class="valutazione">
-                                <span class="stars">
-                                    @Html.Raw(GetStars(corso.Valutazione))
-                                </span>@corso.Valutazione
-                            </p>
-                            <p class="prezzo text-right">@corso.Prezzo.ToString("#.##") €</p>
+                <a class="card" href="/Corsi/@corso.ID" style="padding: 16px">
+                    <div class="row">
+                        <div class="col-auto"><img src="~/Content/img/@corso.Immagine" width="80" /></div>
+                        <div class="col">
+                            <h4>@corso.Titolo</h4>
+                            <span>Categoria: </span><br />
+                            <span>Autore: @corso.Autore</span>
+                            <p>@corso.Descrizione</p>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <span class="stars">
+                                        @Html.Raw(GetStars(corso.Valutazione))
+                                    </span>@corso.Valutazione
+                                </div>
+                                <div class="col">
+                                </div>
+                                <div class="col-auto">
+                                    @corso.Prezzo.ToString("#.##") €
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </a>

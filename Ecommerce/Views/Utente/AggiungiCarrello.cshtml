@@ -1,0 +1,56 @@
+﻿@model Ecommerce.Models.DB.Corso
+
+@{
+    ViewBag.Title = "AggiungiCarrello";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string GetStars(float d)
+    {
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+        int starscount = 5;
+
+        int intd = (int)d;
+
+        for (int i = 0; i < intd; i++, starscount--)
+            sb.Append("<i class=\"material-icons\">star</i>");
+
+        if (d - intd >= .5)
+        {
+            starscount--;
+            sb.Append("<i class=\"material-icons\">star_half</i>");
+        }
+
+        for (; starscount > 0; starscount--)
+            sb.Append("<i class=\"material-icons\">star_border</i>");
+
+        return sb.ToString();
+    }
+}
+
+<h2>Articolo aggiunto al carrello</h2>
+
+<a class="card" href="/Corsi/@Model.ID" style="padding: 16px">
+    <div class="row">
+        <div class="col-auto"><img src="~/Content/img/@Model.Immagine" width="80" /></div>
+        <div class="col">
+            <h4>@Model.Titolo</h4>
+            <span>Categoria: </span><br />
+            <span>Autore: @Model.Autore</span>
+            <p>@Model.Descrizione</p>
+            <div class="row">
+                <div class="col-auto">
+                    <span class="stars">
+                        @Html.Raw(GetStars(Model.Valutazione))
+                    </span>@Model.Valutazione
+                </div>
+                <div class="col">
+                </div>
+                <div class="col-auto">
+                    @Model.Prezzo.ToString("#.##") €
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
+<br />
+<a href="@Url.Action("Carrello")" class="btn btn-primary btn-lg btn-block" role="button" aria-pressed="true">Vai al carrello</a>
