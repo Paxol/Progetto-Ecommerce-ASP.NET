@@ -131,3 +131,104 @@ a.corso {
         text-decoration: none;
         color: #212529;
     }
+
+
+.ccard-container {
+    position: relative;
+    height: 286px;
+}
+
+.ccard {
+    font-size: 16px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-block;
+    vertical-align: middle;
+    width: 425px;
+    height: 270px;
+    text-align: left;
+    padding: 30px;
+    margin-bottom: 50px;
+    color: #fff;
+    border-radius: 20px;
+    box-sizing: border-box;
+    background: #463f6b;
+}
+
+.card__number {
+    font-size: 25px;
+    padding: 90px 0 15px;
+    text-align: left;
+}
+
+.card__expiry-date {
+    font-size: 14px;
+    padding-bottom: 20px;
+}
+
+.card__owner {
+    text-align: left;
+}
+
+.card__logo {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+
+.card__strip {
+    background: #000;
+    height: 50px;
+    margin-bottom: 30px;
+}
+
+.card__signature {
+    float: left;
+    width: 65%;
+    height: 40px;
+    margin-left: 10px;
+    background: #999;
+}
+
+.card__ccv {
+    float: left;
+    margin-top: 5px;
+    padding: 7px;
+    background: #fff;
+    color: #111;
+    line-height: 1;
+}
+
+.card--front {
+    font-size: 16px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
+}
+
+.card--back {
+    padding-left: 0;
+    padding-right: 0;
+    text-align: left;
+}
+
+.ccard input {
+    background: transparent;
+    border: none;
+    color: white;
+}
+
+input.card__ccv {
+    width: 50px;
+}
+
+.label-card__expiry-date {
+    width: 0px;
+    margin-right: 10px;
+    margin-left: 50px;
+    font-size: 10px;
+    display: inline-block;
+}
+
+.ccard input:focus {
+    outline: none;
+}

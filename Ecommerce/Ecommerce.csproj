@@ -132,11 +132,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IDataLayer.cs" />
+    <Compile Include="Models\DB\CartaCredito.cs" />
     <Compile Include="Models\DB\Categoria.cs" />
     <Compile Include="Models\DB\Corso.cs" />
     <Compile Include="Models\DB\ItemCarrello.cs" />
     <Compile Include="Models\DB\StatCorso.cs" />
     <Compile Include="Models\DB\StatUtenti.cs" />
+    <Compile Include="Models\Filtri.cs" />
     <Compile Include="Models\ModCorso.cs" />
     <Compile Include="Models\Register.cs" />
     <Compile Include="Models\Login.cs" />
@@ -196,6 +198,8 @@
     <Content Include="Views\Admin\EditCorso.cshtml" />
     <Content Include="Views\Admin\Statistiche.cshtml" />
     <Content Include="Views\Utente\Carrello.cshtml" />
+    <Content Include="Views\Utente\InfoPagamento.cshtml" />
+    <Content Include="Views\Home\Cerca.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

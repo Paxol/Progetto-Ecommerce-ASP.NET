@@ -32,15 +32,9 @@ namespace Ecommerce.Controllers
             int cartid = int.Parse(form["cartid"]);
             int quantita = int.Parse(form["quantita"]);
 
-            if (quantita > 0)
-            {
-                //update quantita
-            } else
-            {
-                //remove item
-            }
+            int a = Components.DataLayer.AggiornaQuantitaCarrello(cartid, quantita);
 
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
+            return new HttpStatusCodeResult(a > 0 ? HttpStatusCode.OK : HttpStatusCode.InternalServerError);
         }
 
         [SetPermissions(Permissions = "Admin,Utente")]
@@ -53,6 +47,21 @@ namespace Ecommerce.Controllers
         public ActionResult InfoPagamento()
         {
             return View();
+        }
+
+        [HttpPost]
+        [SetPermissions(Permissions = "Admin,Utente")]
+        public ActionResult SalvaInfoPagamento(FormCollection form)
+        {
+            var carta = new CartaCredito
+            {
+                Numero = form["cc_num"],
+                Scadenza = form["cc_scadenza"],
+                Proprietario = form["cc_proprietario"],
+                CVV = form["cc_cvv"],
+            };
+            
+            return RedirectToAction("InfoPagamento");
         }
     }
 }

@@ -17,8 +17,14 @@ namespace Ecommerce.Interfaces
 
         Corso GetCorsoByID(int id);
         List<Corso> GetMiglioriCorsi();
+
+        List<StatCorso> GetProdottiPiuVenduti(int limit, int page, out int tot);
+        List<StatUtenti> GetUtentiPiuAttivi(int limit, int page, out int tot);
+
+        List<ItemCarrello> GetCarrello(int uid);
+        int AggiornaQuantitaCarrello(int idcarrello, int q);
+
         List<Corso> RicercaConFiltri(int idcategoria, decimal prezzomin, decimal prezzomax, string testo);
         List<Corso> Ricerca(string testo);
-        
     }
 }

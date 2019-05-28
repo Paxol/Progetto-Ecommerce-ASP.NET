@@ -207,7 +207,6 @@ namespace Ecommerce.DAL
             SqlConnection conn = new SqlConnection(conn_string);
             conn.Open();
 
-            // Recupero la password dal DB
             SqlCommand cmd1 = new SqlCommand("GetCategories", conn);
             cmd1.CommandType = CommandType.StoredProcedure;
 
@@ -244,7 +243,7 @@ namespace Ecommerce.DAL
             cmd.Parameters.AddWithValue("@descrizione", corso.Descrizione);
             cmd.Parameters.AddWithValue("@categoria", corso.Categoria.ID);
             cmd.Parameters.AddWithValue("@immagine", corso.Immagine);
-
+            
             int a = cmd.ExecuteNonQuery();
             conn.Close();
 
@@ -297,7 +296,6 @@ namespace Ecommerce.DAL
             SqlConnection conn = new SqlConnection(conn_string);
             conn.Open();
 
-            // Recupero la password dal DB
             SqlCommand cmd1 = new SqlCommand("GetMiglioriCorsi", conn);
             cmd1.CommandType = CommandType.StoredProcedure;
 
@@ -329,12 +327,137 @@ namespace Ecommerce.DAL
             return corsi;
         }
 
+        public List<StatCorso> GetProdottiPiuVenduti(int limit, int page, out int tot)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd1 = new SqlCommand("GetProdottiPiuVenduti", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+
+            cmd1.Parameters.AddWithValue("@limit", limit);
+            cmd1.Parameters.AddWithValue("@page", page);
+            var returnParam = cmd1.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            returnParam.Direction = ParameterDirection.ReturnValue;
+
+            DataTable dt1 = new DataTable();
+            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+            da1.Fill(dt1);
+
+            tot = (int)returnParam.Value;
+
+            List<StatCorso> corsi = new List<StatCorso>();
+
+            foreach (DataRow dr in dt1.Rows)
+            {
+                StatCorso corso = new StatCorso();
+                corso.IDCorso = (int)dr["IDCorso"];
+                corso.Titolo = (string)dr["Titolo"];
+                corso.Prezzo = (decimal)dr["Prezzo"];
+                corso.Vendite = (int)dr["Vendite"];
+
+                corsi.Add(corso);
+            }
+
+            conn.Close();
+            return corsi;
+        }
+
+        public List<StatUtenti> GetUtentiPiuAttivi(int limit, int page, out int tot)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd1 = new SqlCommand("GetUtentiPiuAttivi", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+
+            cmd1.Parameters.AddWithValue("@limit", limit);
+            cmd1.Parameters.AddWithValue("@page", page);
+            var returnParam = cmd1.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            returnParam.Direction = ParameterDirection.ReturnValue;
+
+            DataTable dt1 = new DataTable();
+            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+            da1.Fill(dt1);
+
+            tot = (int)returnParam.Value;
+
+            List<StatUtenti> utenti = new List<StatUtenti>();
+
+            foreach (DataRow dr in dt1.Rows)
+            {
+                StatUtenti utente = new StatUtenti() {
+                    IDUtente = (int) dr["IDUtente"],
+                    Email = (string) dr["Email"],
+                    ProdottiComprati = (int) dr["ProdottiComprati"],
+                };
+
+                utenti.Add(utente);
+            }
+
+            conn.Close();
+            return utenti;
+        }
+
+        public List<ItemCarrello> GetCarrello(int uid)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd1 = new SqlCommand("GetCarrello", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+
+            cmd1.Parameters.AddWithValue("@uid", uid);
+
+            DataTable dt1 = new DataTable();
+            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+            da1.Fill(dt1);
+
+            List<ItemCarrello> carrello = new List<ItemCarrello>();
+
+            foreach (DataRow dr in dt1.Rows)
+            {
+                carrello.Add(new ItemCarrello
+                {
+                    ID = (int)dr["IDCarrello"],
+                    Quantita = (int)dr["Quantita"],
+                    Prezzo = (decimal)dr["Prezzo"],
+                    Corso = new Corso
+                    {
+                        ID = (int)dr["IDCorso"],
+                        Titolo = (string)dr["Titolo"],
+                        Descrizione = (string)dr["Descrizione"],
+                        Immagine = (string)dr["Immagine"],
+                    }
+                });
+            }
+
+            conn.Close();
+            return carrello;
+        }
+
+        public int AggiornaQuantitaCarrello(int idcarrello, int q)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd1 = new SqlCommand("GetCarrello", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+
+            cmd1.Parameters.AddWithValue("@id", idcarrello);
+            cmd1.Parameters.AddWithValue("@q", q);
+
+            int a = cmd1.ExecuteNonQuery();
+
+            conn.Close();
+            return a;
+        }
+
         public List<Corso> RicercaConFiltri(int idcategoria, decimal prezzomin, decimal prezzomax, string testo)
         {
             SqlConnection conn = new SqlConnection(conn_string);
             conn.Open();
 
-            // Recupero la password dal DB
             SqlCommand cmd1 = new SqlCommand("RicercaConFiltri", conn);
             cmd1.CommandType = CommandType.StoredProcedure;
             cmd1.Parameters.AddWithValue("@IDcategoria", idcategoria);
@@ -370,7 +493,6 @@ namespace Ecommerce.DAL
             SqlConnection conn = new SqlConnection(conn_string);
             conn.Open();
 
-            // Recupero la password dal DB
             SqlCommand cmd1 = new SqlCommand("Ricerca", conn);
             cmd1.CommandType = CommandType.StoredProcedure;
             cmd1.Parameters.AddWithValue("@testo", testo);

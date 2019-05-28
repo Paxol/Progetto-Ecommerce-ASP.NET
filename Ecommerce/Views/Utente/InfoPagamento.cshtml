@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "InfoPagamento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Informazioni di pagamento</h2>
+<br />
+
+@using (Html.BeginForm("SalvaInfoPagamento", "Utente", FormMethod.Post))
+{
+
+    <div class="row">
+        <div class="d-none d-sm-block col-12 col-lg-6 ccard-container">
+            <div class="ccard card--front">
+                <input class="card__number" name="cc_num"  maxlength="16" placeholder="1234567890123456" value="**** **** **** 0000" />
+                <div class="row">
+                    <div class="col-auto no-gutters"><span class="label-card__expiry-date">VALID THRU</span></div>
+                    <div class="col-auto no-gutters"><input class="card__expiry-date" name="cc_scadenza" maxlength="5" placeholder="12/20" value="10/17" /></div>
+                </div>
+                <input class="card__owner" name="cc_proprietario" placeholder="Rossi Mario" value="Jane Doe" />
+            </div>
+        </div>
+        <div class="d-none d-sm-block col-12 col-lg-6 ccard-container">
+            <div class="ccard card--back">
+                <div class="card__strip"></div>
+                <div class="card__signature"></div>
+                <input class="card__ccv" name="cc_cvv" maxlength="3" placeholder="012" value="303" />
+            </div>
+        </div>
+        <div class="d-sm-none col">
+            <div class="form-group">
+                <label for="cc_num">Numero</label>
+                <input type="text" class="form-control" id="cc_num" name="cc_num" maxlength="16" placeholder="1234567890123456">
+            </div>
+            <div class="form-group">
+                <label for="cc_scadenza">Scadenza</label>
+                <input type="text" class="form-control" id="cc_scadenza" name="cc_scadenza" maxlength="5" placeholder="12/20">
+            </div>
+            <div class="form-group">
+                <label for="cc_proprietario">Proprietario</label>
+                <input type="text" class="form-control" id="cc_proprietario" name="cc_proprietario" placeholder="Rossi Mario">
+            </div>
+            <div class="form-group">
+                <label for="cc_cvv">CVV</label>
+                <input type="text" class="form-control" id="cc_cvv" name="cc_cvv" maxlength="3" placeholder="012">
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-auto"><input type="submit" class="btn btn-primary" value="Salva" /></div>
+        <div class="col"></div>
+    </div>
+
+}

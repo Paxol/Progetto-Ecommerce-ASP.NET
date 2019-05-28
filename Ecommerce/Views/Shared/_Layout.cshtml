@@ -77,7 +77,7 @@
                     if (win.width() < 768 && input.val().length == 0) {
                         $('#nav-brand-container').removeClass('col-auto').addClass('col-12');
                     }
-                    if (input.val().length > 0) location = '@Url.Action("Search", "Home")/' + encodeURIComponent(input.val());
+                    if (input.val().length > 0) location = '/Cerca/' + encodeURIComponent(input.val());
                 }
             });
         </script>

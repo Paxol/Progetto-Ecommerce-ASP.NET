@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Ecommerce.Models;
-using Ecommerce.Models.DB;
 using Ecommerce.Utils;
 
 namespace Ecommerce.Controllers
@@ -12,7 +10,6 @@ namespace Ecommerce.Controllers
         {
             ViewData.Add("migliori_corsi", Components.DataLayer.GetMiglioriCorsi());
             return View();
-
         }
 
         public ActionResult Cerca(string testo = "", Filtri a = null)
@@ -22,19 +19,19 @@ namespace Ecommerce.Controllers
                 a = new Filtri();
 
                 ViewData.Add("migliori_corsi", Components.DataLayer.Ricerca(testo));
-               
+
 
 
             }
             else
                 ViewData.Add("migliori_corsi", Components.DataLayer.RicercaConFiltri(a.IDcategoria, a.prezzoInizio, a.prezzoFine, testo));
-           
+
             LoadCategoriesFiltri(a);
             ViewData.Add("testo", testo);
 
             return View(a);
         }
-        
+
         private void LoadCategoriesFiltri(Filtri model)
         {
             var cat = Components.DataLayer.GetCategories();
