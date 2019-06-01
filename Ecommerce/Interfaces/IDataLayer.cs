@@ -1,4 +1,5 @@
-﻿using Ecommerce.Models.DB;
+﻿using Ecommerce.Models;
+using Ecommerce.Models.DB;
 using System.Collections.Generic;
 
 namespace Ecommerce.Interfaces
@@ -8,7 +9,7 @@ namespace Ecommerce.Interfaces
         User GetUserByID(int id);
         User GetUserByEmail(string mail);
         User GetUserByEmailAndPassword(string mail, string password);
-        
+
         int RegisterUser(User user);
 
         List<Categoria> GetCategories();
@@ -21,6 +22,7 @@ namespace Ecommerce.Interfaces
         List<StatCorso> GetProdottiPiuVenduti(int limit, int page, out int tot);
         List<StatUtenti> GetUtentiPiuAttivi(int limit, int page, out int tot);
 
+
         int AggiungiCarrello(int idcorso, int idutente);
 
         List<ItemCarrello> GetCarrello(int uid);
@@ -28,5 +30,7 @@ namespace Ecommerce.Interfaces
 
         List<Corso> RicercaConFiltri(int idcategoria, decimal prezzomin, decimal prezzomax, string testo);
         List<Corso> Ricerca(string testo);
+        int GetRecensioni(int idutente, int idcorso, int voto, string descrizione);
+        List<Recensione> GetRecensioniById(int id);
     }
 }

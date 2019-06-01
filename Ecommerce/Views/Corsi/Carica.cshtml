@@ -1,18 +1,16 @@
 ﻿@model Ecommerce.Models.DB.Corso
 
 @{
-    ViewBag.Title = "View";
-      ViewBag.ShowNavBarSearch = true;
-    ViewBag.ShowNavBarLogin = true;
+    ViewBag.Title = "Carica";
+    <h2>@ViewData["ID"].ToString()</h2>
 }
 
 
-
-@*<a href="@Url.Action("ModCorso", "Admin")/@ViewData["ID"].ToString()">content</a>*@
-
-@if (ViewData["ID"] is  Ecommerce.Models.DB.Corso corso)
+<h2>Carica</h2>
+@if (ViewData["ID"] is List<Ecommerce.Models.DB.Corso> ID)
 {
-  
+    foreach (var corso in ID)
+    {
         <a class="card" href="/Corsi/@corso.ID" style="padding: 16px">
             <div class="row">
                 <div class="col-auto"><img src="~/Content/img/@corso.Immagine" width="80" /></div>
@@ -36,7 +34,7 @@
                 </div>
             </div>
         </a>
-    
+    }
 
     string GetStars(float d)
     {
@@ -61,3 +59,4 @@
     }
 
 }
+    </div>

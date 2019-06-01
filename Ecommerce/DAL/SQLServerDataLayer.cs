@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Interfaces;
+using Ecommerce.Models;
 using Ecommerce.Models.DB;
 using Ecommerce.Utils;
 using System;
@@ -536,6 +537,59 @@ namespace Ecommerce.DAL
 
             conn.Close();
             return a;
+        }
+
+        public int GetRecensioni(int idutente, int idcorso, int voto, string descrizione)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("InsertRecensioni", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@idUtente", idutente);
+            cmd.Parameters.AddWithValue("@idCorso", idcorso);
+            cmd.Parameters.AddWithValue("@descrizione", voto);
+            cmd.Parameters.AddWithValue("@voto", descrizione);
+
+            DateTime dat = DateTime.Now;
+            cmd.Parameters.AddWithValue("@data", dat);
+
+            int a = cmd.ExecuteNonQuery();
+
+
+            conn.Close();
+            return a;
+        }
+
+
+        public List<Recensione> GetRecensioniById (int id)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd1 = new SqlCommand("GetRecensioniById", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+            cmd1.Parameters.AddWithValue("@id", id);
+
+            DataTable dt1 = new DataTable();
+            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+            da1.Fill(dt1);
+
+            List<Recensione> rec = new List<Recensione>();
+
+            foreach (DataRow dr in dt1.Rows)
+            {
+                Recensione recensione = new Recensione();
+                recensione.NomeUtente = (string)dr["Nome"];
+                recensione.Valutazione = (int)dr["Voto"];
+                recensione.descrizione = (string)dr["Descrizione"];
+                recensione.data = (DateTime)dr["Data"];
+                rec.Add(recensione);
+            }
+
+            conn.Close();
+            return rec;
         }
     }
 }

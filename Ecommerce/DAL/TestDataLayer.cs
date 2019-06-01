@@ -2,6 +2,7 @@
 using Ecommerce.Models.DB;
 using System.Linq;
 using System.Collections.Generic;
+using Ecommerce.Models;
 
 namespace Ecommerce.DAL
 {
@@ -56,12 +57,27 @@ namespace Ecommerce.DAL
             throw new System.NotImplementedException();
         }
 
+        public object GetCorsoByID(ModCorso a)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public List<Corso> GetMiglioriCorsi()
         {
             throw new System.NotImplementedException();
         }
 
         public List<StatCorso> GetProdottiPiuVenduti(int limit, int page, out int tot)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public int GetRecensioni(int idutente, int idcorso, int voto, string descrizione)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<Recensione> GetRecensioniById(int id)
         {
             throw new System.NotImplementedException();
         }
@@ -84,7 +100,7 @@ namespace Ecommerce.DAL
         public List<StatUtenti> GetUtentiPiuAttivi(int limit, int page, out int tot)
         {
             throw new System.NotImplementedException();
-        }
+        } 
 
         public int InsertCorso(Corso corso)
         {

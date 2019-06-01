@@ -136,6 +136,7 @@
     <Compile Include="Models\DB\Categoria.cs" />
     <Compile Include="Models\DB\Corso.cs" />
     <Compile Include="Models\DB\ItemCarrello.cs" />
+    <Compile Include="Models\DB\Recensione.cs" />
     <Compile Include="Models\DB\StatCorso.cs" />
     <Compile Include="Models\DB\StatUtenti.cs" />
     <Compile Include="Models\Filtri.cs" />
@@ -203,6 +204,7 @@
     <Content Include="Views\Home\Cerca.cshtml" />
     <Content Include="Views\Utente\AggiungiCarrello.cshtml" />
     <Content Include="Views\Utente\Ordina.cshtml" />
+    <Content Include="Views\Corsi\Carica.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
