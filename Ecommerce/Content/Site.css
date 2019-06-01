@@ -96,9 +96,9 @@ a.corso {
     margin: auto;
 }
 
-.login-card .btn {
-    width: 100%;
-}
+    .login-card .btn {
+        width: 100%;
+    }
 
 .form-group.error {
     color: #f00;
@@ -231,4 +231,22 @@ input.card__ccv {
 
 .ccard input:focus {
     outline: none;
+}
+
+.btn-iconed .btn-icon {
+    position: relative;
+    left: -20px;
+    display: inline-block;
+    padding: 0px 0px;
+}
+
+.btn-iconed .btn-text {
+    position: relative;
+    top: -3px;
+    font-weight: 500;
+}
+
+.btn-iconed .material-icons {
+    position: relative;
+    top: 2px;
 }

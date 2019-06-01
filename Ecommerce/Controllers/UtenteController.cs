@@ -1,7 +1,7 @@
 ﻿using Ecommerce.Attributes;
+using Ecommerce.Models;
 using Ecommerce.Models.DB;
 using Ecommerce.Utils;
-using System.Collections.Generic;
 using System.Net;
 using System.Web.Mvc;
 
@@ -20,8 +20,23 @@ namespace Ecommerce.Controllers
         [SetPermissions(Permissions = "Admin,Utente")]
         public ActionResult Carrello(int limit = 5, int page = 1)
         {
-            ViewData["carrello"] = Components.DataLayer.GetCarrello(SessionContext.GetUserData().UserID); 
+            ViewData["carrello"] = Components.DataLayer.GetCarrello(SessionContext.GetUserID()); 
 
+            return View();
+        }
+
+        public ActionResult Ordina()
+        {
+            var dal = Components.DataLayer;
+
+            var carrello = dal.GetCarrello(SessionContext.GetUserID());
+            Ordine ordine = new Ordine { items = carrello };
+
+            return View(ordine);
+        }
+
+        public ActionResult DoOrdina(Ordine ordine)
+        {
             return View();
         }
 
@@ -67,7 +82,7 @@ namespace Ecommerce.Controllers
         [SetPermissions(Permissions = "Admin,Utente")]
         public ActionResult AggiungiCarrello(int id)
         {
-            Components.DataLayer.AggiungiCarrello(id, SessionContext.GetUserData().UserID);
+            Components.DataLayer.AggiungiCarrello(id, SessionContext.GetUserID());
 
             return View(Components.DataLayer.GetCorsoByID(id));
         }

@@ -36,6 +36,13 @@
             </div>
         }
 
+        <a href="@Url.Action("Ordina")" role="button" class="btn btn-success btn-lg btn-block btn-iconed">
+            <span class="btn-icon">
+                <i class="material-icons">
+                    shopping_cart
+                </i>
+            </span><span class="btn-text">Ordina</span>
+        </a>
     </div>
 
     ViewBag.NEVis = "d-none";
@@ -83,4 +90,4 @@ else
 {
     ViewBag.NEVis = "d-block";
 }
-<p class="no_elements @ViewBag.NEVis">Ops, non c'è nulla nel carrello, visita il @Html.ActionLink("catalogo", "Catalogo", "Home")</p>
+<p class="no_elements @ViewBag.NEVis">Ops, non c'è nulla nel carrello, visita il @Html.ActionLink("catalogo", "Index", "Home")</p>

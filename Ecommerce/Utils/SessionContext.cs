@@ -47,20 +47,37 @@ namespace Ecommerce.Utils
 
             try
             {
-                HttpCookie cookie = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName];
-                if (cookie != null)
-                {
-                    FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
-
-                    userData = new JavaScriptSerializer().Deserialize(ticket.UserData, typeof(User)) as User;
-                    userData = Components.DataLayer.GetUserByID(userData.UserID);
-                }
+                int uid = GetUserID();
+                if (uid != -1)
+                    userData = Components.DataLayer.GetUserByID(uid);
             }
             catch (Exception)
             {
             }
 
             return userData;
+        }
+
+        public static int GetUserID()
+        {
+            User userData = null;
+
+            try
+            {
+                HttpCookie cookie = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName];
+                if (cookie != null)
+                {
+                    FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
+
+                    userData = new JavaScriptSerializer().Deserialize(ticket.UserData, typeof(User)) as User;
+                    return userData.UserID;
+                }
+            }
+            catch (Exception)
+            {
+            }
+
+            return -1;
         }
     }
 

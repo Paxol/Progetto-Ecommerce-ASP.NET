@@ -140,6 +140,7 @@
     <Compile Include="Models\DB\StatUtenti.cs" />
     <Compile Include="Models\Filtri.cs" />
     <Compile Include="Models\ModCorso.cs" />
+    <Compile Include="Models\Ordine.cs" />
     <Compile Include="Models\Register.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\DB\User.cs" />
@@ -201,6 +202,7 @@
     <Content Include="Views\Utente\InfoPagamento.cshtml" />
     <Content Include="Views\Home\Cerca.cshtml" />
     <Content Include="Views\Utente\AggiungiCarrello.cshtml" />
+    <Content Include="Views\Utente\Ordina.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
