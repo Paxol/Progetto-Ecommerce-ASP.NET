@@ -42,7 +42,17 @@ namespace Ecommerce.DAL
             throw new System.NotImplementedException();
         }
 
+        public int CreaOrdine(int uid)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public List<ItemCarrello> GetCarrello(int uid)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public CartaCredito GetCartaCredito(int userid)
         {
             throw new System.NotImplementedException();
         }
@@ -63,6 +73,11 @@ namespace Ecommerce.DAL
         }
 
         public List<Corso> GetMiglioriCorsi()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<Models.DB.Ordine> GetOrdini(int uid)
         {
             throw new System.NotImplementedException();
         }
@@ -100,7 +115,12 @@ namespace Ecommerce.DAL
         public List<StatUtenti> GetUtentiPiuAttivi(int limit, int page, out int tot)
         {
             throw new System.NotImplementedException();
-        } 
+        }
+
+        public int InsertCartaCredito(CartaCredito cc, int userid)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public int InsertCorso(Corso corso)
         {

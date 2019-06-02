@@ -28,8 +28,15 @@ namespace Ecommerce.Interfaces
         List<ItemCarrello> GetCarrello(int uid);
         int AggiornaQuantitaCarrello(int idcarrello, int q);
 
+        int CreaOrdine(int uid);
+        List<Models.DB.Ordine> GetOrdini(int uid);
+
+        CartaCredito GetCartaCredito(int userid);
+        int InsertCartaCredito(CartaCredito cc, int userid);
+
         List<Corso> RicercaConFiltri(int idcategoria, decimal prezzomin, decimal prezzomax, string testo);
         List<Corso> Ricerca(string testo);
+
         int GetRecensioni(int idutente, int idcorso, int voto, string descrizione);
         List<Recensione> GetRecensioniById(int id);
     }

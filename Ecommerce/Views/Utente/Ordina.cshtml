@@ -1,52 +1,197 @@
 ﻿@model Ecommerce.Models.Ordine
 @{
     ViewBag.Title = "Ordina";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.ShowNavBarLogin = true;
 }
 
-<h3>Conferma ordine</h3>
-@for (int i = 0; i < Model.items.Count; i++)
+@if (Model.StatoOrdine == Ecommerce.Models.Ordine.Stato.ConfermaUtente)
 {
-    var item = Model.items[i];
 
-    <div class="card item-carrello">
-        <div class="row">
-            <div class="col-4 col-sm-3"><img class="img-fluid" src="~/Content/img/@item.Corso.Immagine" /></div>
-            <div class="col-8 col-sm-9">
-                <a class="h3" href="@Url.Action("View", "Corsi", new { id = item.Corso.ID })" target="_blank">@item.Corso.Titolo</a>
-                <p class="text-truncate">@item.Corso.Descrizione</p>
+    <h3>Conferma ordine</h3>
+    if (ViewData["Items"] is List<Ecommerce.Models.DB.ItemCarrello> Items)
+    {
+        decimal tot = 0;
+        for (int i = 0; i < Items.Count; i++)
+        {
+            var item = Items[i];
+            tot += item.Quantita * item.Prezzo;
+
+            <div class="card item-carrello">
                 <div class="row">
+                    <div class="col-4 col-sm-3"><img class="img-fluid" src="~/Content/img/@item.Corso.Immagine" /></div>
+                    <div class="col-8 col-sm-9">
+                        <a class="h3" href="@Url.Action("View", "Corsi", new { id = item.Corso.ID })" target="_blank">@item.Corso.Titolo</a>
+                        <p class="text-truncate">@item.Corso.Descrizione</p>
+                        <div class="row">
 
-                    <div class="col">
+                            <div class="col">
 
-                        <span class="mr-4">Quantità: @item.Quantita</span>
+                                <span class="mr-4">Quantità: @item.Quantita</span>
+                            </div>
+
+                            <div class="col-auto">@string.Format("{0:0.00}", item.Prezzo) €</div>
+                        </div>
                     </div>
-
-                    <div class="col-auto">@string.Format("{0:0.00}", item.Prezzo) €</div>
                 </div>
             </div>
-        </div>
-    </div>
-}
-s
-<h3>Informazioni pagamento</h3>
-<div class="col">
-    <div class="form-group">
-        <label for="cc_num">Numero</label>
-        <input type="text" class="form-control" id="cc_num" name="cc_num" maxlength="16" placeholder="1234567890123456">
-    </div>
-    <div class="form-group">
-        <label for="cc_scadenza">Scadenza</label>
-        <input type="text" class="form-control" id="cc_scadenza" name="cc_scadenza" maxlength="5" placeholder="12/20">
-    </div>
-    <div class="form-group">
-        <label for="cc_proprietario">Proprietario</label>
-        <input type="text" class="form-control" id="cc_proprietario" name="cc_proprietario" placeholder="Rossi Mario">
-    </div>
-    <div class="form-group">
-        <label for="cc_cvv">CVV</label>
-        <input type="text" class="form-control" id="cc_cvv" name="cc_cvv" maxlength="3" placeholder="012">
-    </div>
-</div>
+        }
+        <p class="text-right">Totale: @string.Format("{0:0.00}", tot) €</p>
+    }
 
-<a href="@Url.Action("DoOrdina", "Utente", Model)" role="button" class="btn btn-success btn-lg btn-block">Conferma ordine</a>
+    <h3>Informazioni pagamento</h3>
+
+    if (Model.Errore != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @Model.Errore
+        </div>
+    }
+
+    using (Html.BeginForm("Ordina", "Utente", FormMethod.Post, new { id = "formcc", @class = "needs-validation", novalidate = "" }))
+    {
+        <div class="row">
+            <div class="col-12 col-md-6 form-group">
+                <label>Numero</label>
+                @Html.EditorFor((model) => model.Carta.Numero, new { htmlAttributes = new { @class = "form-control", maxlength = "16", placeholder = "1234567890123456" } })
+                <div class="invalid-feedback">
+                    Numero di carta errato
+                </div>
+            </div>
+            <div class="col-12 col-md-6 form-group">
+                <label>Scadenza</label>
+                @Html.EditorFor((model) => model.Carta.Scadenza, new { htmlAttributes = new { @class = "form-control", maxlength = "5", placeholder = "12/20", } })
+                <div class="invalid-feedback">
+                    Scadenza in formato errato, usare 'MM/AA'
+                </div>
+            </div>
+            <div class="col-12 col-md-6 form-group">
+                <label>Proprietario</label>
+                @Html.EditorFor((model) => model.Carta.Proprietario, new { htmlAttributes = new { @class = "form-control", placeholder = "Rossi Mario" } })
+                <div class="invalid-feedback">
+                    Inserire il nome del proprietario
+                </div>
+            </div>
+            <div class="col-12 col-md-6 form-group">
+                <label>CVV</label>
+                @Html.EditorFor((model) => model.Carta.CVV, new { htmlAttributes = new { @class = "form-control", maxlength = "3", placeholder = "012", } })
+                <div class="invalid-feedback">
+                    CVV errato
+                </div>
+            </div>
+            <div class="col-12 col-md-6 form-group">
+                @Html.EditorFor((model) => model.SalvaCarta, new { htmlAttributes = new { @class = "form-check-input", id = "salvacc" } })
+                <label class="form-check-label" for="salvacc">Salva la carta di credito per futuri acquisti</label>
+                <div class="invalid-feedback">
+                    CVV errato
+                </div>
+            </div>
+            @Html.HiddenFor((model) => model.NumOrig)
+            <button type="submit" class="btn btn-success btn-lg btn-block">Conferma ordine</button>
+        </div>
+    }
+
+    @section scripts{
+        <script>
+            function formValid(form) {
+                let valid = true;
+
+                if (form[0].value.length != 16) {
+                    form[0].setCustomValidity("Numero di carta errato");
+                    valid = false;
+                } else {
+                    form[0].setCustomValidity("");
+                }
+
+                let a = form[1].value.split('/');
+                if (form[1].value.length != 5 || a.length != 2 || (a[0].length != 2 || Number(a[0]) > 12 || Number(a[0]) < 1 || Number.isNaN(Number(a[0]))) || (a[1].length != 2 && Number.isNaN(Number(a[1])))) {
+                    form[1].setCustomValidity("Scadenza in formato errato, usare 'MM/AA'");
+                    valid = false;
+                } else {
+                    form[1].setCustomValidity("");
+                }
+
+                if (form[2].value.length < 1) {
+                    form[2].setCustomValidity("Inserire il nome del proprietario");
+                    valid = false;
+                } else {
+                    form[2].setCustomValidity("");
+                }
+
+                if (form[3].value.length != 3) {
+                    form[3].setCustomValidity("CVV errato");
+                    valid = false;
+                } else {
+                    form[3].setCustomValidity("");
+                }
+
+                return valid;
+            }
+
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function () {
+                'use strict';
+                window.addEventListener('load', function () {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function (form) {
+                        form.addEventListener('submit', function (event) {
+                            formValid(form)
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+        </script>
+    }
+}
+else if (Model.StatoOrdine == Ecommerce.Models.Ordine.Stato.Errore)
+{
+    <h3>Errore</h3>
+    if (Model.Errore != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @Model.Errore
+        </div>
+    }
+}
+else if (Model.StatoOrdine == Ecommerce.Models.Ordine.Stato.Validato)
+{
+    <h3>Ordine effettuato</h3>
+    <p>Ordine effettuato con successo, riceverai una mail con il link per accedere ai corsi che hai acquistato.</p>
+    <hr>
+    <h6>Riepilogo</h6>
+    if (ViewData["Items"] is List<Ecommerce.Models.DB.ItemCarrello> Items)
+    {
+        decimal tot = 0;
+        for (int i = 0; i < Items.Count; i++)
+        {
+            var item = Items[i];
+            tot += item.Quantita * item.Prezzo;
+
+            <div class="card item-carrello">
+                <div class="row">
+                    <div class="col-4 col-sm-3"><img class="img-fluid" src="~/Content/img/@item.Corso.Immagine" /></div>
+                    <div class="col-8 col-sm-9">
+                        <a class="h3" href="@Url.Action("View", "Corsi", new { id = item.Corso.ID })" target="_blank">@item.Corso.Titolo</a>
+                        <p class="text-truncate">@item.Corso.Descrizione</p>
+                        <div class="row">
+
+                            <div class="col">
+
+                                <span class="mr-4">Quantità: @item.Quantita</span>
+                            </div>
+
+                            <div class="col-auto">@string.Format("{0:0.00}", item.Prezzo) €</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <p class="text-right">Totale: @string.Format("{0:0.00}", tot) €</p>
+    }
+}

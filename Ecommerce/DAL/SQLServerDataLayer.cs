@@ -1,8 +1,8 @@
 ﻿using Ecommerce.Interfaces;
-using Ecommerce.Models;
 using Ecommerce.Models.DB;
 using Ecommerce.Utils;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -244,7 +244,7 @@ namespace Ecommerce.DAL
             cmd.Parameters.AddWithValue("@descrizione", corso.Descrizione);
             cmd.Parameters.AddWithValue("@categoria", corso.Categoria.ID);
             cmd.Parameters.AddWithValue("@immagine", corso.Immagine);
-            
+
             int a = cmd.ExecuteNonQuery();
             conn.Close();
 
@@ -387,10 +387,11 @@ namespace Ecommerce.DAL
 
             foreach (DataRow dr in dt1.Rows)
             {
-                StatUtenti utente = new StatUtenti() {
-                    IDUtente = (int) dr["IDUtente"],
-                    Email = (string) dr["Email"],
-                    ProdottiComprati = (int) dr["ProdottiComprati"],
+                StatUtenti utente = new StatUtenti()
+                {
+                    IDUtente = (int)dr["IDUtente"],
+                    Email = (string)dr["Email"],
+                    ProdottiComprati = (int)dr["ProdottiComprati"],
                 };
 
                 utenti.Add(utente);
@@ -519,7 +520,6 @@ namespace Ecommerce.DAL
 
             conn.Close();
             return corsi;
-
         }
 
         public int AggiungiCarrello(int idcorso, int idutente)
@@ -557,13 +557,12 @@ namespace Ecommerce.DAL
 
             int a = cmd.ExecuteNonQuery();
 
-
             conn.Close();
             return a;
         }
 
 
-        public List<Recensione> GetRecensioniById (int id)
+        public List<Recensione> GetRecensioniById(int id)
         {
             SqlConnection conn = new SqlConnection(conn_string);
             conn.Open();
@@ -590,6 +589,113 @@ namespace Ecommerce.DAL
 
             conn.Close();
             return rec;
+        }
+
+        public CartaCredito GetCartaCredito(int userid)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd1 = new SqlCommand("GetCartaCredito", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+            cmd1.Parameters.AddWithValue("@uid", userid);
+
+            string s = (string)cmd1.ExecuteScalar();
+
+            conn.Close();
+            if (s == null)
+                return null;
+            else
+                return CartaCredito.FromCSV(Crypto.Decrypt(Convert.FromBase64String(s)));
+        }
+
+        public int InsertCartaCredito(CartaCredito cc, int userid)
+        {
+            string ccc = Convert.ToBase64String(Crypto.Encrypt(cc.ToCSV()));
+
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd1 = new SqlCommand("InsertCartaCredito", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+            cmd1.Parameters.AddWithValue("@cc", ccc);
+            cmd1.Parameters.AddWithValue("@uid", userid);
+
+            int a = cmd1.ExecuteNonQuery();
+
+            conn.Close();
+
+            return a;
+        }
+
+        public int CreaOrdine(int uid)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd1 = new SqlCommand("CreaOrdine", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+            cmd1.Parameters.AddWithValue("@uid", uid);
+
+            var returnParam = cmd1.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            returnParam.Direction = ParameterDirection.ReturnValue;
+
+            int a = cmd1.ExecuteNonQuery();
+
+            conn.Close();
+
+            return (int)returnParam.Value;
+        }
+
+        public List<Ordine> GetOrdini(int uid)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd1 = new SqlCommand("GetOrdini", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+            cmd1.Parameters.AddWithValue("@uid", uid);
+            
+            DataTable dt1 = new DataTable();
+            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+            da1.Fill(dt1);
+
+            conn.Close();
+
+            List<Ordine> ordini = new List<Ordine>();
+
+            foreach (DataRow dr in dt1.Rows)
+            {
+                Ordine ordine = ordini.FirstOrDefault((ord) => ord.ID == (int)dr["IDOrdine"]);
+                if (ordine == null)
+                {
+                    ordine = new Ordine
+                    {
+                        ID = (int)dr["IDOrdine"],
+                        Data = DateTime.Parse(dr["Data"].ToString()),
+                        Stato = dr["Stato"].ToString()
+                    };
+
+                    ordini.Add(ordine);
+                }
+
+                ordine.Items.Add(new ItemCarrello
+                {
+                    ID = (int)dr["IDItemOrdine"],
+                    Quantita = (int)dr["Quantita"],
+                    Prezzo = (decimal)dr["Prezzo"],
+                    Corso = new Corso
+                    {
+                        ID = (int)dr["IDCorso"],
+                        Titolo = (string)dr["Titolo"],
+                        Autore = (string)dr["Autore"],
+                        Descrizione = (string)dr["Descrizione"],
+                        Immagine = (string)dr["Immagine"],
+                    }
+                });
+            }
+
+            return ordini;
         }
     }
 }

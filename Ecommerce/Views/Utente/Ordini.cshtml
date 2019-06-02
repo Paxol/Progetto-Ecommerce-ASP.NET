@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Ordini";
+    ViewBag.ShowNavBarLogin = true;
+}
+
+<h2>Storico ordini</h2>
+
+@if (ViewData["Ordini"] is List<Ecommerce.Models.DB.Ordine> ordini && ordini.Count > 0)
+{
+    foreach (var ordine in ordini)
+    {
+        <hr />
+        <h4>Ordine del @ordine.Data.ToString("dd/MM/yyyy")</h4>
+        <p>Stato: @ordine.Stato</p>
+        foreach (var item in ordine.Items)
+        {
+            <div class="card item-carrello">
+                <div class="row">
+                    <div class="col-4 col-sm-3"><img class="img-fluid" src="~/Content/img/@item.Corso.Immagine" /></div>
+                    <div class="col-8 col-sm-9">
+                        <a class="h3" href="@Url.Action("View", "Corsi", new { id = item.Corso.ID })" target="_blank">@item.Corso.Titolo</a>
+                        <p class="text-truncate">@item.Corso.Descrizione</p>
+                        <div class="row">
+
+                            <div class="col">
+
+                                <span class="mr-4">Quantità: @item.Quantita</span>
+                            </div>
+
+                            <div class="col-auto">@string.Format("{0:0.00}", item.Prezzo) €</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+}
+else
+{
+    <p>Non hai ancora effettuato nessun ordine, vai al @Html.ActionLink("carrello", "Carrello") o sfoglia il @Html.ActionLink("catalogo", "Index", "Home")</p>
+}

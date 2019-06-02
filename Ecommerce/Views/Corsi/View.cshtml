@@ -1,42 +1,37 @@
 ﻿@model Ecommerce.Models.DB.Corso
 
 @{
-    ViewBag.Title = "View";
-      ViewBag.ShowNavBarSearch = true;
+    ViewBag.ShowNavBarSearch = true;
     ViewBag.ShowNavBarLogin = true;
 }
 
-
-
-@*<a href="@Url.Action("ModCorso", "Admin")/@ViewData["ID"].ToString()">content</a>*@
-
-@if (ViewData["ID"] is  Ecommerce.Models.DB.Corso corso)
+@if (ViewData["ID"] is Ecommerce.Models.DB.Corso corso)
 {
-  
-        <a class="card" href="/Corsi/@corso.ID" style="padding: 16px">
-            <div class="row">
-                <div class="col-auto"><img src="~/Content/img/@corso.Immagine" width="80" /></div>
-                <div class="col">
-                    <h4>@corso.Titolo</h4>
-                    <span>Categoria: </span><br />
-                    <span>Autore: @corso.Autore</span>
-                    <p>@corso.Descrizione</p>
-                    <div class="row">
-                        <div class="col-auto">
-                            <span class="stars">
-                                @Html.Raw(GetStars(corso.Valutazione))
-                            </span>@corso.Valutazione
-                        </div>
-                        <div class="col">
-                        </div>
-                        <div class="col-auto">
-                            @corso.Prezzo.ToString("#.##") €
-                        </div>
+    ViewBag.Title = corso.Titolo;
+    <a class="card" href="/Corsi/@corso.ID" style="padding: 16px">
+        <div class="row">
+            <div class="col-auto"><img src="~/Content/img/@corso.Immagine" width="80" /></div>
+            <div class="col">
+                <h4>@corso.Titolo</h4>
+                <span>Categoria: </span><br />
+                <span>Autore: @corso.Autore</span>
+                <p>@corso.Descrizione</p>
+                <div class="row">
+                    <div class="col-auto">
+                        <span class="stars">
+                            @Html.Raw(GetStars(corso.Valutazione))
+                        </span>@corso.Valutazione
+                    </div>
+                    <div class="col">
+                    </div>
+                    <div class="col-auto">
+                        @corso.Prezzo.ToString("#.##") €
                     </div>
                 </div>
             </div>
-        </a>
-    
+        </div>
+    </a>
+
 
     string GetStars(float d)
     {

@@ -18,7 +18,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44302</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -136,6 +136,7 @@
     <Compile Include="Models\DB\Categoria.cs" />
     <Compile Include="Models\DB\Corso.cs" />
     <Compile Include="Models\DB\ItemCarrello.cs" />
+    <Compile Include="Models\DB\Ordine.cs" />
     <Compile Include="Models\DB\Recensione.cs" />
     <Compile Include="Models\DB\StatCorso.cs" />
     <Compile Include="Models\DB\StatUtenti.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Models\Statistiche.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Components.cs" />
+    <Compile Include="Utils\Crypto.cs" />
     <Compile Include="Utils\SessionContext.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -162,6 +164,8 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\bootstrap.min.js.map" />
     <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="App_Data\iv" />
+    <Content Include="App_Data\key" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -204,11 +208,9 @@
     <Content Include="Views\Home\Cerca.cshtml" />
     <Content Include="Views\Utente\AggiungiCarrello.cshtml" />
     <Content Include="Views\Utente\Ordina.cshtml" />
-    <Content Include="Views\Corsi\Carica.cshtml" />
+    <Content Include="Views\Utente\Ordini.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -245,7 +247,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>60657</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:60657/</IISUrl>
+          <IISUrl>https://localhost:44302/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
