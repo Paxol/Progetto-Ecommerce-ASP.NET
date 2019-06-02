@@ -32,6 +32,11 @@ namespace Ecommerce.DAL
             };
         }
 
+        public int AddAdmin(int uid)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public int AggiornaQuantitaCarrello(int idcarrello, int q)
         {
             throw new System.NotImplementedException();
@@ -43,6 +48,11 @@ namespace Ecommerce.DAL
         }
 
         public int CreaOrdine(int uid)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<User> GetAdmins()
         {
             throw new System.NotImplementedException();
         }
@@ -73,6 +83,11 @@ namespace Ecommerce.DAL
         }
 
         public List<Corso> GetMiglioriCorsi()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Models.DB.Ordine GetOrdineByID(int id)
         {
             throw new System.NotImplementedException();
         }
@@ -134,12 +149,22 @@ namespace Ecommerce.DAL
             return 0;
         }
 
+        public int RevokeAdmin(int uid)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public List<Corso> Ricerca(string testo)
         {
             throw new System.NotImplementedException();
         }
 
         public List<Corso> RicercaConFiltri(int idcategoria, decimal prezzomin, decimal prezzomax, string testo)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public int UpdateStatoOrdine(int id, string stato)
         {
             throw new System.NotImplementedException();
         }

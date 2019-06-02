@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Gestione admin";
+    Layout = "~/Views/Admin/_Layout.cshtml";
+}
+
+<h4>Aggiungi Admin</h4>
+
+@using (Html.BeginForm("AddAdmin", "Admin"))
+{
+    <div class="form-group">
+        <label>Email o ID utente</label>
+        <input class="form-control" name="id" type="text" required />
+    </div>
+    <div class="form-group">
+        <input class="form-control" type="submit" value="Aggiungi admin" />
+    </div>
+}
+
+<h4>Rimuovi admin</h4>
+@if (ViewData["Admins"] is List<Ecommerce.Models.DB.User> users)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Email</th>
+                <th scope="col">Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in users)
+            {
+                <tr>
+                    <td>@item.UserID</td>
+                    <td>@item.Email</td>
+                    <td>@Html.ActionLink("Rimuovi admin", "RevokeAdmin", new { id = item.UserID })</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

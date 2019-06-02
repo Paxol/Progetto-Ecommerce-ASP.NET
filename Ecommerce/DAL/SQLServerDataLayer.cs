@@ -655,7 +655,7 @@ namespace Ecommerce.DAL
             SqlCommand cmd1 = new SqlCommand("GetOrdini", conn);
             cmd1.CommandType = CommandType.StoredProcedure;
             cmd1.Parameters.AddWithValue("@uid", uid);
-            
+
             DataTable dt1 = new DataTable();
             SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
             da1.Fill(dt1);
@@ -696,6 +696,119 @@ namespace Ecommerce.DAL
             }
 
             return ordini;
+        }
+
+        public List<User> GetAdmins()
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd1 = new SqlCommand("GetAdmins", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+
+            DataTable dt1 = new DataTable();
+            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+            da1.Fill(dt1);
+
+            List<User> admins = new List<User>();
+
+            foreach (DataRow dr in dt1.Rows)
+            {
+                admins.Add(new User { UserID = (int)dr["IDUtente"], Email = dr["Email"].ToString() });
+            }
+
+            conn.Close();
+            return admins;
+        }
+
+        public int AddAdmin(int uid)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd1 = new SqlCommand("AddAdmin", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+            cmd1.Parameters.AddWithValue("@uid", uid);
+
+            int a = cmd1.ExecuteNonQuery();
+
+            conn.Close();
+
+            return a;
+        }
+
+        public int RevokeAdmin(int uid)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd1 = new SqlCommand("RevokeAdmin", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+            cmd1.Parameters.AddWithValue("@uid", uid);
+
+            int a = cmd1.ExecuteNonQuery();
+
+            conn.Close();
+
+            return a;
+        }
+
+        public Ordine GetOrdineByID(int id)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd1 = new SqlCommand("GetOrdineByID", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+            cmd1.Parameters.AddWithValue("@id", id);
+
+            DataTable dt1 = new DataTable();
+            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+            da1.Fill(dt1);
+
+            conn.Close();
+
+            DataRow dr = dt1.Rows[0];
+            Ordine ordine = new Ordine
+            {
+                ID = (int)dr["IDOrdine"],
+                Data = DateTime.Parse(dr["Data"].ToString()),
+                Stato = dr["Stato"].ToString()
+            };
+
+            ordine.Items.Add(new ItemCarrello
+            {
+                ID = (int)dr["IDItemOrdine"],
+                Quantita = (int)dr["Quantita"],
+                Prezzo = (decimal)dr["Prezzo"],
+                Corso = new Corso
+                {
+                    ID = (int)dr["IDCorso"],
+                    Titolo = (string)dr["Titolo"],
+                    Autore = (string)dr["Autore"],
+                    Descrizione = (string)dr["Descrizione"],
+                    Immagine = (string)dr["Immagine"],
+                }
+            });
+
+            return ordine;
+        }
+
+        public int UpdateStatoOrdine(int id, string stato)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd1 = new SqlCommand("UpdateStatoOrdine", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+            cmd1.Parameters.AddWithValue("@id", id);
+            cmd1.Parameters.AddWithValue("@stato", stato);
+
+            int a = cmd1.ExecuteNonQuery();
+
+            conn.Close();
+
+            return a;
         }
     }
 }

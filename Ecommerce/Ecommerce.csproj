@@ -209,6 +209,8 @@
     <Content Include="Views\Utente\AggiungiCarrello.cshtml" />
     <Content Include="Views\Utente\Ordina.cshtml" />
     <Content Include="Views\Utente\Ordini.cshtml" />
+    <Content Include="Views\Admin\GestioneAdmin.cshtml" />
+    <Content Include="Views\Admin\GestioneOrdine.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

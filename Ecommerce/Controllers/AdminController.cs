@@ -114,7 +114,7 @@ namespace Ecommerce.Controllers
             return View();
         }
 
-        [SetPermissions(Permissions ="Admin")]
+        [SetPermissions(Permissions = "Admin")]
         public ActionResult Statistiche(Statistiche statistiche)
         {
             if (statistiche.CorsiPiuVenduti.Limit == 0 || statistiche.CorsiPiuVenduti.Page == 0)
@@ -131,6 +131,60 @@ namespace Ecommerce.Controllers
             statistiche.UtentiPiuAttivi = new Statistiche.Pagination { Limit = statistiche.UtentiPiuAttivi.Limit, Page = statistiche.UtentiPiuAttivi.Page, Total = totUPA };
 
             return View(statistiche);
+        }
+
+        [SetPermissions(Permissions = "Admin")]
+        public ActionResult GestioneAdmin()
+        {
+            var admins = Components.DataLayer.GetAdmins();
+            ViewData.Add("Admins", admins);
+            return View();
+        }
+
+        [SetPermissions(Permissions = "Admin")]
+        [HttpPost]
+        public ActionResult AddAdmin(string id)
+        {
+            if (int.TryParse(id, out int a))
+            {
+                Components.DataLayer.AddAdmin(a);
+                return RedirectToAction("GestioneAdmin");
+            }
+            else
+            {
+                return AddAdmin(Components.DataLayer.GetUserByEmail(id).UserID.ToString());
+            }
+        }
+
+        [SetPermissions(Permissions = "Admin")]
+        public ActionResult RevokeAdmin(string id)
+        {
+            if (int.TryParse(id, out int a))
+            {
+                Components.DataLayer.RevokeAdmin(a);
+                return RedirectToAction("GestioneAdmin");
+            }
+            else
+            {
+                return RevokeAdmin(Components.DataLayer.GetUserByEmail(id).UserID.ToString());
+            }
+        }
+        
+        [SetPermissions(Permissions = "Admin")]
+        public ActionResult GestioneOrdine(int id)
+        {
+            var ordine = Components.DataLayer.GetOrdineByID(id);
+            ViewData.Add("ordine", ordine);
+            return View();
+        }
+
+        [SetPermissions(Permissions = "Admin")]
+        [HttpPost]
+        public ActionResult GestioneOrdine(FormCollection form)
+        {
+            var a = int.Parse(form["id"]);
+            Components.DataLayer.UpdateStatoOrdine(a, form["stato"]);
+            return RedirectToAction("GestioneOrdine", a);
         }
     }
 }

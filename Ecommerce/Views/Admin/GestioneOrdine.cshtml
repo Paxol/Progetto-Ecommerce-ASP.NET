@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "Gestione ordine";
+    Layout = "~/Views/Admin/_Layout.cshtml";
+}
+
+@if (ViewData["ordine"] is Ecommerce.Models.DB.Ordine ordine)
+{
+    using (Html.BeginForm("GestioneOrdine", "Admin"))
+    {
+        <h4>Ordine del @ordine.Data.ToString("dd/MM/yyyy")</h4>
+        <p>
+            <div class="row">
+                <div class="form-group col">
+                    <label>Stato:</label>
+                    <input class="form-control d-inline" style="width: auto" name="stato" type="text" value="@ordine.Stato" required />
+                    <input type="hidden" name="id" value="@ordine.ID" />
+                </div>
+                <div class="form-group col">
+                    <input class="form-control" type="submit" value="Aggiorna stato" />
+                </div>
+            </div>
+        </p>
+        foreach (var item in ordine.Items)
+        {
+            <div class="card item-carrello">
+                <div class="row">
+                    <div class="col-4 col-sm-3"><img class="img-fluid" src="~/Content/img/@item.Corso.Immagine" /></div>
+                    <div class="col-8 col-sm-9">
+                        <a class="h3" href="@Url.Action("View", "Corsi", new { id = item.Corso.ID })" target="_blank">@item.Corso.Titolo</a>
+                        <p class="text-truncate">@item.Corso.Descrizione</p>
+                        <div class="row">
+
+                            <div class="col">
+
+                                <span class="mr-4">Quantità: @item.Quantita</span>
+                            </div>
+
+                            <div class="col-auto">@string.Format("{0:0.00}", item.Prezzo) €</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+}

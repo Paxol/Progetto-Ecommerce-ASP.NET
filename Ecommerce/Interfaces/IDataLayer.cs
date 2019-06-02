@@ -10,12 +10,15 @@ namespace Ecommerce.Interfaces
         User GetUserByEmail(string mail);
         User GetUserByEmailAndPassword(string mail, string password);
 
+        List<User> GetAdmins();
+        int AddAdmin(int uid);
+        int RevokeAdmin(int uid);
+
         int RegisterUser(User user);
 
         List<Categoria> GetCategories();
 
         int InsertCorso(Corso corso);
-
         Corso GetCorsoByID(int id);
         List<Corso> GetMiglioriCorsi();
 
@@ -30,6 +33,8 @@ namespace Ecommerce.Interfaces
 
         int CreaOrdine(int uid);
         List<Models.DB.Ordine> GetOrdini(int uid);
+        Models.DB.Ordine GetOrdineByID(int id);
+        int UpdateStatoOrdine(int id, string stato);
 
         CartaCredito GetCartaCredito(int userid);
         int InsertCartaCredito(CartaCredito cc, int userid);
