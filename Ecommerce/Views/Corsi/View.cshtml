@@ -8,9 +8,9 @@
 @if (ViewData["ID"] is Ecommerce.Models.DB.Corso corso)
 {
     ViewBag.Title = corso.Titolo;
-    <a class="card" href="/Corsi/@corso.ID" style="padding: 16px">
+    <div style="padding: 16px">
         <div class="row">
-            <div class="col-auto"><img src="~/Content/img/@corso.Immagine" width="80" /></div>
+            <div class="col-auto"><img src="~/Content/img/@corso.Immagine" style="width: 80px; min-width:80px" width="80" /></div>
             <div class="col">
                 <h4>@corso.Titolo</h4>
                 <span>Categoria: </span><br />
@@ -18,9 +18,12 @@
                 <p>@corso.Descrizione</p>
                 <div class="row">
                     <div class="col-auto">
-                        <span class="stars">
-                            @Html.Raw(GetStars(corso.Valutazione))
-                        </span>@corso.Valutazione
+                        @if (corso.Valutazione > 0)
+                        {
+                            <span class="stars">
+                                @Html.Raw(GetStars(corso.Valutazione))
+                            </span>@corso.Valutazione
+                        }
                     </div>
                     <div class="col">
                     </div>
@@ -30,8 +33,55 @@
                 </div>
             </div>
         </div>
-    </a>
+    </div>
 
+    <h3>Recensioni</h3>
+    if (Ecommerce.Utils.SessionContext.GetUserID() > 0)
+    {
+        using (Html.BeginForm("AggRecensione", "Utente"))
+        {
+            <input type="hidden" name="idc" value="@corso.ID" />
+            <div class="row">
+                <div class="col-12 col-md-10 form-group">
+                    <label for="recensione">Recensione:</label>
+                    <textarea class="form-control" id="recensione" name="recensione" rows="3" placeholder="La tua recensione"></textarea>
+                </div>
+                <div class="col-12 col-md-2">
+                    <label for="valutazione">Valutazione:</label>
+                    <select class="form-control" id="valutazione" name="valutazione">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-primary btn-block mb-4">Invia</button>
+                </div>
+            </div>
+        }
+    }
+    else {
+        <p>@Html.ActionLink("Accedi", "Index", "Login") per pubblicare una recensione</p>
+    }
+
+    if (ViewData["recensioni"] is List<Ecommerce.Models.DB.Recensione> recensioni && recensioni.Count > 0)
+    {
+        foreach (var item in recensioni)
+        {
+            <hr />
+            <h4>@item.NomeUtente</h4>
+            <span class="stars">
+                @Html.Raw(GetStars(item.Valutazione))
+            </span><span>@item.Valutazione - @item.data.ToString("dd/MM/yyyy")</span> <br />
+            <p>@item.descrizione</p>
+        }
+    }
+    else
+    {
+        <p>Non ci sono ancora recensioni per questo prodotto</p>
+    }
 
     string GetStars(float d)
     {
@@ -54,5 +104,4 @@
 
         return sb.ToString();
     }
-
 }

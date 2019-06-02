@@ -161,5 +161,13 @@ namespace Ecommerce.Controllers
 
             return View(Components.DataLayer.GetCorsoByID(id));
         }
+
+        [HttpPost]
+        [SetPermissions(Permissions = "Admin,Utente")]
+        public ActionResult AggRecensione(FormCollection form)
+        {
+            
+            return RedirectToAction("View", "Corsi", form["idc"]);
+        }
     }
 }

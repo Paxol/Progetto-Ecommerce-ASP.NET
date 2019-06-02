@@ -20,7 +20,7 @@
                     </div>
                     @if (ViewBag.ShowNavBarSearch != null && ViewBag.ShowNavBarSearch)
                     {
-                        <div class="col d-md-block d-none">
+                        <div id="col-s-input" class="col d-md-block d-none">
                             <div class="form-inline my-2 my-lg-0 row">
                                 <input id="search-input" class="form-control col" type="search" placeholder="Cosa stai cercando?" aria-label="Cosa stai cercando?">
                             </div>
@@ -76,56 +76,58 @@
                     let input = $('#search-input');
                     if (win.width() < 768 && input.val().length == 0) {
                         $('#nav-brand-container').removeClass('col-auto').addClass('col-12');
+                        $('#col-s-input').removeClass('d-none').addClass('d-block');
                     }
                     if (input.val().length > 0) location = '/Cerca/' + encodeURIComponent(input.val());
                 }
             });
         </script>
     }
-    @*
-        <div style="margin: 0px;
-          padding: 0px;
-          min-height: 100%;
-          height: 100%;">
-            <footer class="container py-5">
-                <div class="row">
-                    <div class="col-12 col-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-block mb-2"><circle cx="12" cy="12" r="10"></circle><line x1="14.31" y1="8" x2="20.05" y2="17.94"></line><line x1="9.69" y1="8" x2="21.17" y2="8"></line><line x1="7.38" y1="12" x2="13.12" y2="2.06"></line><line x1="9.69" y1="16" x2="3.95" y2="6.06"></line><line x1="14.31" y1="16" x2="2.83" y2="16"></line><line x1="16.62" y1="12" x2="10.88" y2="21.94"></line></svg>
-                        <small class="d-block mb-3 text-muted">© 2018-2019</small>
-                    </div>
-                    <div class="col-6 col-md">
-                        <h5>Edunet</h5>
-                        <ul class="list-unstyled text-small">
-                            <li><a class="text-muted" href="#">Cerca</a></li>
-                            <li><a class="text-muted" href="#">Carrello</a></li>
-                            <li><a class="text-muted" href="#">Profilo</a></li>
-                            <li><a class="text-muted" href="#">Pagamento</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                       <img />
-                    </div>
-                 @*            <div class="col-6 col-md">
-                        <h5>Resources</h5>
-                        <ul class="list-unstyled text-small">
-                            <li><a class="text-muted" href="#">Business</a></li>
-                            <li><a class="text-muted" href="#">Education</a></li>
-                            <li><a class="text-muted" href="#">Government</a></li>
-                            <li><a class="text-muted" href="#">Gaming</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-6 col-md">
-                        <h5>About</h5>
-                        <ul class="list-unstyled text-small">
-                            <li><a class="text-muted" href="#">Team</a></li>
-                            <li><a class="text-muted" href="#">Locations</a></li>
-                            <li><a class="text-muted" href="#">Privacy</a></li>
-                            <li><a class="text-muted" href="#">Terms</a></li>
-                        </ul>
-                    </div>
+
+    <div class="footer-container">
+        <footer class="container py-5">
+            <div class="row">
+                <div class="col-6 col-md">
+                    <h5>Edunet</h5>
+                    <ul class="list-unstyled text-small">
+                        <li><a class="text-muted" href="@Url.Action("Index", "Home")">Home</a></li>
+                    </ul>
+                    <small class="d-block mb-3 text-muted">© @DateTime.Now.Year</small>
                 </div>
-            </footer>
-        </div>
-    *@
+                <div class="col-6 col-md">
+                    <h5>Account</h5>
+                    <ul class="list-unstyled text-small">
+                        @if (Ecommerce.Utils.SessionContext.GetUserID() > 0)
+                        {
+                            <li><a class="text-muted" href="@Url.Action("Logout", "Login")">Logout</a></li>
+                        }
+                        else
+                        {
+                            <li><a class="text-muted" href="@Url.Action("Index", "Login")">Login</a></li>
+                        }
+                        <li><a class="text-muted" href="@Url.Action("Carrello", "Utente")">Carrello</a></li>
+                        <li><a class="text-muted" href="@Url.Action("Ordini", "Utente")">I miei ordini</a></li>
+                        <li><a class="text-muted" href="@Url.Action("InfoPagamento", "Utente")">Informazioni pagamento</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md">
+                    @{ var u = Ecommerce.Utils.SessionContext.GetUserData();
+                        if (u != null && u.Roles.Contains("Admin"))
+                        {
+                            <h5>Admin</h5>
+                            <ul class="list-unstyled text-small">
+                                <li><a class="text-muted" href="@Url.Action("EditCorso", "Admin")">Aggiungi corso</a></li>
+                                <li><a class="text-muted" href="@Url.Action("EditCorso", "Statistiche")">Statistiche</a></li>
+                                <li><a class="text-muted" href="@Url.Action("EditCorso", "GestioneAdmin")">Gestione admin</a></li>
+                            </ul>
+                        }
+                    }
+                </div>
+            </div>
+
+
+        </footer>
+    </div>
+
 </body>
 </html>

@@ -39,9 +39,12 @@
             <p>@Model.Descrizione</p>
             <div class="row">
                 <div class="col-auto">
-                    <span class="stars">
-                        @Html.Raw(GetStars(Model.Valutazione))
-                    </span>@Model.Valutazione
+                    @if (Model.Valutazione > 0)
+                    {
+                        <span class="stars">
+                            @Html.Raw(GetStars(Model.Valutazione))
+                        </span>@Model.Valutazione
+                    }
                 </div>
                 <div class="col">
                 </div>

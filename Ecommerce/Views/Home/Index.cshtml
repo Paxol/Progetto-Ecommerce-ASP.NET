@@ -22,9 +22,12 @@
                                 <p class="card-title">@corso.Titolo</p>
                                 <small class="text-muted">@corso.Autore</small>
                                 <p class="valutazione">
-                                    <span class="stars">
-                                        @Html.Raw(GetStars(corso.Valutazione))
-                                    </span>@corso.Valutazione
+                                    @if (corso.Valutazione > 0)
+                                    {
+                                        <span class="stars">
+                                            @Html.Raw(GetStars(corso.Valutazione))
+                                        </span>@corso.Valutazione
+                                    }
                                 </p>
                                 <p class="prezzo text-right">@string.Format("{0:0.00}", corso.Prezzo) €</p>
                             </div>

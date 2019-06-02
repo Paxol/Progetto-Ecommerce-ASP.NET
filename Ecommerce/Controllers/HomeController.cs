@@ -1,6 +1,10 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
+using System.Linq;
 using Ecommerce.Models;
+using Ecommerce.Models.DB;
 using Ecommerce.Utils;
+using System;
 
 namespace Ecommerce.Controllers
 {
@@ -14,29 +18,34 @@ namespace Ecommerce.Controllers
 
         public ActionResult Cerca(string testo = "", Filtri a = null)
         {
+            List<Corso> corsi;
+
             if (a.IDcategoria == 0)
             {
                 a = new Filtri();
-
-                ViewData.Add("migliori_corsi", Components.DataLayer.Ricerca(testo));
-
-
-
+                corsi = Components.DataLayer.Ricerca(testo);
             }
             else
-                ViewData.Add("migliori_corsi", Components.DataLayer.RicercaConFiltri(a.IDcategoria, a.prezzoInizio, a.prezzoFine, testo));
+                corsi = Components.DataLayer.RicercaConFiltri(a.IDcategoria, decimal.Parse(a.prezzoInizio), decimal.Parse(a.prezzoFine), testo);
 
-            LoadCategoriesFiltri(a);
+            ViewData.Add("migliori_corsi", corsi);
+            a.prezzoInizio = ((int)Math.Floor(corsi.Min((c) => c.Prezzo))).ToString();
+            a.prezzoFine = ((int)Math.Ceiling(corsi.Max((c) => c.Prezzo))).ToString();
+
+            LoadCategoriesFiltri(corsi, a);
             ViewData.Add("testo", testo);
 
             return View(a);
         }
 
-        private void LoadCategoriesFiltri(Filtri model)
+        private void LoadCategoriesFiltri(List<Corso> corsi, Filtri model)
         {
             var cat = Components.DataLayer.GetCategories();
             foreach (var item in cat)
             {
+                if (corsi.Count((c) => c.ID == item.ID) < 1)
+                    continue;
+
                 model.Categorie.Add(new SelectListItem
                 {
                     Value = item.ID.ToString(),

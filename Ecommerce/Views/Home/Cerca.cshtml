@@ -17,7 +17,7 @@
 
 <div class="row">
 
-    <div class="col-auto"style="background-color:lightgray">
+    <div class="col-12 col-md-auto">
 
         <h4 id="filtri">Filtri</h4>
         @using (Html.BeginForm())
@@ -30,24 +30,19 @@
                 </p>
             </div>
             <div class="form-group">
-                <div class="container-fluid">
-                    <p>Prezzi</p>
-                    da:
-                    @Html.EditorFor(model => model.prezzoInizio, new { htmlAttributes = new { type = "number", step = "0.01" } })
-                    <br />
-                    <br />
-                    a:
-                    @Html.EditorFor(model => model.prezzoFine, new { htmlAttributes = new { type = "number", step = "0.01" } })
+                <p>Prezzi</p>
+                da:
+                @Html.EditorFor(model => model.prezzoInizio, new { htmlAttributes = new { type = "number", step = "0.01", style="width: 100px" } })
+                a:
+                @Html.EditorFor(model => model.prezzoFine, new { htmlAttributes = new { type = "number", step = "0.01", style="width: 100px" } })
 
-                </div>
             </div>
-            <button id="ricer" type="submit" class="rounded-pill">Invio</button>
-            <br />
-            <br />
+
+            <button id="ricer" class="btn btn-outline-primary" type="submit">Invio</button>
         }
     </div>
 
-    <div class="col-9">
+    <div class="col">
 
 
 
@@ -55,9 +50,9 @@
         {
             foreach (var corso in migliori_corsi)
             {
-                <a class="card" href="/Corsi/@corso.ID" style="padding: 16px">
+                <a class="card corso" href="/Corsi/@corso.ID" style="padding: 16px">
                     <div class="row">
-                        <div class="col-auto"><img src="~/Content/img/@corso.Immagine" width="80" /></div>
+                        <div class="col-auto"><img src="~/Content/img/@corso.Immagine" style="width: 80px; min-width:80px" width="80" /></div>
                         <div class="col">
                             <h4>@corso.Titolo</h4>
                             <span>Categoria: </span><br />
@@ -65,9 +60,12 @@
                             <p>@corso.Descrizione</p>
                             <div class="row">
                                 <div class="col-auto">
-                                    <span class="stars">
-                                        @Html.Raw(GetStars(corso.Valutazione))
-                                    </span>@corso.Valutazione
+                                    @if (corso.Valutazione > 0)
+                                    {
+                                        <span class="stars">
+                                            @Html.Raw(GetStars(corso.Valutazione))
+                                        </span>@corso.Valutazione
+                                    }
                                 </div>
                                 <div class="col">
                                 </div>
