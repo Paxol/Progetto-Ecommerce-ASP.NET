@@ -314,6 +314,7 @@ namespace Ecommerce.DAL
                 corso.Titolo = (string)dr["Titolo"];
                 corso.Immagine = (string)dr["Immagine"];
                 corso.Descrizione = (string)dr["Descrizione"];
+                corso.Valutazione = float.Parse(dr["MediaVoto"].ToString());
                 corso.Prezzo = Convert.ToDecimal(dr["Prezzo"].ToString());
                 corso.Categoria = new Categoria
                 {
@@ -538,38 +539,16 @@ namespace Ecommerce.DAL
             conn.Close();
             return a;
         }
-
-        public int GetRecensioni(int idutente, int idcorso, int voto, string descrizione)
-        {
-            SqlConnection conn = new SqlConnection(conn_string);
-            conn.Open();
-
-            SqlCommand cmd = new SqlCommand("InsertRecensioni", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-
-            cmd.Parameters.AddWithValue("@idUtente", idutente);
-            cmd.Parameters.AddWithValue("@idCorso", idcorso);
-            cmd.Parameters.AddWithValue("@descrizione", voto);
-            cmd.Parameters.AddWithValue("@voto", descrizione);
-
-            DateTime dat = DateTime.Now;
-            cmd.Parameters.AddWithValue("@data", dat);
-
-            int a = cmd.ExecuteNonQuery();
-
-            conn.Close();
-            return a;
-        }
-
-
-        public List<Recensione> GetRecensioniById(int id)
+        
+        public List<Recensione> GetRecensioni(int idcorso, int idutente)
         {
             SqlConnection conn = new SqlConnection(conn_string);
             conn.Open();
 
             SqlCommand cmd1 = new SqlCommand("GetRecensioniById", conn);
             cmd1.CommandType = CommandType.StoredProcedure;
-            cmd1.Parameters.AddWithValue("@id", id);
+            cmd1.Parameters.AddWithValue("@id", idcorso);
+            cmd1.Parameters.AddWithValue("@uid", idutente);
 
             DataTable dt1 = new DataTable();
             SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
@@ -582,8 +561,8 @@ namespace Ecommerce.DAL
                 Recensione recensione = new Recensione();
                 recensione.NomeUtente = (string)dr["Nome"];
                 recensione.Valutazione = (int)dr["Voto"];
-                recensione.descrizione = (string)dr["Descrizione"];
-                recensione.data = (DateTime)dr["Data"];
+                recensione.Descrizione = (string)dr["Descrizione"];
+                recensione.Data = (DateTime)dr["Data"];
                 rec.Add(recensione);
             }
 
@@ -809,6 +788,56 @@ namespace Ecommerce.DAL
             conn.Close();
 
             return a;
+        }
+
+        public int InsertRecensione(int idu, int idc, string recensione, int valutazione)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd1 = new SqlCommand("InsertRecensioni", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+            cmd1.Parameters.AddWithValue("@idUtente", idu);
+            cmd1.Parameters.AddWithValue("@idCorso", idc);
+            cmd1.Parameters.AddWithValue("@descrizione", recensione);
+            cmd1.Parameters.AddWithValue("@voto", valutazione);
+
+            int a = cmd1.ExecuteNonQuery();
+
+            conn.Close();
+
+            return a;
+        }
+
+        public Recensione GetRecensioneUtente(int idcorso, int idutente)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd1 = new SqlCommand("GetRecensioneUtente", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+            cmd1.Parameters.AddWithValue("@idc", idcorso);
+            cmd1.Parameters.AddWithValue("@idu", idutente);
+
+            DataTable dt1 = new DataTable();
+            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+            da1.Fill(dt1);
+            conn.Close();
+            Recensione recensione = null;
+            if (dt1.Rows.Count > 0)
+            {
+                DataRow dr = dt1.Rows[0];
+                recensione = new Recensione
+                {
+                    ID = (int)dr["IDValutazione"],
+                    Data = (DateTime)dr["Data"],
+                    Descrizione = (string)dr["Descrizione"],
+                    Valutazione = (int)dr["Voto"],
+                    IDCorso = (int)dr["FK_IDCorso"]
+                };
+            }
+
+            return recensione;
         }
     }
 }

@@ -24,8 +24,7 @@ namespace Ecommerce.Interfaces
 
         List<StatCorso> GetProdottiPiuVenduti(int limit, int page, out int tot);
         List<StatUtenti> GetUtentiPiuAttivi(int limit, int page, out int tot);
-
-
+        
         int AggiungiCarrello(int idcorso, int idutente);
 
         List<ItemCarrello> GetCarrello(int uid);
@@ -41,8 +40,9 @@ namespace Ecommerce.Interfaces
 
         List<Corso> RicercaConFiltri(int idcategoria, decimal prezzomin, decimal prezzomax, string testo);
         List<Corso> Ricerca(string testo);
-
-        int GetRecensioni(int idutente, int idcorso, int voto, string descrizione);
-        List<Recensione> GetRecensioniById(int id);
+        
+        List<Recensione> GetRecensioni(int idcorso, int idutente);
+        int InsertRecensione(int v, int idc, string recensione, int valutazione);
+        Recensione GetRecensioneUtente(int idcorso, int idutente);
     }
 }

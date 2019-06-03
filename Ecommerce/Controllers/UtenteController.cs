@@ -166,8 +166,13 @@ namespace Ecommerce.Controllers
         [SetPermissions(Permissions = "Admin,Utente")]
         public ActionResult AggRecensione(FormCollection form)
         {
+            int idc = int.Parse(form["idc"]);
+            string recensione = form["recensione"];
+            int valutazione = int.Parse(form["valutazione"]);
+
+            Components.DataLayer.InsertRecensione(SessionContext.GetUserID(), idc, recensione, valutazione);
             
-            return RedirectToAction("View", "Corsi", form["idc"]);
+            return Redirect("/Corsi/" + idc);
         }
     }
 }

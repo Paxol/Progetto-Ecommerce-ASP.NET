@@ -102,12 +102,12 @@ namespace Ecommerce.DAL
             throw new System.NotImplementedException();
         }
 
-        public int GetRecensioni(int idutente, int idcorso, int voto, string descrizione)
+        public Recensione GetRecensioneUtente(int idcorso, int idutente)
         {
             throw new System.NotImplementedException();
         }
 
-        public List<Recensione> GetRecensioniById(int id)
+        public List<Recensione> GetRecensioni(int id, int idutente)
         {
             throw new System.NotImplementedException();
         }
@@ -138,6 +138,11 @@ namespace Ecommerce.DAL
         }
 
         public int InsertCorso(Corso corso)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public int InsertRecensione(int v, int idc, string recensione, int valutazione)
         {
             throw new System.NotImplementedException();
         }

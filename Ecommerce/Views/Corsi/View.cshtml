@@ -35,6 +35,14 @@
         </div>
     </div>
 
+    <a href="@Url.Action("AggiungiCarrello", "Utente")/@corso.ID" role="button" class="btn btn-success btn-block btn-iconed mb-3">
+        <span class="btn-icon">
+            <i class="material-icons">
+                shopping_cart
+            </i>
+        </span><span class="btn-text">Aggiungi al carrello</span>
+    </a>
+
     <h3>Recensioni</h3>
     if (Ecommerce.Utils.SessionContext.GetUserID() > 0)
     {
@@ -44,25 +52,31 @@
             <div class="row">
                 <div class="col-12 col-md-10 form-group">
                     <label for="recensione">Recensione:</label>
-                    <textarea class="form-control" id="recensione" name="recensione" rows="3" placeholder="La tua recensione"></textarea>
+                    <textarea class="form-control" id="recensione" name="recensione" rows="3" placeholder="La tua recensione">@(ViewData["recensione"] is Ecommerce.Models.DB.Recensione r ? r.Descrizione : "" )</textarea>
                 </div>
                 <div class="col-12 col-md-2">
                     <label for="valutazione">Valutazione:</label>
                     <select class="form-control" id="valutazione" name="valutazione">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                        @{ int sel = 0;
+                            if (ViewData["recensione"] is Ecommerce.Models.DB.Recensione re)
+                            {
+                                sel = re.Valutazione;
+                            }
+                            for (int i = 0; i < 5; i++)
+                            {
+                                <option @(sel == i + 1 ? "selected" : "")>@(i + 1)</option>
+                            }
+                        }
                     </select>
                 </div>
                 <div class="col">
-                    <button type="submit" class="btn btn-primary btn-block mb-4">Invia</button>
+                    <button type="submit" class="btn btn-primary btn-block mb-4">@(ViewData["recensione"] is Ecommerce.Models.DB.Recensione ? "Modifica" : "Invia")</button>
                 </div>
             </div>
         }
     }
-    else {
+    else
+    {
         <p>@Html.ActionLink("Accedi", "Index", "Login") per pubblicare una recensione</p>
     }
 
@@ -71,16 +85,23 @@
         foreach (var item in recensioni)
         {
             <hr />
-            <h4>@item.NomeUtente</h4>
+            <h6>@item.NomeUtente</h6>
             <span class="stars">
                 @Html.Raw(GetStars(item.Valutazione))
-            </span><span>@item.Valutazione - @item.data.ToString("dd/MM/yyyy")</span> <br />
-            <p>@item.descrizione</p>
+            </span><span>@item.Valutazione - @item.Data.ToString("dd/MM/yyyy")</span> <br />
+            <p>@item.Descrizione</p>
         }
     }
     else
     {
-        <p>Non ci sono ancora recensioni per questo prodotto</p>
+        if (ViewData["recensione"] is Ecommerce.Models.DB.Recensione)
+        {
+            <p>Non ci sono altre recensioni per questo prodotto</p>
+        }
+        else
+        {
+            <p>Non ci sono ancora recensioni per questo prodotto</p>
+        }
     }
 
     string GetStars(float d)
