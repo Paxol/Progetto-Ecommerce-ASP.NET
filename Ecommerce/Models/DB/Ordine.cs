@@ -11,5 +11,6 @@ namespace Ecommerce.Models.DB
         public string Stato { get; set; }
         public DateTime Data { get; set; }
         public List<ItemCarrello> Items { get; set; } = new List<ItemCarrello>();
+        public int Prodotti { get; set; }
     }
 }

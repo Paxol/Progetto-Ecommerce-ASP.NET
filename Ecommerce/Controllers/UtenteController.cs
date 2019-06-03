@@ -127,7 +127,7 @@ namespace Ecommerce.Controllers
         [SetPermissions(Permissions = "Admin,Utente")]
         public ActionResult Ordini()
         {
-            var ordini = Components.DataLayer.GetOrdini(SessionContext.GetUserID());
+            var ordini = Components.DataLayer.GetOrdiniByUserID(SessionContext.GetUserID());
             ViewData.Add("Ordini", ordini);
             return View();
         }

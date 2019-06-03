@@ -57,6 +57,11 @@ namespace Ecommerce.DAL
             throw new System.NotImplementedException();
         }
 
+        public List<Models.DB.Ordine> GetAllOrdini(int limit, int page, out int tot)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public List<ItemCarrello> GetCarrello(int uid)
         {
             throw new System.NotImplementedException();
@@ -97,7 +102,7 @@ namespace Ecommerce.DAL
             throw new System.NotImplementedException();
         }
 
-        public List<Models.DB.Ordine> GetOrdini(int uid)
+        public List<Models.DB.Ordine> GetOrdiniByUserID(int uid)
         {
             throw new System.NotImplementedException();
         }

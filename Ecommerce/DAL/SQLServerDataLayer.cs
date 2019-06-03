@@ -626,7 +626,7 @@ namespace Ecommerce.DAL
             return (int)returnParam.Value;
         }
 
-        public List<Ordine> GetOrdini(int uid)
+        public List<Ordine> GetOrdiniByUserID(int uid)
         {
             SqlConnection conn = new SqlConnection(conn_string);
             conn.Open();
@@ -892,6 +892,48 @@ namespace Ecommerce.DAL
             }
             
             return corso;
+        }
+
+        public List<Ordine> GetAllOrdini(int limit, int page, out int tot)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd1 = new SqlCommand("GetAllOrdini", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+            cmd1.Parameters.AddWithValue("@limit", limit);
+            cmd1.Parameters.AddWithValue("@page", page);
+
+            var returnParam = cmd1.Parameters.Add("@ReturnVal", SqlDbType.Int);
+            returnParam.Direction = ParameterDirection.ReturnValue;
+
+            DataTable dt1 = new DataTable();
+            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+            da1.Fill(dt1);
+            tot = (int)returnParam.Value;
+
+            conn.Close();
+
+            List<Ordine> ordini = new List<Ordine>();
+
+            foreach (DataRow dr in dt1.Rows)
+            {
+                Ordine ordine = ordini.FirstOrDefault((ord) => ord.ID == (int)dr["IDOrdine"]);
+                if (ordine == null)
+                {
+                    ordine = new Ordine
+                    {
+                        ID = (int)dr["IDOrdine"],
+                        Data = DateTime.Parse(dr["Data"].ToString()),
+                        Stato = dr["Stato"].ToString(),
+                        Prodotti = (int)dr["Prodotti"]
+                    };
+
+                    ordini.Add(ordine);
+                }
+            }
+
+            return ordini;
         }
     }
 }

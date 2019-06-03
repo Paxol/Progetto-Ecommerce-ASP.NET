@@ -1,0 +1,84 @@
+﻿@model Ecommerce.Models.AllOrdini
+@{
+    /**/
+
+    ViewBag.Title = "Ordini utenti";
+    Layout = "~/Views/Admin/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col"></div>
+    <div class="col-auto">
+        @using (Html.BeginForm("Ordini", "Admin", FormMethod.Post, new { id = "form" }))
+        {
+            @Html.HiddenFor((model) => model.Page, new { id = "page" })
+            <span>
+                Mostrando da @((Model.Page - 1) * Model.Limit + 1) a @Math.Min((Model.Page * Model.Limit), Model.Total) su @Model.Total
+                | Prodotti per pagina @(Html.DropDownListFor((model) => model.Limit, new List<SelectListItem>() { new SelectListItem() { Text = "25" }, new SelectListItem() { Text = "50" } }))>&nbsp;|&nbsp;
+            </span>
+            <ul class="pagination d-inline-flex">
+                @if (Model.Page == 1)
+                {
+                    <li class="page-item disabled"><a class="page-link" href="#" onclick="prev(); return false;">Indietro</a></li>
+                }
+                else
+                {
+                    <li class="page-item"><a class="page-link" href="#" onclick="prev(); return false;">Indietro</a></li>
+                }
+
+                <li class="page-item disabled"><a class="page-link">@Model.Page</a></li>
+
+                @if (Model.Page * Model.Limit >= Model.Total)
+                {
+                    <li class="page-item disabled"><a class="page-link" href="#" onclick="next(); return false;">Avanti</a></li>
+                }
+                else
+                {
+                    <li class="page-item"><a class="page-link" href="#" onclick="next(); return false;">Avanti</a></li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ID Ordine</th>
+            <th scope="col">Data</th>
+            <th scope="col">Stato</th>
+            <th scope="col">Prodotti comprati</th>
+            <th scope="col">Modifica</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model.Ordini)
+        {
+            var routeval = new RouteValueDictionary();
+            routeval.Add("id", item.ID);
+
+            <tr>
+                <td>@item.ID</td>
+                <td>@item.Data.ToString("dd/MM/yyyy")</td>
+                <td>@item.Stato</td>
+                <td>@item.Prodotti</td>
+                <td>@Html.ActionLink("Modifica", "GestioneOrdine", "Admin", routeval, null)</td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+@section scripts{
+    <script>
+        function prev() {
+            $('#page').val(Number($('#page').val()) - 1)
+            $('#form').submit()
+        }
+        function next() {
+            $('#page').val(Number($('#page').val()) + 1)
+            $('#form').submit()
+        }
+    </script>
+}

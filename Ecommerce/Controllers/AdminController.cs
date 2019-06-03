@@ -219,5 +219,13 @@ namespace Ecommerce.Controllers
             Components.DataLayer.UpdateStatoOrdine(a, form["stato"]);
             return RedirectToAction("GestioneOrdine", a);
         }
+
+        [SetPermissions(Permissions = "Admin")]
+        public ActionResult Ordini(AllOrdini model)
+        {
+            model.Ordini = Components.DataLayer.GetAllOrdini(model.Limit, model.Page, out int tot);
+            model.Total = tot;
+            return View(model);
+        }
     }
 }

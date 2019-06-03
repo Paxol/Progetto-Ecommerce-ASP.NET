@@ -132,6 +132,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IDataLayer.cs" />
+    <Compile Include="Models\AllOrdini.cs" />
     <Compile Include="Models\DB\CartaCredito.cs" />
     <Compile Include="Models\DB\Categoria.cs" />
     <Compile Include="Models\DB\Corso.cs" />
@@ -210,6 +211,7 @@
     <Content Include="Views\Utente\Ordini.cshtml" />
     <Content Include="Views\Admin\GestioneAdmin.cshtml" />
     <Content Include="Views\Admin\GestioneOrdine.cshtml" />
+    <Content Include="Views\Admin\Ordini.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\img\p\" />

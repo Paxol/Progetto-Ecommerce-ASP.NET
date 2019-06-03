@@ -32,7 +32,8 @@ namespace Ecommerce.Interfaces
         int AggiornaQuantitaCarrello(int idcarrello, int q);
 
         int CreaOrdine(int uid);
-        List<Models.DB.Ordine> GetOrdini(int uid);
+        List<Models.DB.Ordine> GetOrdiniByUserID(int uid);
+        List<Models.DB.Ordine> GetAllOrdini(int limit, int page, out int tot);
         Models.DB.Ordine GetOrdineByID(int id);
         int UpdateStatoOrdine(int id, string stato);
 
