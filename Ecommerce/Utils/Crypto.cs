@@ -16,8 +16,8 @@ namespace Ecommerce.Utils
             using (TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider())
             {
                 //get keys
-                byte[] key = File.ReadAllBytes(/*HttpContext.Current.Server.MapPath("~/App_Data/key")*/@"C:\Users\Mirko\source\Progetto-Ecommerce-ASP.NET\Ecommerce\App_Data\key");
-                byte[] iv = File.ReadAllBytes(/*HttpContext.Current.Server.MapPath("~/App_Data/iv")*/@"C:\Users\Mirko\source\Progetto-Ecommerce-ASP.NET\Ecommerce\App_Data\iv");
+                byte[] key = File.ReadAllBytes(HttpContext.Current.Server.MapPath("~/App_Data/key"));// @"C:\Users\Mirko\source\Progetto-Ecommerce-ASP.NET\Ecommerce\App_Data\key");
+                byte[] iv = File.ReadAllBytes(HttpContext.Current.Server.MapPath("~/App_Data/iv"));// @"C:\Users\Mirko\source\Progetto-Ecommerce-ASP.NET\Ecommerce\App_Data\iv");
 
                 // Create encryptor  
                 ICryptoTransform encryptor = tdes.CreateEncryptor(key, iv);

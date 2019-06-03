@@ -43,8 +43,11 @@ namespace Ecommerce.Controllers
             ordine.Carta = dal.GetCartaCredito(SessionContext.GetUserID());
             if (ordine.Carta != null) ordine.SalvaCarta = true;
 
-            ordine.NumOrig = Convert.ToBase64String(Crypto.Encrypt(ordine.Carta.Numero));
-            ordine.Carta.Numero = ordine.Carta.NumeroAst;
+            if (ordine.Carta != null)
+            {
+                ordine.NumOrig = Convert.ToBase64String(Crypto.Encrypt(ordine.Carta.Numero));
+                ordine.Carta.Numero = ordine.Carta.NumeroAst; 
+            }
 
             return View(ordine);
         }

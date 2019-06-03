@@ -4,38 +4,7 @@
     ViewBag.ShowNavBarLogin = true;
 }
 
-@{ if (ViewData["migliori_corsi"] is List<Ecommerce.Models.DB.Corso> migliori_corsi && migliori_corsi.Count > 0)
-    {
-        <h3>I migliori corsi</h3>
-        <div class="scrolling-wrapper-container" id="scrolling-migliori-container">
-            <span class="arrow-container arrow-container-left" data-toggle="#scrolling-migliori-container" data-elements="#scrolling-migliori"><i class="material-icons">chevron_left</i></span>
-            <div class="scrolling-wrapper" id="scrolling-migliori">
-
-                @foreach (var corsoo in migliori_corsi)
-                {
-                    <a href="/Corsi/@corsoo.ID" class="corso">
-                        <div class="card inline-card">
-                            <img class="card-img-top" src="~/Content/img/@corsoo.Immagine">
-                            <div class="card-body">
-                                <p class="card-title">@corsoo.Titolo</p>
-                                <small class="text-muted">@corsoo.Autore</small>
-                                <p class="valutazione">
-                                    @if (corsoo.Valutazione > 0)
-                                    {
-                                        <span class="stars">
-                                            @Html.Raw(GetStars(corsoo.Valutazione))
-                                        </span>@corsoo.Valutazione
-                                    }
-                                </p>
-                                <p class="prezzo text-right">@string.Format("{0:0.00}", corsoo.Prezzo) €</p>
-                            </div>
-                        </div>
-                    </a>
-                }
-            </div>
-            <span class="arrow-container arrow-container-right" data-toggle="#scrolling-migliori-container" data-elements="#scrolling-migliori"><i class="material-icons">chevron_right</i></span>
-        </div>
-    }
+@{
 
     if (ViewData["corso_random"] is Ecommerce.Models.DB.Corso corso)
     {
@@ -66,6 +35,40 @@
                 </div>
             </div>
         </a>
+    }
+
+
+    if (ViewData["migliori_corsi"] is List<Ecommerce.Models.DB.Corso> migliori_corsi && migliori_corsi.Count > 0)
+    {
+        <h3>I migliori corsi</h3>
+        <div class="scrolling-wrapper-container" id="scrolling-migliori-container">
+            <span class="arrow-container arrow-container-left" data-toggle="#scrolling-migliori-container" data-elements="#scrolling-migliori"><i class="material-icons">chevron_left</i></span>
+            <div class="scrolling-wrapper" id="scrolling-migliori">
+
+                @foreach (var corsoo in migliori_corsi)
+                {
+                    <a href="/Corsi/@corsoo.ID" class="corso">
+                        <div class="card inline-card">
+                            <img class="card-img-top" src="~/Content/img/@corsoo.Immagine">
+                            <div class="card-body">
+                                <p class="card-title">@corsoo.Titolo</p>
+                                <small class="text-muted">@corsoo.Autore</small>
+                                <p class="valutazione">
+                                    @if (corsoo.Valutazione > 0)
+                                    {
+                                        <span class="stars">
+                                            @Html.Raw(GetStars(corsoo.Valutazione))
+                                        </span>@corsoo.Valutazione
+                                    }
+                                </p>
+                                <p class="prezzo text-right">@string.Format("{0:0.00}", corsoo.Prezzo) €</p>
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div>
+            <span class="arrow-container arrow-container-right" data-toggle="#scrolling-migliori-container" data-elements="#scrolling-migliori"><i class="material-icons">chevron_right</i></span>
+        </div>
     }
 
     string GetStars(float d)
