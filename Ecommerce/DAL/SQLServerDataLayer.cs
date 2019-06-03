@@ -839,5 +839,23 @@ namespace Ecommerce.DAL
 
             return recensione;
         }
+
+        public int UpdateRecensione(string id, string recensione, int valutazione)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd1 = new SqlCommand("UpdateRecensione", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+            cmd1.Parameters.AddWithValue("@id", id);
+            cmd1.Parameters.AddWithValue("@descrizione", recensione);
+            cmd1.Parameters.AddWithValue("@voto", valutazione);
+
+            int a = cmd1.ExecuteNonQuery();
+
+            conn.Close();
+
+            return a;
+        }
     }
 }

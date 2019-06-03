@@ -44,5 +44,6 @@ namespace Ecommerce.Interfaces
         List<Recensione> GetRecensioni(int idcorso, int idutente);
         int InsertRecensione(int v, int idc, string recensione, int valutazione);
         Recensione GetRecensioneUtente(int idcorso, int idutente);
+        int UpdateRecensione(string id, string recensione, int valutazione);
     }
 }

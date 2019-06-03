@@ -166,11 +166,15 @@ namespace Ecommerce.Controllers
         [SetPermissions(Permissions = "Admin,Utente")]
         public ActionResult AggRecensione(FormCollection form)
         {
+            var idr = form["idr"];
             int idc = int.Parse(form["idc"]);
             string recensione = form["recensione"];
             int valutazione = int.Parse(form["valutazione"]);
 
-            Components.DataLayer.InsertRecensione(SessionContext.GetUserID(), idc, recensione, valutazione);
+            if (idr == null)
+                Components.DataLayer.InsertRecensione(SessionContext.GetUserID(), idc, recensione, valutazione);
+            else
+                Components.DataLayer.UpdateRecensione(idr, recensione, valutazione);
             
             return Redirect("/Corsi/" + idc);
         }

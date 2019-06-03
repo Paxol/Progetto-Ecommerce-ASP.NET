@@ -169,6 +169,11 @@ namespace Ecommerce.DAL
             throw new System.NotImplementedException();
         }
 
+        public int UpdateRecensione(string id, string recensione, int valutazione)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public int UpdateStatoOrdine(int id, string stato)
         {
             throw new System.NotImplementedException();

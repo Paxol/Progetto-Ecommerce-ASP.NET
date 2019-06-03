@@ -10,7 +10,9 @@
     ViewBag.Title = corso.Titolo;
     <div style="padding: 16px">
         <div class="row">
-            <div class="col-auto"><img src="~/Content/img/@corso.Immagine" style="width: 80px; min-width:80px" width="80" /></div>
+            <div class="col col-lg-auto">
+                <div style="width: 350px;margin: auto;" class="mb-4"><img src="~/Content/img/@corso.Immagine" style="max-width: 350px; margin: auto" /></div>
+            </div>
             <div class="col">
                 <h4>@corso.Titolo</h4>
                 <span>Categoria: </span><br />
@@ -48,19 +50,25 @@
     {
         using (Html.BeginForm("AggRecensione", "Utente"))
         {
+            var r = ViewData["recensione"] as Ecommerce.Models.DB.Recensione;
+
+            if (r != null)
+            {
+                <input type="hidden" name="idr" value="@r.ID" />
+            }
             <input type="hidden" name="idc" value="@corso.ID" />
             <div class="row">
                 <div class="col-12 col-md-10 form-group">
                     <label for="recensione">Recensione:</label>
-                    <textarea class="form-control" id="recensione" name="recensione" rows="3" placeholder="La tua recensione">@(ViewData["recensione"] is Ecommerce.Models.DB.Recensione r ? r.Descrizione : "" )</textarea>
+                    <textarea class="form-control" id="recensione" name="recensione" rows="3" placeholder="La tua recensione">@(r != null ? r.Descrizione : "" )</textarea>
                 </div>
                 <div class="col-12 col-md-2">
                     <label for="valutazione">Valutazione:</label>
-                    <select class="form-control" id="valutazione" name="valutazione">
+                    <select class="form-control mb-3" id="valutazione" name="valutazione">
                         @{ int sel = 0;
-                            if (ViewData["recensione"] is Ecommerce.Models.DB.Recensione re)
+                            if (r != null)
                             {
-                                sel = re.Valutazione;
+                                sel = r.Valutazione;
                             }
                             for (int i = 0; i < 5; i++)
                             {
@@ -70,7 +78,7 @@
                     </select>
                 </div>
                 <div class="col">
-                    <button type="submit" class="btn btn-primary btn-block mb-4">@(ViewData["recensione"] is Ecommerce.Models.DB.Recensione ? "Modifica" : "Invia")</button>
+                    <button type="submit" class="btn btn-primary btn-block mb-4">@(r != null ? "Modifica" : "Invia")</button>
                 </div>
             </div>
         }
