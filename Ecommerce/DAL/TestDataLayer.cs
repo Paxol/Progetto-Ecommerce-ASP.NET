@@ -82,6 +82,11 @@ namespace Ecommerce.DAL
             throw new System.NotImplementedException();
         }
 
+        public Corso GetCorsoRandom()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public List<Corso> GetMiglioriCorsi()
         {
             throw new System.NotImplementedException();

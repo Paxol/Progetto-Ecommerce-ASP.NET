@@ -13,6 +13,7 @@ namespace Ecommerce.Controllers
         public ActionResult Index()
         {
             ViewData.Add("migliori_corsi", Components.DataLayer.GetMiglioriCorsi());
+            ViewData.Add("corso_random", Components.DataLayer.GetCorsoRandom());
             return View();
         }
 

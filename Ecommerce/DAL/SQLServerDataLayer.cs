@@ -857,5 +857,41 @@ namespace Ecommerce.DAL
 
             return a;
         }
+
+        public Corso GetCorsoRandom()
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd1 = new SqlCommand("GetCorsoRandom", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+
+            DataTable dt1 = new DataTable();
+            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+            da1.Fill(dt1);
+            conn.Close();
+
+            Corso corso = null;
+            if (dt1.Rows.Count > 0)
+            {
+                DataRow dr = dt1.Rows[0];
+                corso = new Corso();
+                corso.ID = (int)dr["IDCorso"];
+                corso.Autore = (string)dr["Autore"];
+                corso.Titolo = (string)dr["Titolo"];
+                corso.Immagine = (string)dr["Immagine"];
+                corso.Descrizione = (string)dr["Descrizione"];
+                corso.Valutazione = float.Parse(dr["MediaVoto"].ToString());
+                corso.Prezzo = Convert.ToDecimal(dr["Prezzo"].ToString());
+                corso.Categoria = new Categoria
+                {
+                    ID = (int)dr["IDCategoria"],
+                    Nome = (string)dr["Categoria"]
+                };
+
+            }
+            
+            return corso;
+        }
     }
 }

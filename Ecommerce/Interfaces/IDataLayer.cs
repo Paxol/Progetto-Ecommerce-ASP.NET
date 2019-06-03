@@ -20,6 +20,7 @@ namespace Ecommerce.Interfaces
 
         int InsertCorso(Corso corso);
         Corso GetCorsoByID(int id);
+        Corso GetCorsoRandom();
         List<Corso> GetMiglioriCorsi();
 
         List<StatCorso> GetProdottiPiuVenduti(int limit, int page, out int tot);
