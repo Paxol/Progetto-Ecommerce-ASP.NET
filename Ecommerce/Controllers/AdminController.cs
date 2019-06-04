@@ -56,7 +56,8 @@ namespace Ecommerce.Controllers
                     IDCategoria = corso.Categoria.ID,
                     Prezzo = string.Format("{0:0.00}", corso.Prezzo),
                     Titolo = corso.Titolo,
-                    Immagine = corso.Immagine
+                    Immagine = corso.Immagine,
+                    ID = id
                 };
             }
             else
@@ -95,6 +96,9 @@ namespace Ecommerce.Controllers
                 var path = Path.Combine(Server.MapPath("~/Content/img"), fileName);
                 var pathp = Path.Combine(Server.MapPath("~/Content/img/p"), fileName);
 
+                if (!Directory.Exists(Server.MapPath("~/Content/img"))) Directory.CreateDirectory(Server.MapPath("~/Content/img"));
+                if (!Directory.Exists(Server.MapPath("~/Content/img/p"))) Directory.CreateDirectory(Server.MapPath("~/Content/img/p"));
+
                 Resize(Image.FromStream(corso.File.InputStream), 600, true).Save(path);
                 Resize(Image.FromStream(corso.File.InputStream), 80, true).Save(pathp);
 
@@ -106,7 +110,8 @@ namespace Ecommerce.Controllers
                     Descrizione = corso.Descrizione,
                     Immagine = fileName,
                     Prezzo = Convert.ToDecimal(corso.Prezzo.Replace('.', ',')),
-                    Titolo = corso.Titolo
+                    Titolo = corso.Titolo,
+                    ID = corso.ID
                 });
 
                 if (val == 0)

@@ -30,8 +30,11 @@ namespace Ecommerce.Controllers
                 corsi = Components.DataLayer.RicercaConFiltri(a.IDcategoria, decimal.Parse(a.prezzoInizio), decimal.Parse(a.prezzoFine), testo);
 
             ViewData.Add("migliori_corsi", corsi);
-            a.prezzoInizio = ((int)Math.Floor(corsi.Min((c) => c.Prezzo))).ToString();
-            a.prezzoFine = ((int)Math.Ceiling(corsi.Max((c) => c.Prezzo))).ToString();
+            if (corsi.Count > 0)
+            {
+                a.prezzoInizio = ((int)Math.Floor(corsi.Min((c) => c.Prezzo))).ToString();
+                a.prezzoFine = ((int)Math.Ceiling(corsi.Max((c) => c.Prezzo))).ToString();
+            }
 
             LoadCategoriesFiltri(corsi, a);
             ViewData.Add("testo", testo);

@@ -46,5 +46,6 @@ namespace Ecommerce.Models
         [Required]
         [Display(Name = "Descrizione")]
         public string Descrizione { get; set; }
+        public int ID { get; set; }
     }
 }

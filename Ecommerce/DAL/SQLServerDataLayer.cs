@@ -244,6 +244,7 @@ namespace Ecommerce.DAL
             cmd.Parameters.AddWithValue("@descrizione", corso.Descrizione);
             cmd.Parameters.AddWithValue("@categoria", corso.Categoria.ID);
             cmd.Parameters.AddWithValue("@immagine", corso.Immagine);
+            cmd.Parameters.AddWithValue("@id", corso.ID);
 
             int a = cmd.ExecuteNonQuery();
             conn.Close();
@@ -483,7 +484,7 @@ namespace Ecommerce.DAL
                 corso.Immagine = (string)dr["Immagine"];
                 corso.Descrizione = (string)dr["Descrizione"];
                 corso.Prezzo = Convert.ToDecimal(dr["Prezzo"].ToString());
-
+                corso.Categoria = new Categoria { Nome = dr["Categoria"].ToString() };
                 corsi.Add(corso);
             }
 
@@ -515,6 +516,7 @@ namespace Ecommerce.DAL
                 corso.Immagine = (string)dr["Immagine"];
                 corso.Descrizione = (string)dr["Descrizione"];
                 corso.Prezzo = Convert.ToDecimal(dr["Prezzo"].ToString());
+                corso.Categoria = new Categoria { Nome = dr["Categoria"].ToString() };
 
                 corsi.Add(corso);
             }
@@ -881,7 +883,10 @@ namespace Ecommerce.DAL
                 corso.Titolo = (string)dr["Titolo"];
                 corso.Immagine = (string)dr["Immagine"];
                 corso.Descrizione = (string)dr["Descrizione"];
-                corso.Valutazione = float.Parse(dr["MediaVoto"].ToString());
+
+                string s = dr["MediaVoto"].ToString();
+
+                corso.Valutazione = s == "" ? 0 : float.Parse(s);
                 corso.Prezzo = Convert.ToDecimal(dr["Prezzo"].ToString());
                 corso.Categoria = new Categoria
                 {
