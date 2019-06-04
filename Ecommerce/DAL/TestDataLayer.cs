@@ -37,6 +37,11 @@ namespace Ecommerce.DAL
             throw new System.NotImplementedException();
         }
 
+        public int AddCategoria(string nome)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public int AggiornaQuantitaCarrello(int idcarrello, int q)
         {
             throw new System.NotImplementedException();

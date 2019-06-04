@@ -227,5 +227,20 @@ namespace Ecommerce.Controllers
             model.Total = tot;
             return View(model);
         }
+
+        [SetPermissions(Permissions = "Admin")]
+        public ActionResult AggCategoria()
+        {
+            return View();
+        }
+
+        [SetPermissions(Permissions = "Admin")]
+        [HttpPost]
+        public ActionResult DoAggCategoria(FormCollection form)
+        {
+            int a = Components.DataLayer.AddCategoria(form["nome"]);
+            ViewBag.a = a;
+            return View();
+        }
     }
 }

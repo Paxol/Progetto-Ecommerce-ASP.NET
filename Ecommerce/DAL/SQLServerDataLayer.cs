@@ -935,5 +935,21 @@ namespace Ecommerce.DAL
 
             return ordini;
         }
+
+        public int AddCategoria(string nome)
+        {
+            SqlConnection conn = new SqlConnection(conn_string);
+            conn.Open();
+
+            SqlCommand cmd1 = new SqlCommand("AddCategoria", conn);
+            cmd1.CommandType = CommandType.StoredProcedure;
+            cmd1.Parameters.AddWithValue("@nome", nome);
+
+            int a = cmd1.ExecuteNonQuery();
+
+            conn.Close();
+
+            return a;
+        }
     }
 }

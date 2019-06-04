@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "Aggiungi Categoria";
+    Layout = "~/Views/Admin/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("DoAggCategoria", "Admin"))
+{
+    <div class="form-group">
+        <input type="text" name="nome" class="form-control" required />
+    </div>
+    <input type="submit" value="Crea" />
+}
