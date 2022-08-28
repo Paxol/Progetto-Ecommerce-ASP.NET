@@ -2,7 +2,6 @@
  
 Database:
  - SQL Server
- - NoSQL (MongoDB / Firebase / Firestore)
 
 Parte pubblica:
  - Catalogo
@@ -44,5 +43,5 @@ Parte opzionale:
 Corsi online (sequenze di slide, video, test finale opzionale) gratuiti e a pagamento
 Esempi: udemy, docety
 
-# Documentazione
-Trello: https://trello.com/b/Ogr4AYGL
+# Trello
+[Link](https://trello.com/invite/b/Ogr4AYGL/55976bcc70315d317a4a0f8235c98139/progetto-ecommerce)
